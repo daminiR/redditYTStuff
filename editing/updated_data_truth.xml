@@ -1,0 +1,21 @@
+<speak xmlns:ns0="aws">
+<ns0:domain name="news">
+<break time="0.5s" />
+What's a subtle sign of low intelligence?
+
+
+
+<break time="0.5s" />
+<mark name="STORY1" />STORY1
+<break time="0.5s" />
+
+
+<break time="0.5s" />
+<mark name="COMMENT" />
+<!--<"Spinach969 &#183; 9 days ago GoldStarryBravo!I'd Like to Thank..."/>-->
+<break time="0.5s" />
+
+
+People who confuse their opinions with facts.
+</ns0:domain>
+</speak>
