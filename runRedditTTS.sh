@@ -1,11 +1,10 @@
 #!/bin/bash
 
-
-
-rootDir="/home/damini/redditYTStuff/OCt_30_2022/reddit_yt_3"
-# create xml file with basic xml template
-python3  editing/preXMl.py $rootDir
-#python3  editing/xmlPreprocessing.py  /home/damini/redditYTStuff/OCt_30_2022/reddit_yt_2
+rootFolder="OCt_30_2022"
+totalYTs=$(($(find ./OCt_30_2022 -maxdepth 1 -type d | wc -l) - 1))
+redditFolder="${rootFolder}/reddit_yt_${totalYTs}"
+echo $redditFolder
+python3  main.py  $redditFolder
 
 
 

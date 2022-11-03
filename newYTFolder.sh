@@ -9,14 +9,13 @@ mkdir logs marks ssml voiceOver
 cd logs
 mkdir marks voiceOver
 cd ../marks
-mkdir eddited original
+mkdir edited original
 cd ../ssml
-mkdir eddited original
+mkdir edited original
 cd ../voiceOver
-mkdir eddited original
+mkdir edited original
 cd ../
 touch metadata.json
-
 
 # now add ssml.xml file with template
 cd ssml/original

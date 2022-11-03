@@ -8,9 +8,13 @@ if __name__ == "__main__":
     root = minidom.Document()
     xml = root.createElement('speak')
     root.appendChild(xml)
+    awsChild = root.createElement('amazon')
+    awsChild.setAttribute('name', "news")
+
     breakChild = root.createElement('break')
     breakChild.setAttribute('time', "0.5s")
-    xml.appendChild(breakChild)
+    awsChild.appendChild(breakChild)
+    xml.appendChild(awsChild)
     xml_str = root.toprettyxml(indent="\t")
     with open(os.path.join(rootDir, 'ssml/original/ssml.xml'), "w") as f:
         f.write(xml_str)
