@@ -4,7 +4,7 @@ def detect_text(photo, bucket):
 
     client=boto3.client('rekognition')
 
-    response=client.detect_text(Image={'S3Object':{'Bucket':bucket,'Name':photo}})
+    response=client.detect_text(Image={'S3Object':{'Bucket':"reddityoutube2",'Name':"ytData/reddit_yt_1/screenshots/Screenshot from 2022-11-04 16-08-39.png"}})
 
     textDetections=response['TextDetections']
     print ('Detected text\n----------')
