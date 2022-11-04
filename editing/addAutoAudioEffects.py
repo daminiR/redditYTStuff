@@ -3,15 +3,14 @@ import os
 import json
 
 def audioEdits(redditFolder):
-    outFile = 'reddit_eddited.mp3'
-    originalVoiceOver = AudioSegment.from_mp3(os.path.join(redditFolder, "/voiceOver/original/original.mp3"))
-    commentEffect = AudioSegment.from_mp3("../assets/comments/notification-sound-7062.mp3")
-    storyEffect = AudioSegment.from_mp3("../assets/story/whoosh-6316.mp3")
-    titleEffect = AudioSegment.from_mp3("../assets/story/whoosh-6316.mp3")
+    outFile = 'eddited.mp3'
+    originalVoiceOver = AudioSegment.from_mp3(redditFolder +  "/voiceOver/original/original.mp3")
+    commentEffect = AudioSegment.from_mp3("assets/comments/notification-sound-7062.mp3")
+    storyEffect = AudioSegment.from_mp3("assets/story/whoosh-6316.mp3")
     last = 0
     end =  originalVoiceOver.duration_seconds * 1000
     edditedVoiceOver = originalVoiceOver[0:400]
-    with open('../OCt_30_2022/reddit_yt_2/reddit_marks_process.json', 'r') as f:
+    with open(redditFolder + "/marks/edited/marks_processed.json") as f:
         voiceOverMarks = json.load(f)
         for mark in voiceOverMarks:
             if 'STORY' in mark['value']:
@@ -28,7 +27,7 @@ def audioEdits(redditFolder):
                 last = mark['time']
 
         edditedVoiceOver = edditedVoiceOver + originalVoiceOver[last : end]
-        edditedVoiceOver.export(dirRedditXML + '/' + 'voiceOver/' + 'edited/' + outFile, format="mp3")
+        edditedVoiceOver.export(redditFolder + '/' + 'voiceOver/' + 'edited/' + outFile, format="mp3")
 
 
 
