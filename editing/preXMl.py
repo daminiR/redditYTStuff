@@ -2,7 +2,6 @@ import os
 from xml.dom import minidom
 import sys
 
-
 if __name__ == "__main__":
     rootDir = sys.argv[1]
     root = minidom.Document()
