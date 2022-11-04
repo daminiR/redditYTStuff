@@ -31,7 +31,7 @@ def xmlTreeModifier(redditFolder):
         if child.text:
             # if story or comment
             breakElement = get_new_break()
-            if "days ago" in child.text:
+            if "ago" in child.text:
                 commentElement = get_new_mark(markType="comment")
                 root.getchildren()[0].insert(index + coef, breakElement)
                 root.getchildren()[0].insert(index + coef, commentElement)
@@ -50,5 +50,3 @@ def xmlTreeModifier(redditFolder):
     new_xml_tree_string = ET.tostring(tree.getroot())
     with open(redditFolder + '/' 'ssml/edited/'+ xml_file.split('.')[0] + '_processed.xml', "wb+") as f:
             f.write(new_xml_tree_string)
-
-
