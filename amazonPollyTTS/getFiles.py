@@ -18,8 +18,8 @@ def getAWSTTSFiles(redditFolder):
         TaskId_mp3=mp3Dict["SynthesisTask"]["TaskId"]
         TaskId_mask=maskDict["SynthesisTask"]["TaskId"]
         print(TaskId_mask)
-        s3.download_file('reddityoutube2', TaskId_mp3 + '.mp3', redditFolder + '/' + 'voiceOver/original/' + 'original.mp3')
-        s3.download_file('reddityoutube2', TaskId_mask + '.marks', redditFolder + '/' + 'marks/original/' + 'marks.json')
+        s3.download_file('reddityoutube2',  TaskId_mp3 + '.mp3', redditFolder + '/' + 'voiceOver/original/' + 'original.mp3')
+        s3.download_file('reddityoutube2',  TaskId_mask + '.marks', redditFolder + '/' + 'marks/original/' + 'marks.json')
 
     except (BotoCoreError, ClientError) as error:
         print(error)

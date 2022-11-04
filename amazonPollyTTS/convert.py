@@ -43,6 +43,7 @@ def TTS(redditFolder):
                 OutputS3BucketName="reddityoutube2",
                 SpeechMarkTypes=[
                     'ssml',
+                    'sentence'
                 ],
                 VoiceId="Matthew",
                 Engine="neural")

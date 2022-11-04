@@ -29,6 +29,7 @@ def xmlTreeModifier(redditFolder):
     coef = 0
     for index, child in enumerate(allTags):
         if child.text:
+            # if story or comment
             breakElement = get_new_break()
             if "days ago" in child.text:
                 commentElement = get_new_mark(markType="comment")
@@ -44,8 +45,6 @@ def xmlTreeModifier(redditFolder):
                 root.getchildren()[0].insert(index + coef, storyElement)
                 root.getchildren()[0].insert(index + coef, breakElement)
                 coef  += 3
-
-
     amazon_val = root.findall("./")
     amazon_val[0].tag = "amazon:domain"
     new_xml_tree_string = ET.tostring(tree.getroot())
