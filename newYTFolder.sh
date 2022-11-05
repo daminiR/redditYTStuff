@@ -16,6 +16,8 @@ cd ../voiceOver
 mkdir edited original
 cd ../
 touch metadata.json
+mkdir screenShotIds screenshots sync
+
 
 # now add ssml.xml file with template
 cd ssml/original
