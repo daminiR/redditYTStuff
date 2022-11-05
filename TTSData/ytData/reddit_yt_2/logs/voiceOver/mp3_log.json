@@ -1,0 +1,24 @@
+{
+    "ResponseMetadata": {
+        "RequestId": "0270d497-aa27-4a3d-b3e2-db7692dc655d",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "x-amzn-requestid": "0270d497-aa27-4a3d-b3e2-db7692dc655d",
+            "content-type": "application/json",
+            "content-length": "455",
+            "date": "Sat, 05 Nov 2022 02:09:30 GMT"
+        },
+        "RetryAttempts": 0
+    },
+    "SynthesisTask": {
+        "Engine": "neural",
+        "TaskId": "07f6ac25-4084-4ad1-b60d-f8d5593c20cd",
+        "TaskStatus": "scheduled",
+        "OutputUri": "https://s3.us-east-1.amazonaws.com/reddityoutube2/07f6ac25-4084-4ad1-b60d-f8d5593c20cd.mp3",
+        "CreationTime": "2022-11-04 22:09:31.296000-04:00",
+        "RequestCharacters": 1062,
+        "OutputFormat": "mp3",
+        "TextType": "ssml",
+        "VoiceId": "Matthew"
+    }
+}
