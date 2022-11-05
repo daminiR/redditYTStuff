@@ -12,21 +12,24 @@ def extractTextId(redditFolder, filename):
     textIns = TextractWrapper(textract, s3, sqs)
     response = textIns.detect_file_text(document_file_name=redditFolder + "/screenshots/" + filename)
     blocks = response["Blocks"]
-    textIdList = []
+    textIdList = ""
     for idx, block in enumerate(blocks):
         if block["BlockType"] == "LINE":
             text =  block["Text"]
             if "ago" in text:
                 user = text.split(" ")[0]
-                textIdList.append(user)
+                # textIdList.append(user)
             else:
                 if not text.isnumeric():
-                    textIdList.append(text)
-                if len(textIdList) == 3:
+                    textIdList =  textIdList + text
+                if len(textIdList.split(" ")) > 7:
                     break
-    idDict = {"File": {filename.split(".")[0]: {"TaskId" : {textIdList[0]: "".join(textIdList[1:])}}}}
+    # idDict = {"File": {filename.split(".")[0]: {"TaskId" : {textIdList[0]: "".join(textIdList[1:])}}}}
+    text = " ".join(textIdList.split(" ")[:7])
+    print("text", text)
+    idDict = {"File": filename.split(".")[0],
+              "TaskId": text}
     return idDict
-
 
 def extractTextIds(redditFolder):
     taskIds = []
