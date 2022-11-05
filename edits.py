@@ -1,4 +1,5 @@
 import sys
+#TODO: clculate and add total coments in metadat
 from editing.addAutoAudioEffects import audioEdits
 from amazonPollyTTS.getFiles import getAWSTTSFiles
 from utils.convertXMLtoJSON import converToJSON
