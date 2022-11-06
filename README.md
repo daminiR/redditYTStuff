@@ -11,6 +11,7 @@
 3) run runRedditTTS.sh
 4) wait few minutes for s3 to upload( this can be converted to lambda function that automatiicaly triggers later)
 5) run voiceOverEdits.sh
+note you cant run video ediditng on ubunut -- only on your mac!
 
 ## To backup all the speach marks and new TTS file
 1) run in aws cli
