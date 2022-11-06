@@ -22,7 +22,6 @@ def audioEdits(redditFolder):
                 first_sentence=1
                 json.dump(metaDataDict, handle)
                 handle.close()
-
             if 'STORY' in mark['value']:
                 reddit_slice = originalVoiceOver[last: mark['time']]
                 # insert sound effect
