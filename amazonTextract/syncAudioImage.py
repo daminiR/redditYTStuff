@@ -2,16 +2,20 @@ import os
 import json
 from pydub import AudioSegment
 from difflib import SequenceMatcher
-# def searchTaskIds(taskIDs):
-def calcualteDuration(jsonImageTime):
+
+def calcualteDuration(jsonImageTime, redditFolder):
+    originalVoiceOver = AudioSegment.from_mp3(redditFolder +  "/voiceOver/edited/eddited.mp3")
+    end =  originalVoiceOver.duration_seconds * 1000
     newFinalJSon = {"ImageTimeStamps" : []}
     totalFiles =  len(jsonImageTime["ImageTimeStamps"])
     for index, matchDict in enumerate(jsonImageTime["ImageTimeStamps"]):
         if index  !=  totalFiles - 1:
             duration = jsonImageTime["ImageTimeStamps"][index + 1]["Time"] - matchDict["Time"]
             matchDict["Duration"] = duration
-            newFinalJSon["ImageTimeStamps"].append(matchDict)
-        # else:
+        else:
+            duration = end - matchDict["Time"]
+            matchDict["Duration"] = duration
+        newFinalJSon["ImageTimeStamps"].append(matchDict)
     return newFinalJSon
 
 def syncAudioToImages(redditFolder):
@@ -46,7 +50,7 @@ def syncAudioToImages(redditFolder):
                 matchDict["Mark Sentence"] = compareTextA
 
                 jsonImageTime["ImageTimeStamps"].append(matchDict)
-        newFinal = calcualteDuration(jsonImageTime)
+        newFinal = calcualteDuration(jsonImageTime, redditFolder)
         json.dump(jsonImageTime, output, indent=4)
 
 
