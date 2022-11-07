@@ -16,7 +16,7 @@ cd ../voiceOver
 mkdir edited original
 cd ../
 touch metadata.json
-mkdir screenShotIds screenshots sync
+mkdir screenShotIds screenshots sync youtubeVideo
 
 
 # now add ssml.xml file with template

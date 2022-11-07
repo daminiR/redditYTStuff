@@ -1,6 +1,20 @@
 {
     "ImageTimeStamps": [
         {
+            "Time": 500,
+            "Filename": "Screenshot from 2022-11-04 22-07-29",
+            "TaskId": ".10r/AskRedditSVOTEDVOTED19.2kReddit, what's your most \"I'm with the",
+            "Mark Sentence": "Reddit, what's your most \"I'm with the",
+            "Duration": 3624
+        },
+        {
+            "Time": 4124,
+            "Filename": null,
+            "TaskId": null,
+            "Mark Sentence": "STORY1",
+            "Duration": 1480.0
+        },
+        {
             "Time": 5604.0,
             "Filename": "Screenshot from 2022-11-04 22-06-26",
             "TaskId": "SMusic in bars is too loud.(Edit to",
@@ -12,7 +26,14 @@
             "Filename": "Screenshot from 2022-11-04 22-06-35",
             "TaskId": "I want to find just one bar",
             "Mark Sentence": "I want to find just one bar",
-            "Duration": 8052.0
+            "Duration": 6192.0
+        },
+        {
+            "Time": 25555.0,
+            "Filename": null,
+            "TaskId": null,
+            "Mark Sentence": "STORY2",
+            "Duration": 1860.0
         },
         {
             "Time": 27415.0,
@@ -26,7 +47,14 @@
             "Filename": "Screenshot from 2022-11-04 22-06-12",
             "TaskId": "Too dark and too quiet. I swear",
             "Mark Sentence": "Too dark and too quiet.",
-            "Duration": 13494.0
+            "Duration": 11634.0
+        },
+        {
+            "Time": 46808.0,
+            "Filename": null,
+            "TaskId": null,
+            "Mark Sentence": "STORY3",
+            "Duration": 1860.0
         },
         {
             "Time": 48668.0,
