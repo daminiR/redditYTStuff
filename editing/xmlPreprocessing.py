@@ -15,7 +15,7 @@ def get_new_mark(markType="comment", storyNumber=None):
 def get_new_break():
     #create element and set attributes
     pause = ET.Element('break')
-    pause.attrib['time'] = "0.5s"
+    pause.attrib['time'] = "0.3s"
     return pause
 
 def xmlTreeModifier(redditFolder):

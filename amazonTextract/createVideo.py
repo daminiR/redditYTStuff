@@ -10,15 +10,19 @@ def createVideo(redditFolder):
     backgroundVideo = VideoFileClip("/Users/daminirijhwani/Downloads/Background - 13949.mp4")
     originalVoiceOver = AudioFileClip(redditFolder +  "/voiceOver/edited/eddited.mp3")
     subscribe_auido = AudioFileClip("assets/subscibeAudio/speech_20221107043941369.mp3")
-    subs_dur= subscribe_auido.duration
-    new_audioclip = CompositeAudioClip([originalVoiceOver])
-    subscribe_clip = CompositeAudioClip([subscribe_auido])
-    tts_audio_length = new_audioclip.duration
-    blackBackground = ImageClip("assets/Screen Shot 2022-11-07 at 2.27.25 AM.png")
-    backgroundVideoSize = backgroundVideo.size
-    final_sub_clip = VideoFileClip("assets/subscribeAnimation/reddit_subscribe.mp4").set_start(tts_audio_length + 1).set_pos(("center", "center")).resize(backgroundVideoSize)
 
-    finalAudio = concatenate_audioclips([new_audioclip, subscribe_clip])
+
+    subs_dur= subscribe_auido.duration
+    new_audioclip = originalVoiceOver
+    subscribe_clip = subscribe_auido
+    tts_audio_length = new_audioclip.duration
+    backgroundVideoSize = backgroundVideo.size
+
+    sub_clip = VideoFileClip("assets/subscribeAnimation/reddit_subscribe2.mp4")
+    blackBackground = ImageClip("assets/Screen Shot 2022-11-07 at 2.27.25 AM.png").set_duration(sub_clip.duration)
+    final_sub_clip = sub_clip.set_start(tts_audio_length).set_pos(("center", "center")).resize(backgroundVideoSize).set_duration(sub_clip.duration)
+    subscribe_total = CompositeAudioClip([sub_clip.audio.volumex(0.1), subscribe_auido])
+    finalAudio = concatenate_audioclips([new_audioclip, subscribe_total])
     end = finalAudio.duration
     loopedVideo = backgroundVideo.loop(duration=tts_audio_length)
     comments = []
@@ -39,12 +43,12 @@ def createVideo(redditFolder):
                 txt_clip = TextClip("STORY" +  " " + story_number, fontsize=75, font="Amiri-bold", color='white', bg_color='gray', stroke_color='black',stroke_width=2.5).set_start(start).set_duration(duration).set_pos("center")
                 comments.append(txt_clip)
 
-        untilTitle = int(timestamps[1]["Time"] / 1000)
+        untilTitle = int(timestamps[2]["Time"] / 1000)
         if titleVideo.duration > untilTitle:
             titleclip = titleVideo.subclip(0, untilTitle)
 
         comments.append(final_sub_clip)
-        finalBackround = concatenate_videoclips([titleclip, loopedVideo, final_sub_clip])
+        finalBackround = concatenate_videoclips([titleclip, loopedVideo])
         final = CompositeVideoClip([finalBackround, *comments])
         final.audio = finalAudio
         final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_video.mp4")
