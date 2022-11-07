@@ -19,6 +19,7 @@ def calcualteDuration(jsonImageTime, redditFolder):
     return newFinalJSon
 
 def syncAudioToImages(redditFolder):
+    subReddit = "r/AskReddit"
 
     jsonImageTime = {}
     jsonImageTime["ImageTimeStamps"] = []
@@ -29,10 +30,22 @@ def syncAudioToImages(redditFolder):
     with open(redditFolder + "/marks/edited/marks_edited_with_bits.json") as input, open(redditFolder + "/sync/screenshotTimestamps.json", "w+") as output:
         voiceOverMarks = json.load(input)
         for idx, mark in enumerate(voiceOverMarks):
-            if 'COMMENT' in mark['value']:
+            if 'STORY' in mark['value']:
                 matchDict = {}
                 matchDict["Time"] = mark['time']
-                text = voiceOverMarks[idx + 1]['value']
+                text = mark['value']
+                matchDict["Filename"] = None
+                matchDict["TaskId"] = None
+                matchDict["Mark Sentence"] = text
+                jsonImageTime["ImageTimeStamps"].append(matchDict)
+
+            if 'COMMENT' in mark['value'] or idx ==0:
+                matchDict = {}
+                matchDict["Time"] = mark['time']
+                if idx == 0:
+                    text = voiceOverMarks[idx]['value']
+                else:
+                    text = voiceOverMarks[idx + 1]['value']
                 compareTextA = " ".join(text.split(" ")[:7])
                 closest = 0
                 closestFile = None
@@ -47,7 +60,6 @@ def syncAudioToImages(redditFolder):
                 matchDict["Filename"] = closestFile
                 matchDict["TaskId"] = closestSentence
                 matchDict["Mark Sentence"] = compareTextA
-
                 jsonImageTime["ImageTimeStamps"].append(matchDict)
         newFinal = calcualteDuration(jsonImageTime, redditFolder)
         json.dump(jsonImageTime, output, indent=4)
