@@ -26,7 +26,7 @@ def syncAudioToImages(redditFolder):
     with open(redditFolder + "/screenShotIds/tastIds.json", "r") as f:
         taskIDs = json.load(f)["TaskIds"]
 
-    with open(redditFolder + "/marks/edited/marks_processed.json") as input, open(redditFolder + "/sync/screenshotTimestamps.json", "w+") as output:
+    with open(redditFolder + "/marks/edited/marks_edited_with_bits.json") as input, open(redditFolder + "/sync/screenshotTimestamps.json", "w+") as output:
         voiceOverMarks = json.load(input)
         for idx, mark in enumerate(voiceOverMarks):
             if 'COMMENT' in mark['value']:
@@ -37,7 +37,6 @@ def syncAudioToImages(redditFolder):
                 closest = 0
                 closestFile = None
                 closestSentence = None
-                # print(taskIDs)
                 for id in taskIDs:
                     compareTextB = id["TaskId"]
                     sequenceRatio = SequenceMatcher(None, compareTextA, compareTextB).ratio()
