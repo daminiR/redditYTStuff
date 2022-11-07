@@ -1,21 +1,21 @@
 {
     "ResponseMetadata": {
-        "RequestId": "0270d497-aa27-4a3d-b3e2-db7692dc655d",
+        "RequestId": "375231ff-c4f2-4b58-825e-a2247307afbb",
         "HTTPStatusCode": 200,
         "HTTPHeaders": {
-            "x-amzn-requestid": "0270d497-aa27-4a3d-b3e2-db7692dc655d",
+            "x-amzn-requestid": "375231ff-c4f2-4b58-825e-a2247307afbb",
             "content-type": "application/json",
             "content-length": "455",
-            "date": "Sat, 05 Nov 2022 02:09:30 GMT"
+            "date": "Mon, 07 Nov 2022 05:04:35 GMT"
         },
         "RetryAttempts": 0
     },
     "SynthesisTask": {
         "Engine": "neural",
-        "TaskId": "07f6ac25-4084-4ad1-b60d-f8d5593c20cd",
+        "TaskId": "e9ce9d8b-39d1-4972-b8db-1bb8c6579cf1",
         "TaskStatus": "scheduled",
-        "OutputUri": "https://s3.us-east-1.amazonaws.com/reddityoutube2/07f6ac25-4084-4ad1-b60d-f8d5593c20cd.mp3",
-        "CreationTime": "2022-11-04 22:09:31.296000-04:00",
+        "OutputUri": "https://s3.us-east-1.amazonaws.com/reddityoutube2/e9ce9d8b-39d1-4972-b8db-1bb8c6579cf1.mp3",
+        "CreationTime": "2022-11-07 00:04:35.082000-05:00",
         "RequestCharacters": 1062,
         "OutputFormat": "mp3",
         "TextType": "ssml",
