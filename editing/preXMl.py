@@ -11,7 +11,8 @@ if __name__ == "__main__":
     awsChild.setAttribute('name', "news")
 
     breakChild = root.createElement('break')
-    breakChild.setAttribute('time', "0.5s")
+    breakChild.setAttribute('time', "1s")
+    awsChild.appendChild(breakChild)
     awsChild.appendChild(breakChild)
     xml.appendChild(awsChild)
     xml_str = root.toprettyxml(indent="\t")
