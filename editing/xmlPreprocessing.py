@@ -19,6 +19,7 @@ def get_new_break():
     return pause
 
 def xmlTreeModifier(redditFolder):
+    isNewscaster = False
     print("processing xml ... ")
     parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
     xml_file = 'ssml.xml'
@@ -45,8 +46,16 @@ def xmlTreeModifier(redditFolder):
                 root.getchildren()[0].insert(index + coef, storyElement)
                 root.getchildren()[0].insert(index + coef, breakElement)
                 coef  += 3
-    amazon_val = root.findall("./")
-    amazon_val[0].tag = "amazon:domain"
+
+    if not (isNewscaster):
+        for item in root.findall('amazon'):
+            for child in item:
+                root.append(child)
+            root.remove(item)
+    else:
+        amazon_val = root.findall("./")
+        amazon_val[0].tag = "amazon:domain"
+
     new_xml_tree_string = ET.tostring(tree.getroot())
     with open(redditFolder + '/' 'ssml/edited/'+ xml_file.split('.')[0] + '_processed.xml', "wb+") as f:
             f.write(new_xml_tree_string)

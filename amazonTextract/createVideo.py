@@ -9,12 +9,19 @@ def createVideo(redditFolder):
     titleVideo = VideoFileClip("/Users/daminirijhwani/Downloads/Park - 6096.mp4")
     backgroundVideo = VideoFileClip("/Users/daminirijhwani/Downloads/Background - 13949.mp4")
     originalVoiceOver = AudioFileClip(redditFolder +  "/voiceOver/edited/eddited.mp3")
+    subscribe_auido = AudioFileClip("assets/subscibeAudio/speech_20221107043941369.mp3")
+    subs_dur= subscribe_auido.duration
     new_audioclip = CompositeAudioClip([originalVoiceOver])
-    end = originalVoiceOver.duration
-    loopedVideo = backgroundVideo.loop(duration=end + 10)
+    subscribe_clip = CompositeAudioClip([subscribe_auido])
+    tts_audio_length = new_audioclip.duration
+    blackBackground = ImageClip("assets/Screen Shot 2022-11-07 at 2.27.25 AM.png")
     backgroundVideoSize = backgroundVideo.size
-    comments = []
+    final_sub_clip = VideoFileClip("assets/subscribeAnimation/reddit_subscribe.mp4").set_start(tts_audio_length + 1).set_pos(("center", "center")).resize(backgroundVideoSize)
 
+    finalAudio = concatenate_audioclips([new_audioclip, subscribe_clip])
+    end = finalAudio.duration
+    loopedVideo = backgroundVideo.loop(duration=tts_audio_length)
+    comments = []
     with open(redditFolder + "/sync/screenshotTimestamps.json") as f:
         timestamps = json.load(f)["ImageTimeStamps"]
         for timestamp in timestamps:
@@ -36,8 +43,8 @@ def createVideo(redditFolder):
         if titleVideo.duration > untilTitle:
             titleclip = titleVideo.subclip(0, untilTitle)
 
-        finalBackround = concatenate_videoclips([titleclip, loopedVideo])
+        comments.append(final_sub_clip)
+        finalBackround = concatenate_videoclips([titleclip, loopedVideo, final_sub_clip])
         final = CompositeVideoClip([finalBackround, *comments])
-        final.audio = new_audioclip
+        final.audio = finalAudio
         final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_video.mp4")
-

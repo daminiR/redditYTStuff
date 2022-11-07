@@ -1,10 +1,8 @@
 <speak>
-	<amazon:domain name="news">
-		<break time="0.5s" />
+	<break time="0.5s" />
 			Reddit, what's your most "I'm with the Boomers on this" opinion?
 			<break time="0.5s" /><mark name="STORY1" /><break time="0.5s" /><!--STORY1-->
-			<break time="0.5s" /><mark name="COMMENT" /><break time="0.5s" />
-			<!--EternityLeave &#183; 7 hr. ago &#183; edited 4 hr. ago HelpfulWholesomeSilverTake My Energy-->
+			<break time="0.5s" /><mark name="COMMENT" /><break time="0.5s" /><!--EternityLeave &#183; 7 hr. ago &#183; edited 4 hr. ago HelpfulWholesomeSilverTake My Energy-->
 
 Music in bars is too loud.
 (Edit to add that I've been a touring musician and live sound technician. I love music but it actually sounds better at lower volumes, and I want to be able to hear it in to my old age)
@@ -29,5 +27,4 @@ I literally just talked a friend out of getting a &#8220;smart&#8221; automatic 
 
 
 
-	</amazon:domain>
-</speak>
+	</speak>
