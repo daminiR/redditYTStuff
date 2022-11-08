@@ -5,12 +5,11 @@ from moviepy.video.fx.resize import resize
 from pydub import AudioSegment
 import json
 
-def createVideo(redditFolder):
-    titleVideo = VideoFileClip("/Users/daminirijhwani/Downloads/Park - 6096.mp4")
-    backgroundVideo = VideoFileClip("/Users/daminirijhwani/Downloads/Background - 13949.mp4")
+def createVideo(redditFolder, backgroundVideoFile, titleVideoFile):
+    titleVideo = VideoFileClip(redditFolder + "/assets/titleVideo/" + titleVideoFile)
+    backgroundVideo = VideoFileClip(redditFolder + "/assets/backgroundVideo/" + backgroundVideoFile)
     originalVoiceOver = AudioFileClip(redditFolder +  "/voiceOver/edited/eddited.mp3")
     subscribe_auido = AudioFileClip("assets/subscibeAudio/speech_20221107043941369.mp3")
-
 
     subs_dur= subscribe_auido.duration
     new_audioclip = originalVoiceOver
