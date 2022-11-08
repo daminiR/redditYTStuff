@@ -28,6 +28,7 @@ def xmlTreeModifier(redditFolder):
     root = tree.getroot()
     allTags = root.findall("./amazon/")
     coef = 0
+    story_num = 1
     for index, child in enumerate(allTags):
         if child.text:
             # if story or comment
@@ -40,12 +41,12 @@ def xmlTreeModifier(redditFolder):
                 coef  += 3
 
             if "STORY" in child.text:
-                storyNumber = child.text.replace(' ', '').split("STORY")[1]
-                storyElement= get_new_mark(markType="story", storyNumber=storyNumber)
+                storyElement= get_new_mark(markType="story", storyNumber=story_num)
                 root.getchildren()[0].insert(index + coef, breakElement)
                 root.getchildren()[0].insert(index + coef, storyElement)
                 root.getchildren()[0].insert(index + coef, breakElement)
                 coef  += 3
+                story_num += 1
 
     if not (isNewscaster):
         for item in root.findall('amazon'):
