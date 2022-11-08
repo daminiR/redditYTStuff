@@ -1,0 +1,170 @@
+[
+    {
+        "time": 500,
+        "type": "sentence",
+        "start": 34,
+        "end": 98,
+        "value": "Reddit, what's your most \"I'm with the Boomers on this\" opinion?"
+    },
+    {
+        "time": 3812,
+        "type": "ssml",
+        "start": 123,
+        "end": 145,
+        "value": "STORY1"
+    },
+    {
+        "time": 5292.0,
+        "type": "ssml",
+        "start": 204,
+        "end": 227,
+        "value": "COMMENT"
+    },
+    {
+        "time": 7166.0,
+        "type": "sentence",
+        "start": 348,
+        "end": 374,
+        "value": "Music in bars is too loud."
+    },
+    {
+        "time": 9146.0,
+        "type": "sentence",
+        "start": 376,
+        "end": 448,
+        "value": "Edit to add that I've been a touring musician and live sound technician."
+    },
+    {
+        "time": 12663.0,
+        "type": "sentence",
+        "start": 449,
+        "end": 559,
+        "value": "I love music but it actually sounds better at lower volumes, and I want to be able to hear it in to my old age"
+    },
+    {
+        "time": 18151.0,
+        "type": "ssml",
+        "start": 585,
+        "end": 608,
+        "value": "COMMENT"
+    },
+    {
+        "time": 20025.0,
+        "type": "sentence",
+        "start": 665,
+        "end": 741,
+        "value": "I want to find just one bar where I can talk to my friends without screaming"
+    },
+    {
+        "time": 24205.0,
+        "type": "ssml",
+        "start": 766,
+        "end": 788,
+        "value": "STORY2"
+    },
+    {
+        "time": 26065.0,
+        "type": "ssml",
+        "start": 847,
+        "end": 870,
+        "value": "COMMENT"
+    },
+    {
+        "time": 27939.0,
+        "type": "sentence",
+        "start": 937,
+        "end": 960,
+        "value": "TV is getting too dark."
+    },
+    {
+        "time": 29781.0,
+        "type": "sentence",
+        "start": 961,
+        "end": 1027,
+        "value": "Not emotionally - it is visually too dark and I can&#8217;t see it"
+    },
+    {
+        "time": 33874.0,
+        "type": "ssml",
+        "start": 1052,
+        "end": 1075,
+        "value": "COMMENT"
+    },
+    {
+        "time": 35748.0,
+        "type": "sentence",
+        "start": 1138,
+        "end": 1161,
+        "value": "Too dark and too quiet."
+    },
+    {
+        "time": 37415.0,
+        "type": "sentence",
+        "start": 1162,
+        "end": 1263,
+        "value": "I swear we have to turn the volume up like twice as loud as we have it normally to watch Yellowstone."
+    },
+    {
+        "time": 42695.0,
+        "type": "sentence",
+        "start": 1265,
+        "end": 1327,
+        "value": "Better believe the commercials have plenty of volume though..."
+    },
+    {
+        "time": 45783.0,
+        "type": "ssml",
+        "start": 1352,
+        "end": 1374,
+        "value": "STORY3"
+    },
+    {
+        "time": 47643.0,
+        "type": "ssml",
+        "start": 1433,
+        "end": 1456,
+        "value": "COMMENT"
+    },
+    {
+        "time": 49517.0,
+        "type": "sentence",
+        "start": 1564,
+        "end": 1642,
+        "value": "Not everything needs to connect to the internet or have an app attached to it."
+    },
+    {
+        "time": 53009.0,
+        "type": "sentence",
+        "start": 1643,
+        "end": 1749,
+        "value": "I just want my fridge to keep shit cold, I don't understand why we have to bring WiFi into this situation."
+    },
+    {
+        "time": 58634.0,
+        "type": "ssml",
+        "start": 1774,
+        "end": 1797,
+        "value": "COMMENT"
+    },
+    {
+        "time": 60508.0,
+        "type": "sentence",
+        "start": 1875,
+        "end": 1987,
+        "value": "I literally just talked a friend out of getting a &#8220;smart&#8221; automatic litter box with an app and shit."
+    },
+    {
+        "time": 65163.0,
+        "type": "sentence",
+        "start": 1988,
+        "end": 2100,
+        "value": "The price difference was $300 more than just a &#8220;regular&#8221; automatic scooping box and you get .. what?"
+    },
+    {
+        "time": 70693.0,
+        "type": "sentence",
+        "start": 2101,
+        "end": 2146,
+        "value": "Notifications that your cat just took a shit?"
+    }
+]

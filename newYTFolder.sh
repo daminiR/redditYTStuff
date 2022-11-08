@@ -1,11 +1,12 @@
 #!/bin/bash
 
-rootFolder="TTSData/ytData"
+rootFolderString=$(jq .rootFolder inputs.json)
+rootFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"$rootFolderString")
 totalYTs=$(($(find ./${rootFolder} -maxdepth 1 -type d | wc -l) - 1 + 1))
 redditFolder="${rootFolder}/reddit_yt_${totalYTs}"
 mkdir "${rootFolder}/reddit_yt_${totalYTs}"
 cd "${rootFolder}/reddit_yt_${totalYTs}"
-mkdir logs marks ssml voiceOver
+mkdir logs marks ssml voiceOver screenShotIds screenshots sync youtubeVideo assets
 cd logs
 mkdir marks voiceOver
 cd ../marks
@@ -16,15 +17,15 @@ cd ../voiceOver
 mkdir edited original
 cd ../
 touch metadata.json
-mkdir screenShotIds screenshots sync youtubeVideo
-
+cd assets/
+mkdir titleVideo backgroundVideo
+cd ../
 
 # now add ssml.xml file with template
 cd ssml/original
 touch ssml.xml
-cd ../../../../../
+cd ../../../../../../
 python3  ./editing/preXMl.py $redditFolder
-
 
 
 

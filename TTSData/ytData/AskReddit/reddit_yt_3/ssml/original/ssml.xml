@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<speak>
+	<amazon name="news">
+		<break time="1s"/>
+	</amazon>
+</speak>
