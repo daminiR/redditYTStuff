@@ -4,6 +4,7 @@ import json
 def audioEdits(redditFolder):
     outFile = 'eddited.mp3'
     outMarksFile = 'marks_edited_with_bits.json'
+    print(redditFolder)
     originalVoiceOver = AudioSegment.from_mp3(redditFolder +  "/voiceOver/original/original.mp3")
     commentEffect = AudioSegment.from_mp3("assets/comments/notification-sound-7062.mp3")
     storyEffect = AudioSegment.from_mp3("assets/story/whoosh-6316.mp3")
