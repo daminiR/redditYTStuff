@@ -1,7 +1,8 @@
 from moviepy.editor import *
+from moviepy.editor import VideoFileClip
 from moviepy.video import *
 from moviepy.audio import *
-from moviepy.video.fx.resize import resize
+import moviepy
 from pydub import AudioSegment
 import json
 
@@ -39,8 +40,8 @@ def createVideo(redditFolder, backgroundVideoFile, titleVideoFile):
                 start = timestamp["Time"] / 1000
                 duration = timestamp["Duration"] / 1000
                 story_number = timestamp["Mark Sentence"].split("STORY")[1]
-                txt_clip = TextClip("STORY" +  " " + story_number, fontsize=75, font="Amiri-bold", color='white', bg_color='gray', stroke_color='black',stroke_width=2.5).set_start(start).set_duration(duration).set_pos("center")
-                comments.append(txt_clip)
+                # txt_clip = TextClip("STORY" +  " " + story_number, fontsize=75, font="Amiri-bold", color='white', bg_color='gray', stroke_color='black',stroke_width=2.5).set_start(start).set_duration(duration).set_pos("center")
+                # comments.append(txt_clip)
 
         untilTitle = int(timestamps[2]["Time"] / 1000)
         if titleVideo.duration > untilTitle:
