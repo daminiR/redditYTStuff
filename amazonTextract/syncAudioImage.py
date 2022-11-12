@@ -27,7 +27,7 @@ def syncAudioToImages(redditFolder):
     with open(redditFolder + "/screenShotIds/tastIds.json", "r") as f:
         taskIDs = json.load(f)["TaskIds"]
 
-    with open(redditFolder + "/marks/edited/marks_edited_with_bits.json") as input, open(redditFolder + "/sync/screenshotTimestamps.json", "w+") as output:
+    with open(redditFolder + "/marks/edited/marks_edited_with_bits.json") as input, open(redditFolder + "/sync/screenshotTimestamps.json", "w+", encoding='utf8') as output:
         voiceOverMarks = json.load(input)
         for idx, mark in enumerate(voiceOverMarks):
             if 'STORY' in mark['value']:
