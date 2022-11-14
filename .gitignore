@@ -1,2 +1,4 @@
 temp/
-TTSData/
+TTSData/*
+test-dependencies
+awsLambda

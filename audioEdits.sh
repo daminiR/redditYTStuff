@@ -17,7 +17,8 @@ backgroundVideo=$redditFolder/assets/backgroundVideo/$backgroundVideoFile
 
 echo $originalVoiceOverFile
 echo $backgroundVideo
-ffmpeg  -stream_loop -1 -i "$backgroundVideo" -i $originalVoiceOverFile -shortest -map 0:v:0 -map 1:a:0 -y ./out.mp4
+ffmpeg  -hwaccel cuda -stream_loop -1 -i "$backgroundVideo" -i $originalVoiceOverFile -shortest -map 0:v:0 -map 1:a:0 -y ./out.mp4
+
 
 #jq -c '.[][]' $timestamps | while read -r voiceMarks; do
 #mark=$( echo $voiceMarks | jq '."Mark Sentence"' )
