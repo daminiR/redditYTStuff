@@ -13,18 +13,22 @@ def extractTextId(redditFolder, filename):
     response = textIns.detect_file_text(document_file_name=redditFolder + "/screenshots/" + filename)
     blocks = response["Blocks"]
     textIdList = ""
+    line_idx = 0
     for idx, block in enumerate(blocks):
         if block["BlockType"] == "LINE":
             text =  block["Text"]
-            if "ago" in text:
+            ### Big Bug Here --- canot use ago  because some
+            ##bloacks of senetence contain
+            ## ago inseatd use first line since no username is longer than firat lin ein reddit
+            if line_idx == 0:
                 user = text.split(" ")[0]
-                # textIdList.append(user)
+                line_idx += 1
             else:
                 if not text.isnumeric():
                     textIdList =  textIdList + text
-                if len(textIdList.split(" ")) > 7:
-                    break
-    # idDict = {"File": {filename.split(".")[0]: {"TaskId" : {textIdList[0]: "".join(textIdList[1:])}}}}
+                    if len(textIdList.split(" ")) > 7:
+                        break
+
     text = " ".join(textIdList.split(" ")[:7])
     print("text", text)
     idDict = {"File": filename.split(".")[0],
@@ -34,14 +38,14 @@ def extractTextId(redditFolder, filename):
 def extractTextIds(redditFolder):
     taskIds = []
     for (dirpath, dirnams, filenames) in os.walk(redditFolder + '/screenshots'):
-        for filename in filenames:
-            taskIdDict = extractTextId(redditFolder, filename)
-            taskIds.append(taskIdDict)
+            for filename in filenames:
+                    taskIdDict = extractTextId(redditFolder, filename)
+                    taskIds.append(taskIdDict)
     IdsDict = {"TaskIds": taskIds}
     f= open(redditFolder + "/screenShotIds/tastIds" +".json", 'w+')
     json.dump(IdsDict, f, indent=4)
     f.close()
-
-
+    # filename = "Screenshot from 2022-11-07 21-28-07.png"
+    # taskIdDict = extractTextId(redditFolder, filename)
 
 
