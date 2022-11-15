@@ -1,2 +1,4 @@
 temp/
-TTSData/
+TTSData/*
+lambda_function/**
+lambda_solution/**
