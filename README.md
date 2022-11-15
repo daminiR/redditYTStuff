@@ -22,10 +22,17 @@ So linux has some screenshot problems, the way to configure is following:
 5) run voiceOverEdits.sh
 note you cant run video ediditng on ubunut -- only on your mac!
 
-## To backup all the speach marks and new TTS file
+## To backup all the speach marks and new TTS file TO AWS
 1) run in aws cli
     `aws s3 sync ./TTSData s3://reddityoutube2/`
+## To backup all the speach marks and new TTS file FROM AWS to local
+1) run in aws cli
+    `aws s3 sync s3://reddityoutube2/ytData ./TTSData/ytData/ `
 
+#Tip
+
+try to edit everything on linux
+and then running text to speach and image to text on your mac :)
 
 
 
