@@ -50,4 +50,4 @@ def createVideo(redditFolder, backgroundVideoFile, titleVideoFile):
         finalBackround = concatenate_videoclips([titleclip, loopedVideo])
         final = CompositeVideoClip([finalBackround, *comments])
         final.audio = finalAudio
-        final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_video_trial.mp4", threads=4)
+        final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_video.mp4", codec='h264_nvenc')
