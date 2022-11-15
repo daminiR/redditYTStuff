@@ -35,16 +35,16 @@ def xmlTreeModifier(redditFolder):
             breakElement = get_new_break()
             if "ago" in child.text:
                 commentElement = get_new_mark(markType="comment")
-                root.getchildren()[0].insert(index + coef, breakElement)
-                root.getchildren()[0].insert(index + coef, commentElement)
-                root.getchildren()[0].insert(index + coef, breakElement)
+                list(root)[0].insert(index + coef, breakElement)
+                list(root)[0].insert(index + coef, commentElement)
+                list(root)[0].insert(index + coef, breakElement)
                 coef  += 3
 
             if "STORY" in child.text:
                 storyElement= get_new_mark(markType="story", storyNumber=story_num)
-                root.getchildren()[0].insert(index + coef, breakElement)
-                root.getchildren()[0].insert(index + coef, storyElement)
-                root.getchildren()[0].insert(index + coef, breakElement)
+                list(root)[0].insert(index + coef, breakElement)
+                list(root)[0].insert(index + coef, storyElement)
+                list(root)[0].insert(index + coef, breakElement)
                 coef  += 3
                 story_num += 1
 

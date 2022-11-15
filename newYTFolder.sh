@@ -20,6 +20,9 @@ touch metadata.json
 cd assets/
 mkdir titleVideo backgroundVideo
 cd ../
+cd sync
+mkdir errors
+cd ..
 
 # now add ssml.xml file with template
 cd ssml/original
