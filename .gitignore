@@ -2,3 +2,4 @@ temp/**
 TTSData/**
 test-dependencies/**
 awsLambda/**
+lambda_function/**
