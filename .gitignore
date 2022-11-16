@@ -1,4 +1,4 @@
-temp/
-TTSData/*
-test-dependencies
-awsLambda
+temp/**
+TTSData/**
+test-dependencies/**
+awsLambda/**
