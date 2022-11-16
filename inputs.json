@@ -1,6 +1,8 @@
 {
-    "rootFolder": "TTSData/ytData/AskReddit/",
+    "rootFolder": "TTSData/ytData/AskReddit",
     "subReddit" : "r/AskReddit",
+    "fontSize" : 110,
     "titleVideoFile": "Park - 6096.mp4",
     "backgroundVideoFile": "Background - 13949.mp4"
+
 }

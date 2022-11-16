@@ -1,22 +1,22 @@
 {
     "ResponseMetadata": {
-        "RequestId": "a16118d2-51f6-464c-890d-f9aa36583e59",
+        "RequestId": "7ac7cbcc-fcbe-4bd1-afaf-455f76be1344",
         "HTTPStatusCode": 200,
         "HTTPHeaders": {
-            "x-amzn-requestid": "a16118d2-51f6-464c-890d-f9aa36583e59",
+            "x-amzn-requestid": "7ac7cbcc-fcbe-4bd1-afaf-455f76be1344",
             "content-type": "application/json",
-            "content-length": "456",
-            "date": "Fri, 04 Nov 2022 19:40:46 GMT"
+            "content-length": "454",
+            "date": "Tue, 08 Nov 2022 03:08:53 GMT"
         },
         "RetryAttempts": 0
     },
     "SynthesisTask": {
         "Engine": "neural",
-        "TaskId": "b4ad54e0-8d48-4cbb-bcc5-0fa5a74f8ba1",
+        "TaskId": "ae1b9ce1-aebb-428c-aef6-1f2ef0266e4f",
         "TaskStatus": "scheduled",
-        "OutputUri": "https://s3.us-east-1.amazonaws.com/reddityoutube2/b4ad54e0-8d48-4cbb-bcc5-0fa5a74f8ba1.mp3",
-        "CreationTime": "2022-11-04 15:40:46.733000-04:00",
-        "RequestCharacters": 16312,
+        "OutputUri": "https://s3.us-east-1.amazonaws.com/reddityoutube2/ae1b9ce1-aebb-428c-aef6-1f2ef0266e4f.mp3",
+        "CreationTime": "2022-11-07 22:08:54.800000-05:00",
+        "RequestCharacters": 23702,
         "OutputFormat": "mp3",
         "TextType": "ssml",
         "VoiceId": "Matthew"

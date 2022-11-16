@@ -1,22 +1,22 @@
 {
     "ResponseMetadata": {
-        "RequestId": "da46b134-a83b-4502-b17e-f3822f67df94",
+        "RequestId": "8a0460e4-d34d-480f-a285-6fb1c4b80dd9",
         "HTTPStatusCode": 200,
         "HTTPHeaders": {
-            "x-amzn-requestid": "da46b134-a83b-4502-b17e-f3822f67df94",
+            "x-amzn-requestid": "8a0460e4-d34d-480f-a285-6fb1c4b80dd9",
             "content-type": "application/json",
             "content-length": "474",
-            "date": "Fri, 04 Nov 2022 19:40:46 GMT"
+            "date": "Tue, 08 Nov 2022 03:08:54 GMT"
         },
         "RetryAttempts": 0
     },
     "SynthesisTask": {
         "Engine": "neural",
-        "TaskId": "3afcd457-7883-4252-8180-848c05043d98",
+        "TaskId": "b9cd5f36-cda5-4e4f-b2c6-eb0455c18dc1",
         "TaskStatus": "scheduled",
-        "OutputUri": "https://s3.us-east-1.amazonaws.com/reddityoutube2/3afcd457-7883-4252-8180-848c05043d98.marks",
-        "CreationTime": "2022-11-04 15:40:47.006000-04:00",
-        "RequestCharacters": 16312,
+        "OutputUri": "https://s3.us-east-1.amazonaws.com/reddityoutube2/b9cd5f36-cda5-4e4f-b2c6-eb0455c18dc1.marks",
+        "CreationTime": "2022-11-07 22:08:55.142000-05:00",
+        "RequestCharacters": 23702,
         "OutputFormat": "json",
         "SpeechMarkTypes": [
             "ssml",
