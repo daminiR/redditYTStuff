@@ -3,3 +3,4 @@ TTSData/**
 test-dependencies/**
 awsLambda/**
 lambda_function/**
+lambda_solution/**
