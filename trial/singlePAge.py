@@ -42,33 +42,3 @@ writer.addPage(merged_page)
 with open('./out.pdf', 'wb') as f:
     writer.write(f)
 
-
-
-
-
-
-# file_path = "/Users/daminirijhwani/Downloads/Untitled document-3.pdf"
-# reader = PdfFileReader(open(file_path,'rb'))
-
-# page_1 = reader.getPage(0)
-# page_2 = reader.getPage(1)
-# page_3 = reader.getPage(2)
-
-# # total_page_height = page_1.mediaBox.getHeight() + page_2.mediaBox.getHeight() + page_3.mediaBox.getHeight()
-# # print(total_page_height)
-# # #Creating a new file double the size of the original
-# # translated_page = PageObject.createBlankPage(None, page_1.mediaBox.getWidth(), total_page_height)
-# # op = Transformation().translate(tx=page_1.mediaBox.getWidth(), ty=page_1.mediaBox.getHeight())
-
-# #Adding the pages to the new empty page
-# transformation = Transformation().translate(ty=page_2.mediaBox.getHeight()/ 2)
-# page_1.add_transformation(transformation)
-# page_2.merge_page(page_1, expand=True)
-# # translated_page.merge_page(page_2,expand=True)
-# # translated_page.merge_page(page_3,expand=True)
-
-# writer = PdfFileWriter()
-# writer.addPage(page_2)
-
-# with open('./out.pdf', 'wb') as f:
-    # writer.write(f)
