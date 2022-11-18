@@ -26,7 +26,7 @@ def convertToBox(x1, y1, x2, y2):
 import re
 string1 ="FirstPianist3312 · 13 days ago · edited 13 days ago"
 strin2 ="CADE09 · 13 days ago"
-regex = r'([^\s]+ · )'
+regex = r'([^\s]+ · \d{1,3} days |yr.|mo.|months|years [ago])'
 x = re.search(regex, string1)
 print(x)
 
