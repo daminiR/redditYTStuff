@@ -22,7 +22,11 @@ top_margin = 11
 idx = 0
 track_replies_y = 0
 prev_block_id = 0
+
+final = []
 for block_idx, block in enumerate(blocks):
+    if divide not in block[4] and more_replies not in block[4]:
+        final.append(block[4])
     if divide in block[4]:
         # if idx == 12:
             # break
@@ -44,9 +48,13 @@ for block_idx, block in enumerate(blocks):
         prev_block_id = block_idx
         try:
             cv2.imwrite("./screeshots/screen_" + str(idx) + ".jpg", roi)
+            cv2.close()
         except:
             pass
         idx += 1
-        # break
+with open("./bocks.txt", "w") as f:
+     f.write(''.join('{}'.format(x) for x in final))
+     f.close()
+
 
 
