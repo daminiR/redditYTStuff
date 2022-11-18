@@ -6,7 +6,7 @@ if __name__ == "__main__":
     rootDir = sys.argv[1]
     print("edit xml...")
     xmlTreeModifier(rootDir)
-    print("convert to speach")
-    TTS(rootDir)
+    # print("convert to speach")
+    # TTS(rootDir)
 
 

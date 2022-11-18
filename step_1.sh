@@ -6,7 +6,7 @@ totalYTs=$(($(find ./${rootFolder} -maxdepth 1 -type d | wc -l) - 1 + 1))
 redditFolder="${rootFolder}/reddit_yt_${totalYTs}"
 mkdir "${rootFolder}/reddit_yt_${totalYTs}"
 cd "${rootFolder}/reddit_yt_${totalYTs}"
-mkdir logs marks ssml voiceOver screenShotIds screenshots sync youtubeVideo assets
+mkdir logs marks ssml voiceOver screenShotIds screenshots sync youtubeVideo assets pdf
 cd logs
 mkdir marks voiceOver
 cd ../marks

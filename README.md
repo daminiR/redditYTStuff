@@ -46,4 +46,28 @@ try to edit everything on linux except image processing of step 6
 
 
 
+#Notes for remoe gradient from reddit website to all proper pdf
+1) open inspect element in reddit ask reddit whateever website to convert to pdf
+2) paste this as a function in the conolse
+
+function removeGradient() {
+    const items = document.querySelectorAll(".TmlaIdEplCzZ0F1aRGYQh");
+    for (let item of items) {
+         item.remove();
+    }
+}
+_3VH2iGVh92XtlKq0-eVoEN
+function removeRedBoundary() {
+    const items = document.querySelectorAll("._3VH2iGVh92XtlKq0-eVoEN");
+    for (let item of items) {
+         item.remove();
+    }
+}
+
+to remoe the red boundry gradient
+
+
+
+3) run the function removeGradient()
+and then can create exrto to pdf
 
