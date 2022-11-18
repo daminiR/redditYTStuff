@@ -24,10 +24,10 @@ def convertToBox(x1, y1, x2, y2):
 # prev_block_id = 0
 
 import re
-string1 ="FirstPianist3312 · 13 days ago · edited 13 days ago"
+string1 ="FirstPianist3312 · 13 days ago · edited 13 days now"
 strin2 ="CADE09 · 13 days ago"
-regex = r'([^\s]+ · \d{1,3} ((\bdays\b)|(\bmn.\b)) a)'
-x = re.search(regex, string1)
+regex = r'^([^\s]+ · \d{1,3} ((\bdays\b)|(\bmn.\b)) ago)(.*)$'
+x = re.search(regex, strin2)
 print(x)
 
 # final = []
