@@ -33,7 +33,7 @@ def createVideo(redditFolder, backgroundVideoFile, titleVideoFile):
                 print("file: ", timestamp["Filename"])
                 start = timestamp["Time"] / 1000
                 duration = timestamp["Duration"] / 1000
-                comment = ImageClip(redditFolder + "/screenshots/" + timestamp["Filename"] + ".png").set_start(start).set_duration(duration).set_pos(("center","center"))
+                comment = ImageClip(redditFolder + "/screenshots/" + timestamp["Filename"]).set_start(start).set_duration(duration).set_pos(("center","center"))
                 resizeComment = comment.resize(0.7)
                 comments.append(resizeComment)
             else:

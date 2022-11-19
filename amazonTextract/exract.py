@@ -45,7 +45,5 @@ def extractTextIds(redditFolder):
     f= open(redditFolder + "/screenShotIds/tastIds" +".json", 'w+')
     json.dump(IdsDict, f, indent=4)
     f.close()
-    # filename = "Screenshot from 2022-11-07 21-28-07.png"
-    # taskIdDict = extractTextId(redditFolder, filename)
 
 
