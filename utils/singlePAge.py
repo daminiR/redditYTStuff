@@ -2,10 +2,6 @@ from PyPDF2 import PdfFileReader, PdfFileWriter
 from PyPDF2 import PageObject
 from PyPDF2 import Transformation
 from PyPDF2 import PdfWriter, PdfReader
-from PyPDF2 import PdfFileReader, PdfFileWriter
-from PyPDF2 import PageObject
-from PyPDF2 import PdfFileReader, PdfFileWriter
-from PyPDF2 import PageObject
 
 def pdfMergeSInglePage_old(rootDir):
     file_path = rootDir + "/pdf/reddit.pdf"
