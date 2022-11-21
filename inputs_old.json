@@ -1,0 +1,15 @@
+{
+    "Inputs":
+    [
+        {
+    "rootFolder": "TTSData/ytData/AskReddit/reddit_yt_1",
+    "subReddit" : "r/AskReddit",
+    "fontSize" : 110
+},
+{
+    "rootFolder": "TTSData/ytData/AskReddit/reddit_yt_2",
+    "subReddit" : "r/AskReddit",
+    "fontSize" : 110
+}
+    ]
+}
