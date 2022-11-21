@@ -1,11 +1,15 @@
 #!/bin/bash
 
-rootFolderString=$(jq .rootFolder inputs.json)
-rootFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"$rootFolderString")
-echo rootFolder
-totalYTs=$(($(find ./${rootFolder} -maxdepth 1 -type d | wc -l) - 1))
-redditFolder="${rootFolder}/reddit_yt_${totalYTs}"
-python3 ./main/main.py $redditFolder
+rootFolderString=$(jq .Inputs[].rootFolder inputs.json)
+for var in $rootFolderString
+do
+    rootFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"$var")
+    redditFolder=$rootFolder
+    python3 ./main/createPDF.py $redditFolder
+    echo converting pdf to png....
+    convert  -flatten -quality 50 -density 144  $redditFolder"/pdf/reddit_single_page.pdf" $redditFolder"/pdf/reddit.png"
+    python3 ./main/createScreens.py $redditFolder
+done
 
 
 

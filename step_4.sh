@@ -1,15 +1,9 @@
 #!/bin/bash
 
-rootFolderString=$(jq .rootFolder inputs.json)
-rootFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"$rootFolderString")
-subReddit=$(jq .subReddit inputs.json)
-titleVideoFileString=$(jq .titleVideoFile inputs.json)
-titleVideoFile=$(sed -e 's/^"//' -e 's/"$//' <<<"$titleVideoFileString")
-echo $titleVideoFile
-backgroundVideoFileString=$(jq .backgroundVideoFile inputs.json)
-backgroundVideoFile=$(sed -e 's/^"//' -e 's/"$//' <<<"$backgroundVideoFileString")
-
-echo $rootFolder
-totalYTs=$(($(find $rootFolder -maxdepth 1 -type d | wc -l) - 1))
-redditFolder="${rootFolder}/reddit_yt_${totalYTs}"
-python3 ./main/getIDs.py $redditFolder "${titleVideoFile}" "${backgroundVideoFile}"
+rootFolderString=$(jq .Inputs[].rootFolder inputs.json)
+for var in $rootFolderString
+do
+    rootFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"$var")
+    redditFolder=$rootFolder
+    python3 ./main/edits.py $redditFolder
+done

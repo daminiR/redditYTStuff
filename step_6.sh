@@ -1,10 +1,13 @@
 #!/bin/bash
-#
-rootFolderString=$(jq .rootFolder inputs.json)
-rootFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"$rootFolderString")
-subReddit=$(jq .subReddit inputs.json)
-fontSize=$(jq .fontSize inputs.json)
-echo $rootFolder
-totalYTs=$(($(find $rootFolder -maxdepth 1 -type d | wc -l) - 1))
-redditFolder="${rootFolder}/reddit_yt_${totalYTs}"
-python3 "main/thumbnail.py" $redditFolder $fontSize
+
+length_inputs=$(jq '.Inputs| length' inputs.json)
+rootFolderString=( $(jq .Inputs[].rootFolder inputs.json) )
+fontSizeList=( $(jq .Inputs[].fontSize inputs.json) )
+
+for var_idx in  $(seq $length_inputs);
+do
+    fontSize=${fontSizeList[var_idx - 1]}
+    redditFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"${rootFolderString[var_idx - 1]}")
+    echo $redditFolder $fontSize
+    python3 ./main/thumbnail.py $redditFolder $fontSize
+done

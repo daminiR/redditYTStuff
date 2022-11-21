@@ -1,15 +1,11 @@
 #!/bin/bash
 
-rootFolderString=$(jq .rootFolder inputs.json)
-rootFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"$rootFolderString")
-subReddit=$(jq .subReddit inputs.json)
-titleVideoFileString=$(jq .titleVideoFile inputs.json)
-titleVideoFile=$(sed -e 's/^"//' -e 's/"$//' <<<"$titleVideoFileString")
-echo $titleVideoFile
-backgroundVideoFileString=$(jq .backgroundVideoFile inputs.json)
-backgroundVideoFile=$(sed -e 's/^"//' -e 's/"$//' <<<"$backgroundVideoFileString")
+length_inputs=$(jq '.Inputs| length' inputs.json)
+rootFolderString=( $(jq .Inputs[].rootFolder inputs.json) )
 
-echo $rootFolder
-totalYTs=$(($(find $rootFolder -maxdepth 1 -type d | wc -l) - 1))
-redditFolder="${rootFolder}/reddit_yt_${totalYTs}"
-python3 ./main/moviepy_processing.py $redditFolder "${titleVideoFile}" "${backgroundVideoFile}"
+for var_idx in  $(seq $length_inputs);
+do
+    redditFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"${rootFolderString[var_idx - 1]}")
+    echo $redditFolder
+    python3 ./main/moviepy_processing.py $redditFolder
+done

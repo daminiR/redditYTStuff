@@ -8,7 +8,7 @@ def convertToBox(x1, y1, x2, y2):
     return [int((x2 + x1)/2 ), int((y2 + y1)/2), int(x2 - x1), int(y2 - y1)]
 
 def cleanTTS(line):
-    line = line.replace("\"", "&quot;")
+    line = line.replace("\"", "")
     line = line.replace("&", "&amp;")
     line = line.replace("\'", "&apos;")
     line = line.replace("<", "&lt;")
@@ -17,6 +17,7 @@ def cleanTTS(line):
 
 
 def generateScreensSSML(rootDir):
+    scale = 2
     file_path = rootDir + "/pdf/reddit_single_page.pdf"
     reddit_image = rootDir + "/pdf/reddit.png"
     screens_path = rootDir + "/screenshots"
@@ -65,7 +66,7 @@ def generateScreensSSML(rootDir):
             curr_y = int(block[3])
             start_x =int( block[0])
             stop_x =int( block[2])
-            roi=im[top_cutoff:curr_y,start_x - start_margin_x: constant_x_end]
+            roi=im[top_cutoff*scale:curr_y*scale,start_x*scale - start_margin_x*scale: constant_x_end*scale]
             prev_y = curr_y
             prev_block_id = block_idx
             try:
@@ -73,8 +74,8 @@ def generateScreensSSML(rootDir):
                     cutOff_title = int(title_block[3])
                     start_title_y = int(title_start_block[3])
                     start_comment_y = int(start_first_comment[3])
-                    roi1=im[start_title_y:cutOff_title,start_x - start_margin_x: constant_x_end]
-                    roi2=im[start_comment_y:curr_y,start_x - start_margin_x: constant_x_end]
+                    roi1=im[start_title_y*scale:cutOff_title*scale,start_x*scale - start_margin_x*scale: constant_x_end*scale]
+                    roi2=im[start_comment_y*scale:curr_y*scale,start_x*scale - start_margin_x*scale: constant_x_end*scale]
                     cv2.imwrite(screens_path + "/screen_" + str(0) + ".jpg", roi1)
                     cv2.imwrite(screens_path + "/screen_" + str(idx) + ".jpg", roi2)
                 else:

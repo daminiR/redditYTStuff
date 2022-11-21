@@ -71,3 +71,28 @@ to remoe the red boundry gradient
 3) run the function removeGradient()
 and then can create exrto to pdf
 
+## New Instruction on pipleing of TTS
+1. add the diferrent reddit new folder titles in rootfolder in input.json
+2. bash step_1.sh will create thos folders
+3. for each website for reddit add the folowing jquery code to web inspect
+    1.
+function removeGradient() {
+    const items = document.querySelectorAll(".TmlaIdEplCzZ0F1aRGYQh");
+    const items_comminute_bar = document.querySelectorAll("._3Kd8DQpBIbsr5E1JcrMFTY._1tvThPWQpORoc2taKebHxs");
+    for (let item of items) {
+         item.remove();
+    }
+    for (let item of items_comminute_bar) {
+         item.remove();
+    }
+}
+4. in the new folders created add the pdf exported from safary to each  ssml/edited as "reddit.pdf"
+5. now run bash step_2.sh to create single pdf from pages in reddit.pdf  and TTS
+6. wait a bit to let aws load file
+7. run bash step_3.sh to get TTS and ready for creating video
+8. now add the follwing by finding on pexels or pixabay
+    1. title video in asset/titleVideo names as  title_video.mp4
+    2. background video in asset/backgroundVideo names as  background_video.mp4
+    3. thumnail image in assets/thumbnail_input_image/ as image.jpg
+9. run bash step_4.sh to geenrate video and its thumbnail, NOTe this takes an hour per video
+
