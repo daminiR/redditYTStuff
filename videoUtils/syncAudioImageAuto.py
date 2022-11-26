@@ -38,7 +38,7 @@ def syncAudioToImagesAuto(redditFolder):
             elif "COMMENT" in mark['value']:
                 matchDict = {}
                 matchDict["Time"] = mark['time']
-                text = voiceOverMarks[idx + 1]['value'][:5]
+                text = voiceOverMarks[idx + 1]['value'][:25]
                 matchDict["Filename"] = "screen_" + str(sorted_idx) + ".jpg"
                 sorted_idx += 1
                 jsonImageTime["ImageTimeStamps"].append(matchDict)

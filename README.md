@@ -44,8 +44,6 @@ example:
 
 try to edit everything on linux except image processing of step 6
 
-
-
 #Notes for remoe gradient from reddit website to all proper pdf
 1) open inspect element in reddit ask reddit whateever website to convert to pdf
 2) paste this as a function in the conolse
@@ -56,7 +54,6 @@ function removeGradient() {
          item.remove();
     }
 }
-_3VH2iGVh92XtlKq0-eVoEN
 function removeRedBoundary() {
     const items = document.querySelectorAll("._3VH2iGVh92XtlKq0-eVoEN");
     for (let item of items) {

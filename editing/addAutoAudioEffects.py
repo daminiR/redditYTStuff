@@ -20,6 +20,7 @@ def audioEdits(redditFolder):
         for mark in voiceOverMarks:
             if 'sentence' in mark['type'] and first_sentence==0:
                 metaDataDict['RedditTitle'] = mark['value']
+                metaDataDict['highlights'] = []
                 handle = open(metadataFile, 'w')
                 first_sentence=1
                 json.dump(metaDataDict, handle)

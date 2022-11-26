@@ -10,7 +10,6 @@ from utils.edit_thumnail import createThumbnail
 import json
 if __name__ == "__main__":
     rootDir = sys.argv[1]
-    fontSize = sys.argv[2]
-    createThumbnail(rootDir, int(fontSize))
+    createThumbnail(rootDir)
 
 
