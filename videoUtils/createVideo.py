@@ -6,12 +6,16 @@ from moviepy.audio.AudioClip import AudioClip
 import moviepy
 import numpy as np
 from pydub import AudioSegment
+import os, random
 import json
 
-
 def createVideo(redditFolder):
-    desired_length = 200 # 20 min
-    backgroundVideo = VideoFileClip(redditFolder + "/assets/backgroundVideo/background_video.mp4")
+    desired_length = 1200 # 20 sh min
+    # choose random video from collection
+    videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollection/"
+    filename = random.choice(os.listdir(videoCollection))
+    videoPath= os.path.join(videoCollection, filename)
+    backgroundVideo = VideoFileClip(videoPath)
     backgroundVideoSize = backgroundVideo.size
     titleVideo = VideoFileClip(redditFolder + "/assets/titleVideo/title_video.mp4").resize(backgroundVideoSize)
     originalVoiceOver = AudioFileClip(redditFolder +  "/voiceOver/edited/eddited.mp3")
@@ -80,5 +84,5 @@ def createVideo(redditFolder):
         finalAudio = concatenate_audioclips([new_audioclip,  subscribe_total])
         final.audio = finalAudio
         ######################################
-        final = final.resize(0.2)
+        # final = final.resize(0.2)
         final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_video.mp4")
