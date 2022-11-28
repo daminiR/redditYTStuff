@@ -76,12 +76,18 @@ and then can create exrto to pdf
 function removeGradient() {
     const items = document.querySelectorAll(".TmlaIdEplCzZ0F1aRGYQh");
     const items_comminute_bar = document.querySelectorAll("._3Kd8DQpBIbsr5E1JcrMFTY._1tvThPWQpORoc2taKebHxs");
+    const items_archive = document.querySelectorAll("._1EjIqPTCvhReSe3IjZptiB._1DUKbp8va6vxOv9zemBDBi");
     for (let item of items) {
          item.remove();
     }
     for (let item of items_comminute_bar) {
          item.remove();
     }
+    for (let item of items_archive) {
+         item.remove();
+    }
+    const mod_comment = document.querySelector(".LWgI-A6rN9Wajn1VLxu2A._3AgEmWP1qkCB8nds7LhzEB")
+    mod_comment.parentElement.parentElement.parentElement.remove()
 }
 4. in the new folders created add the pdf exported from safary to each  ssml/edited as "reddit.pdf"
 5. now run bash step_2.sh to create single pdf from pages in reddit.pdf  and TTS

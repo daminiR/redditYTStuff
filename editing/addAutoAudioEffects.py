@@ -19,11 +19,15 @@ def audioEdits(redditFolder):
         voiceOverMarks = json.load(f)
         for mark in voiceOverMarks:
             if 'sentence' in mark['type'] and first_sentence==0:
-                metaDataDict['RedditTitle'] = mark['value']
-                metaDataDict['highlights'] = []
-                handle = open(metadataFile, 'w')
+                y = {'RedditTitle' : mark['value']}
+                y1 = {'highlights' : []}
+                handle = open(metadataFile, 'r')
+                oldMetaData = json.load(handle)
+                oldMetaData.update(y)
+                oldMetaData.update(y1)
                 first_sentence=1
-                json.dump(metaDataDict, handle)
+                add = open(metadataFile, 'w')
+                json.dump(oldMetaData, add, indent=4)
                 handle.close()
                 newMark = mark
                 newMark["time"]  += sumDelay

@@ -12,9 +12,10 @@ import json
 def createVideo(redditFolder):
     desired_length = 1200 # 20 sh min
     # choose random video from collection
+    metaDataDict = json.load(open(os.path.join(redditFolder, 'metadata.json'), "r"))
+    filename = metaDataDict['videoFileUsed']
     videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollection/"
-    filename = random.choice(os.listdir(videoCollection))
-    videoPath= os.path.join(videoCollection, filename)
+    videoPath=os.path.join(videoCollection, filename)
     backgroundVideo = VideoFileClip(videoPath)
     backgroundVideoSize = backgroundVideo.size
     titleVideo = VideoFileClip(redditFolder + "/assets/titleVideo/title_video.mp4").resize(backgroundVideoSize)
@@ -28,7 +29,9 @@ def createVideo(redditFolder):
     with open(redditFolder + "/sync/screenshotTimestamps.json") as f:
         timestamps = json.load(f)["ImageTimeStamps"]
         untilTitle = int(timestamps[1]["Time"] / 1000)
-        assert titleVideo.duration > untilTitle, "titleVIdeo must be as long as amaszon polly speeking"
+        if titleVideo.duration > untilTitle:
+            # slow down title video to fit the length
+            titleVideo = titleVideo.fx(vfx.speedx, 0.5)
         check_idx = 0
         for timestamp in timestamps:
             if "STORY" in timestamp["Mark Sentence"]:

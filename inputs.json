@@ -2,7 +2,7 @@
     "Inputs":
     [
         {
-    "rootFolder": "TTSData/ytData/AskReddit/reddit_yt_23",
+    "rootFolder": "TTSData/ytData/AITA/reddit_yt_1",
     "subReddit" : "r/AskReddit"
 }
     ]
