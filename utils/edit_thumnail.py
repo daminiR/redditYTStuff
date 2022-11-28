@@ -62,7 +62,6 @@ def createThumbnail(rootDir):
     FOREGROUND = (255, 191, 0)
     with open(rootDir +  "/metadata.json" , "rb") as handle:
         data = json.load(handle)
-        print(data)
         title_text = data["RedditTitle"]
         word_highlights = data["highlights"]
 

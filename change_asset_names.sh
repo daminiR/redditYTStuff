@@ -13,9 +13,9 @@ do
     #rm reddit.png
     #rm reddit_single_page.pdf
 
-    cd assets/backgroundVideo
-    mv * background_video.mp4
-    cd ../thumbnail_input_image
+    #cd assets/backgroundVideo
+    #mv * background_video.mp4
+    cd assets/thumbnail_input_image
     mv * image.jpg
     cd ../titleVideo
     mv * title_video.mp4
