@@ -58,7 +58,6 @@ def cleanTTS(line):
         new = ""
     return new
 
-
 def generateScreensSSML(rootDir):
     metaDataDict = json.load(open(os.path.join(rootDir, 'metadata.json'), "r"))
     filename = metaDataDict['videoFileUsed']
@@ -77,103 +76,64 @@ def generateScreensSSML(rootDir):
     tp = page.get_textpage()
     blocks = tp.extractBLOCKS()
     divide = "Share\nReport"
-    title_divide = "Comments\n� Award\n� Share\n"
-    title_start = "Posted by u/"
     regex_user= r'· \d{1,3} (days|mo.|yr.) ago(.*)$'
     regex_replies = r'^\d{0,10} more reply|replies$'
     prev_y = 0
-    start_margin_x = 5
-    constant_x_end = 825
-    top_margin = 11
+    start_margin_x = 6
+    constant_x_end = 878
     idx = 1
     prev_block_id = 0
     final = []
+    longComments = []
     with open("./test.txt", "w") as f:
         json.dump(blocks, f)
     for block_idx, block in enumerate(blocks):
-        if (divide not in block[4]) and not re.search(regex_replies, block[4]):
-            final.append([block[0], block[4]])
-        if divide in block[4]:
-            last_reply_block = None
-            for ids in range(prev_block_id, block_idx):
-                check = blocks[ids]
-                first_comment = re.search(regex_user, check[4])
-                if re.search(regex_replies, check[4]):
-                    last_reply_block = check
-                    track_replies_y = int(block[3])
-                if title_divide in check[4] and idx == 1:
-                    title_block = check
-                    track_clock_y = int(block[3])
-                if title_start in check[4] and idx == 1:
-                    title_start_block = check
-                if first_comment and idx == 1:
-                    start_first_comment = check
-            if last_reply_block:
-                top_cutoff = int(last_reply_block[3])
+        if re.search(regex_user, block[4]):
+            if idx == 1:
+                top_cutoff = prev_y * scale  + 20
+                bottom_cuttof = int(block[1])* scale
+                start_x =int(blocks[prev_block_id][0])* scale - start_margin_x - 20
             else:
-                top_cutoff = prev_y + top_margin
-            curr_y = int(block[3])
-            start_x =int( block[0])
-            stop_x =int( block[2])
-            roi=im[top_cutoff*scale:curr_y*scale,start_x*scale - start_margin_x*scale: constant_x_end*scale]
+                top_cutoff = prev_y * scale
+                bottom_cuttof = int(blocks[block_idx - 1][3])* scale
+                start_x =int(blocks[prev_block_id][0])* scale - start_margin_x - 5
+            curr_y = int(block[1])
+            stop_x =constant_x_end * scale
+            roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
             prev_y = curr_y
-            try:
+            roi_height =  bottom_cuttof - top_cutoff
+            if roi_height > H:
+                final.append([block[0], block[4]])
+                final.append([block[0], "LONG COMMENT\n"])
                 if idx == 1:
-                    cutOff_title = int(title_block[3])
-                    start_title_y = int(title_start_block[3])
-                    start_comment_y = int(start_first_comment[3])
-                    roi1=im[start_title_y*scale:cutOff_title*scale,        start_x*scale - start_margin_x*scale: constant_x_end*scale]
-                    roi2=im[start_comment_y*scale:curr_y*scale,            start_x*scale - start_margin_x*scale: constant_x_end*scale]
-                    roi1_height =  ( cutOff_title - start_title_y )*scale
-                    roi2_height =  (start_comment_y - curr_y )*scale
-                    if roi1_height > H:
-                        prev_para_y = start_title_y
-                        end_para = prev_block_id
-                        for ids in range(prev_block_id, block_idx):
-                        while(prev_para_y < end_para):
-                                # this is a para itself
-                                para = blocks[ids]
-                                print(ids)
-                                end_para = int(para[3])
-                                roi=im[prev_para_y*scale:end_para*scale,        start_x*scale - start_margin_x*scale: constant_x_end*scale]
-                                cv2.imshow('image',roi)
-                                cv2.waitKey(0)
-                                prev_para_y = end_para
-                                ids += 1
-                    else:
-                        cv2.imwrite(screens_path + "/screen_" + str(0) + ".jpg", roi1)
-                    if roi2_height > H:
-                        print("do we eneter here")
-                        prev_para_y = start_comment_y
-                        for ids in range(prev_block_id, block_idx):
-                            if ids > 4:
-                                # this is a para itself
-                                para = blocks[ids]
-                                end_para = int(para[3])
-                                roi=im[prev_para_y*scale:end_para*scale,        start_x*scale - start_margin_x*scale: constant_x_end*scale]
-                                cv2.imshow('image',roi)
-                                cv2.waitKey(0)
-                                prev_para_y = end_para
-                    else:
-                        cv2.imwrite(screens_path + "/screen_" + str(idx) + ".jpg", roi2)
+                    for screen_name_idx, ids in enumerate(range(prev_block_id,block_idx)):
+                        top_cutoff = int(blocks[ids][1])* scale
+                        bottom_cuttof = int(blocks[ids][3])* scale
+                        final.append([blocks[ids][0], blocks[ids][4]])
+                        final.append([blocks[ids][0], "LONG COMMENT\n"])
+                        roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
+                        if ids == block_idx - 1:
+                            cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" +  str(0) + ".jpg", roi)
+                        else:
+                            cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(screen_name_idx + 1) + ".jpg", roi)
                 else:
-                    roi_height =  (curr_y - top_cutoff )*scale
-                    if roi_height > H:
-                        prev_para_y = top_cutoff
-                        for ids in range(prev_block_id + 2, block_idx):
-                            if ids > 4:
-                                # this is a para itself
-                                para = blocks[ids]
-                                end_para = int(para[3])
-                                roi_para=im[prev_para_y*scale:end_para*scale,start_x*scale - start_margin_x*scale: constant_x_end*scale]
-                                cv2.imshow('image',roi_para)
-                                cv2.waitKey(0)
-                                prev_para_y = end_para
-                    else:
-                        cv2.imwrite(screens_path + "/screen_" + str(idx) + ".jpg", roi)
-            except Exception as e:
-                    print(e)
-                    pass
+                    for screen_name_idx, ids in enumerate(range(prev_block_id + 1,block_idx - 1)):
+                        if screen_name_idx == 0:
+                            top_cutoff = int(blocks[ids - 1][1])* scale
+                            final.append([blocks[ids - 1][0], blocks[ids][4]])
+                            final.append([blocks[ids - 1][0], "LONG COMMENT\n"])
+                        else:
+                            top_cutoff = int(blocks[ids][1])* scale
+                            final.append([blocks[ids][0], blocks[ids][4]])
+                            final.append([blocks[ids][0], "LONG COMMENT\n"])
+                        bottom_cuttof = int(blocks[ids][3])* scale
+                        roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
+                        cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(screen_name_idx) + ".jpg", roi)
+            else:
+                cv2.imwrite(screens_path + "/screen_" + str(idx) + ".jpg", roi)
+                for sentence_id in range(prev_block_id, block_idx):
+                    if (divide not in blocks[sentence_id][4]):
+                        final.append([blocks[sentence_id][0], blocks[sentence_id][4]])
             prev_block_id = block_idx
             idx += 1
     columns = set([int(x[0]) for x in final if re.search(regex_user, x[1])])
@@ -196,8 +156,11 @@ def generateScreensSSML(rootDir):
                 f.write("<break time=\"0.1s\"/>\n")
                 f.write("\n")
             else:
-                text = cleanTTS(line[1])
-                f.write(text)
+                if "LONG COMMENT" in line[1]:
+                    f.write("<mark name=\"LONG COMMENT\"/>\n")
+                else:
+                    text = cleanTTS(line[1])
+                    f.write(text)
         f.write("</speak>")
     f.close()
 
