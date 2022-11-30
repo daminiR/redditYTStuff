@@ -12,7 +12,6 @@ def audioEdits(redditFolder):
     edditedVoiceOver = originalVoiceOver[0:400]
     metadataFile = redditFolder + "/metadata.json"
     first_sentence = 0
-    metaDataDict = {}
     edditedMarks = []
     sumDelay = 0
     with open(redditFolder + "/marks/edited/marks_processed.json", "r") as f, open(redditFolder + "/marks/edited/" + outMarksFile, 'w+') as marksOutput:
