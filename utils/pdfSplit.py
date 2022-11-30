@@ -8,10 +8,52 @@ from moviepy.editor import VideoFileClip
 def convertToBox(x1, y1, x2, y2):
     return [int((x2 + x1)/2 ), int((y2 + y1)/2), int(x2 - x1), int(y2 - y1)]
 
+def redditAcronyms(line):
+    new = line.replace("AITA", "Am I The Asshole")
+    new = line.replace("AMA", "Ask Me Anything")
+    new = new.replace("AMAA", " Ask Me Almost Anything")
+    new = new.replace("DAE", "Does Anyone Else")
+    new = new.replace("ELI5", "Explain like I'm 5")
+    new = new.replace("FTA", "From The Article")
+    new = new.replace("FTFY", "Fixed That For You")
+    new = new.replace("GW", "Gone Wild")
+    new = new.replace("IAMA", "I Am A")
+    new = new.replace("IMO", "In My Opinion")
+    new = new.replace("IMHO", "In My Humble (Honest) Opinion")
+    new = new.replace("IIRC", "If I Recall Correctly")
+    new = new.replace("ITT", "In This Thread")
+    new = new.replace("MIC", "More In Comments")
+    new = new.replace("OP", "O.P")
+    new = new.replace("RTFA", "Read the fucking article")
+    new = new.replace("SRD", "Subreddit drama")
+    new = new.replace("TIL", "Today, I learned")
+    new = new.replace("WIP", "Work in progress")
+    new = new.replace("NTA", "Not the Asshole")
+    new = new.replace("YTA", "You're the Asshole")
+    new = new.replace("WIBTA", "Would I be the asshole")
+    new = new.replace("NAH", "no assholes here")
+    new = new.replace("ESH", "everyone sucks here")
+    new = new.replace("WIBTA", "Would I be the asshole")
+    new = new.replace("WTF", "W.T.F")
+    new = new.replace("CMV", "Change my view")
+    new = new.replace("IANAD", "I am not a doctor")
+    new = new.replace("IANAL", "I am not a lawyer")
+    new = new.replace("MRW", "My reaction when")
+    new = new.replace("MFW", "My face when")
+    new = new.replace("MFW", "Public service announcement")
+    new = new.replace("YSK", "You should know")
+    new = new.replace("TL;DR ", "Too long; Didn’t read")
+    new = new.replace("OC", "O.C")
+    new = new.replace("SRS", "Shit Reddit Says")
+    new = new.replace("SO", "Significant Other")
+    new = new.replace("DM;HS", "Doesnt Matter, Had Sex")
+    new = new.replace("IRL", "In Real Life")
+    new = new.replace("GTFO", "Get The Fuck Out")
+    new = new.replace("YMMV", "your mileage may vary")
+    new = new.replace("SMH", "Shaking my head")
+    new = new.replace("LSHMSFOAIDMT", "Laughing So Hard My Sombrero Falls Off and I Drop My Taco")
+    return new
 def cleanTTS(line):
-    # if "Comment deleted" in line:
-        # print("Remove these")
-        # print(line)
     gibrish = [
         "Posts\n",
         "Wiki\n",
@@ -35,8 +77,6 @@ def cleanTTS(line):
     regex_hidden_user = r'· \d{1,3} (days|mo.|yr.) ago(.*)$'
     regex_comments=r'\d{1,5}.\dk'
     regex_more=r'\d{1, 4} More$'
-    # regex_numbers=r'^&amp; \d{1,3} More$'
-    # regex_numbers=r'^(\d{0,3}((&amp;| &amp;) \d{1,3} More)*)$'
     new = line.replace("\"", "")
     new = new.replace("&", "&amp;")
     new = new.replace("\'", "&apos;")
@@ -77,19 +117,17 @@ def generateScreensSSML(rootDir):
     blocks = tp.extractBLOCKS()
     divide = "Share\nReport"
     regex_user= r'· \d{1,3} (days|mo.|yr.) ago(.*)$'
-    regex_replies = r'^\d{0,10} more reply|replies$'
     prev_y = 0
     start_margin_x = 6
     constant_x_end = 878
-    idx = 1
+    idx = 0
     prev_block_id = 0
     final = []
-    longComments = []
     with open("./test.txt", "w") as f:
         json.dump(blocks, f)
     for block_idx, block in enumerate(blocks):
         if re.search(regex_user, block[4]):
-            if idx == 1:
+            if idx == 0:
                 top_cutoff = prev_y * scale  + 20
                 bottom_cuttof = int(block[1])* scale
                 start_x =int(blocks[prev_block_id][0])* scale - start_margin_x - 20
@@ -103,29 +141,34 @@ def generateScreensSSML(rootDir):
             prev_y = curr_y
             roi_height =  bottom_cuttof - top_cutoff
             if roi_height > H:
-                final.append([block[0], block[4]])
-                final.append([block[0], "LONG COMMENT\n"])
-                if idx == 1:
+                title_long = []
+                if idx == 0:
                     for screen_name_idx, ids in enumerate(range(prev_block_id,block_idx)):
                         top_cutoff = int(blocks[ids][1])* scale
                         bottom_cuttof = int(blocks[ids][3])* scale
-                        final.append([blocks[ids][0], blocks[ids][4]])
-                        final.append([blocks[ids][0], "LONG COMMENT\n"])
                         roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
                         if ids == block_idx - 1:
                             cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" +  str(0) + ".jpg", roi)
+                            final.append([blocks[ids][0], "LONG COMMENT\n"])
+                            final.append([blocks[ids][0], blocks[ids][4]])
                         else:
+                            title_long.append([blocks[ids][0], "LONG COMMENT\n"])
+                            title_long.append([blocks[ids][0], blocks[ids][4]])
                             cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(screen_name_idx + 1) + ".jpg", roi)
+                    final.extend(title_long)
+
                 else:
+                    final.append([block[0], "LONG COMMENT\n"])
+                    final.append([block[0], block[4]])
                     for screen_name_idx, ids in enumerate(range(prev_block_id + 1,block_idx - 1)):
                         if screen_name_idx == 0:
                             top_cutoff = int(blocks[ids - 1][1])* scale
-                            final.append([blocks[ids - 1][0], blocks[ids][4]])
                             final.append([blocks[ids - 1][0], "LONG COMMENT\n"])
+                            final.append([blocks[ids - 1][0], blocks[ids][4]])
                         else:
                             top_cutoff = int(blocks[ids][1])* scale
-                            final.append([blocks[ids][0], blocks[ids][4]])
                             final.append([blocks[ids][0], "LONG COMMENT\n"])
+                            final.append([blocks[ids][0], blocks[ids][4]])
                         bottom_cuttof = int(blocks[ids][3])* scale
                         roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
                         cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(screen_name_idx) + ".jpg", roi)
@@ -141,7 +184,7 @@ def generateScreensSSML(rootDir):
     with open(rootDir + "/ssml/edited/ssml_processed.xml", "w") as f:
         f.write("<speak>")
         f.write("<break time=\"1s\"/>\n")
-        story_idx = 1
+        story_idx = 0
         for line in final:
             x = re.search(regex_user, line[1])
             if x:
@@ -160,6 +203,7 @@ def generateScreensSSML(rootDir):
                     f.write("<mark name=\"LONG COMMENT\"/>\n")
                 else:
                     text = cleanTTS(line[1])
+                    text = redditAcronyms(text)
                     f.write(text)
         f.write("</speak>")
     f.close()
