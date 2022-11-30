@@ -20,22 +20,24 @@ def calcualteDuration(jsonImageTime, redditFolder):
     return newFinalJSon
 
 def syncAudioToImagesAuto(redditFolder):
-    subReddit = "r/AskReddit"
     jsonImageTime = {}
     jsonImageTime["ImageTimeStamps"] = []
     with open(redditFolder + "/marks/edited/marks_edited_with_bits.json") as input, open(redditFolder + "/sync/screenshotTimestamps.json", "w+", encoding='utf8') as output:
         voiceOverMarks = json.load(input)
-        req_marks = len([mark for mark in voiceOverMarks if "COMMENT" in mark["value"]]) + 1
         sorted_idx = 0
+        long_idx = 0
         for idx, mark in enumerate(voiceOverMarks):
             if 'STORY' in mark['value']:
+                if long_idx != 0:
+                    sorted_idx += 1
+                    long_idx = 0
                 matchDict = {}
                 matchDict["Time"] = mark['time']
                 text = mark['value']
                 matchDict["Filename"] = None
                 jsonImageTime["ImageTimeStamps"].append(matchDict)
                 matchDict["Mark Sentence"] = text
-            elif "COMMENT" in mark['value']:
+            elif "COMMENT" == mark['value']:
                 matchDict = {}
                 matchDict["Time"] = mark['time']
                 text = voiceOverMarks[idx + 1]['value'][:25]
@@ -43,12 +45,28 @@ def syncAudioToImagesAuto(redditFolder):
                 sorted_idx += 1
                 jsonImageTime["ImageTimeStamps"].append(matchDict)
                 matchDict["Mark Sentence"] = text
-            elif idx == 0:
+            # elif idx == 0 and 'LONG COMMENT' != mark['value']:
+                # matchDict = {}
+                # matchDict["Time"] = mark['time']
+                # text = "TITLE"
+                # matchDict["Filename"] = "screen_" + str(sorted_idx) + ".jpg"
+                # sorted_idx += 1
+                # jsonImageTime["ImageTimeStamps"].append(matchDict)
+                # matchDict["Mark Sentence"] = text
+            # elif idx == 0 and 'LONG COMMENT' == mark['value']:
+                # matchDict = {}
+                # matchDict["Time"] = mark['time']
+                # text = "TITLE"
+                # matchDict["Filename"] = "screen_" + str(sorted_idx)+  "_" + str(long_idx) + ".jpg"
+                # long_idx += 1
+                # jsonImageTime["ImageTimeStamps"].append(matchDict)
+                # matchDict["Mark Sentence"] = text
+            if 'LONG COMMENT' == mark['value']:
                 matchDict = {}
                 matchDict["Time"] = mark['time']
-                text = "TITLE"
-                matchDict["Filename"] = "screen_" + str(sorted_idx) + ".jpg"
-                sorted_idx += 1
+                text = voiceOverMarks[idx + 1]['value'][:25]
+                matchDict["Filename"] = "screen_" + str(sorted_idx)+  "_" + str(long_idx) + ".jpg"
+                long_idx += 1
                 jsonImageTime["ImageTimeStamps"].append(matchDict)
                 matchDict["Mark Sentence"] = text
         newFinal = calcualteDuration(jsonImageTime, redditFolder)
