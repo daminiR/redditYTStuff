@@ -37,7 +37,9 @@ def syncAudioToImagesAuto(redditFolder):
                 matchDict["Filename"] = None
                 jsonImageTime["ImageTimeStamps"].append(matchDict)
                 matchDict["Mark Sentence"] = text
-            elif "COMMENT" == mark['value']:
+            elif "COMMENT" == mark['value'] and "LONG COMMENT" != voiceOverMarks[idx + 1]['value']:
+                if long_idx != 0:
+                    long_idx = 0
                 matchDict = {}
                 matchDict["Time"] = mark['time']
                 text = voiceOverMarks[idx + 1]['value'][:25]
@@ -45,22 +47,6 @@ def syncAudioToImagesAuto(redditFolder):
                 sorted_idx += 1
                 jsonImageTime["ImageTimeStamps"].append(matchDict)
                 matchDict["Mark Sentence"] = text
-            # elif idx == 0 and 'LONG COMMENT' != mark['value']:
-                # matchDict = {}
-                # matchDict["Time"] = mark['time']
-                # text = "TITLE"
-                # matchDict["Filename"] = "screen_" + str(sorted_idx) + ".jpg"
-                # sorted_idx += 1
-                # jsonImageTime["ImageTimeStamps"].append(matchDict)
-                # matchDict["Mark Sentence"] = text
-            # elif idx == 0 and 'LONG COMMENT' == mark['value']:
-                # matchDict = {}
-                # matchDict["Time"] = mark['time']
-                # text = "TITLE"
-                # matchDict["Filename"] = "screen_" + str(sorted_idx)+  "_" + str(long_idx) + ".jpg"
-                # long_idx += 1
-                # jsonImageTime["ImageTimeStamps"].append(matchDict)
-                # matchDict["Mark Sentence"] = text
             if 'LONG COMMENT' == mark['value']:
                 matchDict = {}
                 matchDict["Time"] = mark['time']

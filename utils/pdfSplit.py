@@ -8,6 +8,24 @@ from moviepy.editor import VideoFileClip
 def convertToBox(x1, y1, x2, y2):
     return [int((x2 + x1)/2 ), int((y2 + y1)/2), int(x2 - x1), int(y2 - y1)]
 
+def redo():
+    inputFile = "/Users/daminirijhwani/redditYTStuff/assets/abreviations.json"
+    outFile = "/Users/daminirijhwani/redditYTStuff/assets/abreviations_new.json"
+    with open(inputFile, 'r') as input, open(outFile, 'w+') as output:
+        lines = input.readlines()
+        for line in lines:
+            line = re.sub('\"', ' \" ', line)
+            output.write(line)
+
+def cleanAbreviations(new):
+    inputFile = "/Users/daminirijhwani/redditYTStuff/assets/abreviations_new.json"
+    with open(inputFile, 'r') as h:
+        lines = json.load(h)["abreviations"]
+        for k, v in lines.items():
+            new = new.replace(k, v)
+            new = new.replace(k.upper(), v)
+        return new
+
 def redditAcronyms(line):
     new = line.replace("AITA", "Am I The Asshole")
     new = line.replace("AMA", "Ask Me Anything")
@@ -117,6 +135,7 @@ def generateScreensSSML(rootDir):
     blocks = tp.extractBLOCKS()
     divide = "Share\nReport"
     regex_user= r'· \d{1,3} (days|mo.|yr.) ago(.*)$'
+    regex_  = r'\d+\n'
     prev_y = 0
     start_margin_x = 6
     constant_x_end = 878
@@ -127,6 +146,7 @@ def generateScreensSSML(rootDir):
         json.dump(blocks, f)
     for block_idx, block in enumerate(blocks):
         if re.search(regex_user, block[4]):
+            # if idx == 86:
             if idx == 0:
                 top_cutoff = prev_y * scale  + 20
                 bottom_cuttof = int(block[1])* scale
@@ -156,22 +176,27 @@ def generateScreensSSML(rootDir):
                             title_long.append([blocks[ids][0], blocks[ids][4]])
                             cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(screen_name_idx + 1) + ".jpg", roi)
                     final.extend(title_long)
-
                 else:
-                    final.append([block[0], "LONG COMMENT\n"])
                     final.append([block[0], block[4]])
+                    track_idx = 0
                     for screen_name_idx, ids in enumerate(range(prev_block_id + 1,block_idx - 1)):
                         if screen_name_idx == 0:
                             top_cutoff = int(blocks[ids - 1][1])* scale
-                            final.append([blocks[ids - 1][0], "LONG COMMENT\n"])
-                            final.append([blocks[ids - 1][0], blocks[ids][4]])
+                            a = [blocks[ids - 1][0], "LONG COMMENT\n"]
+                            b = [blocks[ids - 1][0], blocks[ids][4]]
                         else:
+
                             top_cutoff = int(blocks[ids][1])* scale
-                            final.append([blocks[ids][0], "LONG COMMENT\n"])
-                            final.append([blocks[ids][0], blocks[ids][4]])
-                        bottom_cuttof = int(blocks[ids][3])* scale
-                        roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
-                        cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(screen_name_idx) + ".jpg", roi)
+                            a = [blocks[ids][0], "LONG COMMENT\n"]
+                            b = [blocks[ids][0], blocks[ids][4]]
+                        if not re.search(regex_, b[1]):
+                            print(b)
+                            final.append(a)
+                            final.append(b)
+                            bottom_cuttof = int(blocks[ids][3])* scale
+                            roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
+                            cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(track_idx) + ".jpg", roi)
+                            track_idx += 1
             else:
                 cv2.imwrite(screens_path + "/screen_" + str(idx) + ".jpg", roi)
                 for sentence_id in range(prev_block_id, block_idx):
@@ -204,6 +229,7 @@ def generateScreensSSML(rootDir):
                 else:
                     text = cleanTTS(line[1])
                     text = redditAcronyms(text)
+                    text = cleanAbreviations(text)
                     f.write(text)
         f.write("</speak>")
     f.close()

@@ -47,7 +47,6 @@ def createVideo(redditFolder):
             else:
                 start = timestamp["Time"] / 1000
                 duration = timestamp["Duration"] / 1000
-                print(timestamp["Filename"])
                 comment = ImageClip(redditFolder + "/screenshots/" + timestamp["Filename"]).set_start(start).set_duration(duration).set_pos(("center","center"))
                 if comment.size[1] > backgroundVideoSize[1]:
                     resizeComment = comment.resize((int(backgroundVideoSize[0] * 0.8), int(backgroundVideoSize[1])*0.95))
@@ -56,15 +55,12 @@ def createVideo(redditFolder):
                 comments.append(resizeComment)
             check_idx += 1
 
-        # print(*comments, sep = "\n")
-        # linger the last comment a bit longer!
-        # all audo stuff
         pause = 2
         new_audioclip = new_audioclip.subclip(0, actual_length)
         cliped_duration = new_audioclip.duration
-        # last_comment = comments[-1].set_duration(comments[-1].duration + 1.5)
-        # comments = comments[:-1]
-        # comments.append(last_comment)
+        last_comment = comments[-1].set_duration(comments[-1].duration + 1.5)
+        comments = comments[:-1]
+        comments.append(last_comment)
         # all video stuff
         ######################################
         final_sub_clip = sub_clip.set_start(cliped_duration + pause).set_pos(("center", "center")).resize(backgroundVideoSize).set_duration(sub_clip.duration)
@@ -80,5 +76,5 @@ def createVideo(redditFolder):
         finalAudio = concatenate_audioclips([new_audioclip,  subscribe_total])
         final.audio = finalAudio
         ######################################
-        final = final.resize(0.5)
+        final = final.resize(0.4)
         final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_video.mp4")
