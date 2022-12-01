@@ -87,30 +87,30 @@ function removeGradient() {
          item.remove();
     }
     const top1 = document.querySelector("._2vkeRJojnV7cb9pMlPHy7d ")
-    top1.remove();
+    top1?.remove();
     const top2 = document.querySelector("._2L5G9B5yaoqW3IegiYN-FL")
-    top2.remove();
+    top2?.remove();
     const top3 = document.querySelector("._1gVVmSnHZpkUgVShsn7-ua")
-    top3.remove();
+    top3?.remove();
 
+    const blocked = document.querySelector(".jf95ZrrjIs2i--Ud8Kvb7._1DUKbp8va6vxOv9zemBDBi")
+    blocked.remove();
     const mod_comment = document.querySelector(".LWgI-A6rN9Wajn1VLxu2A._3AgEmWP1qkCB8nds7LhzEB")
-    mod_comment.parentElement.parentElement.parentElement.parentElement.remove()
+    mod_comment?.parentElement.parentElement.parentElement.parentElement.remove()
     const upvotes = document.querySelector("._23h0-EcaBUorIHC-JZyh6J")
-    upvotes.remove();
+    upvotes?.remove();
     const title_posted = document.querySelector("._14-YvdFiW5iVvfe5wdgmET")
-    title_posted.remove();
+    title_posted?.remove();
     const title_chip = document.querySelector("._2fiIRtMpITeCAzXc4cANKp._1mK-LVHGTTlcFpMsjItjYJ")
-    title_chip.remove();
+    title_chip?.remove();
     const post_edits = document.querySelector("._1hwEKkB_38tIoal6fcdrt9")
-    post_edits.remove();
+    post_edits?.remove();
     const reply_block = document.querySelector("._1r4smTyOEZFO91uFIdWW6T.aUM8DQ_Nz5wL0EJc_wte6")
-    reply_block.remove();
+    reply_block?.remove();
     const suggested_block = document.querySelector("._2ulKn_zs7Y3LWsOqoFLHPo")
-    suggested_block.remove();
+    suggested_block?.remove();
     const add_block = document.querySelector(".Pbz3gpOA6rvqdYoX_pOjn")
-    if (add_block !== null) {
-    add_block.remove();
-    }
+    add_block?.remove();
     const cont_block = document.querySelectorAll("._3ndawrYzcvjHPJFYUHijfP ")
     for (let item of cont_block) {
     item.remove();
@@ -144,7 +144,7 @@ function removeGradient() {
     item.remove();
     }
     var header = document.getElementsByTagName('header')[0];
-    header.remove();
+    header?.remove();
 }
 4. in the new folders created add the pdf exported from safary to each  ssml/edited as "reddit.pdf"
 5. now run bash step_2.sh to create single pdf from pages in reddit.pdf  and TTS

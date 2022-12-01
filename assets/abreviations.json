@@ -1,15 +1,20 @@
 {
-"3cool5u"   : "Too cool for you",
+    "abreviations":
+    {
+        "MIL":"Mother-in-law",
+        "DIL":"Daughter-in-law",
+        "FIL":"Father-in-law",
+        "SIL":"Sister-in-law",
 "afaik"     : "As far as I know",
 "afk"     : "Away from keyboard",
 "asl"      : "Age/sex/location?",
-"atm"      : "At the moment",
+"atm "      : "At the moment",
 "atw"      : "All the way",
-"bb":        : "Baby",
+"bb"        : "Baby",
 "bbiab"     : "Be back in a bit",
 "bbl"      : "Be back later",
 "bbs"      : "Be back soon",
-"bc": "Because",
+"bc":           "Because",
 "bf"        : "Boyfriend",
 "bff"       : "Best friend forever",
 "brb"      : "Be right back",
@@ -113,4 +118,4 @@
 "ymmv"      : "Your mileage may vary",
 "yolo"      : "You only live once",
 "yw"        : "You're welcome"
-}
+    }}
