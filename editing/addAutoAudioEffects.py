@@ -33,7 +33,6 @@ def audioEdits(redditFolder):
 
             elif 'STORY' in mark['value']:
                 reddit_slice = originalVoiceOver[last: mark['time']]
-                # insert sound effect
                 bit = reddit_slice + storyEffect
                 edditedVoiceOver= edditedVoiceOver + bit
                 last = mark['time']
@@ -54,12 +53,6 @@ def audioEdits(redditFolder):
                 newMark["time"]  += sumDelay
 
                 sumDelay += commentEffect.duration_seconds * 1000
-            # elif 'LONG COMMENT' == mark['value']:
-                # reddit_slice = originalVoiceOver[last: mark['time']]
-                # # insert sound effect
-                # last = mark['time']
-                # newMark = mark
-                # newMark["time"]  += sumDelay
             else:
                 newMark = mark
                 newMark["time"]  += sumDelay
