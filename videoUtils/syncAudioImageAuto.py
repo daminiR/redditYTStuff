@@ -40,6 +40,7 @@ def syncAudioToImagesAuto(redditFolder):
             elif "COMMENT" == mark['value'] and "LONG COMMENT" != voiceOverMarks[idx + 1]['value']:
                 if long_idx != 0:
                     long_idx = 0
+                    sorted_idx += 1
                 matchDict = {}
                 matchDict["Time"] = mark['time']
                 text = voiceOverMarks[idx + 1]['value'][:25]
@@ -48,14 +49,15 @@ def syncAudioToImagesAuto(redditFolder):
                 jsonImageTime["ImageTimeStamps"].append(matchDict)
                 matchDict["Mark Sentence"] = text
             if 'LONG COMMENT' == mark['value']:
-                matchDict = {}
-                matchDict["Time"] = mark['time']
+                para = []
+                paraDict = {}
+                paraDict["Time"] = mark['time']
                 text = voiceOverMarks[idx + 1]['value'][:25]
-                matchDict["Filename"] = "screen_" + str(sorted_idx)+  "_" + str(long_idx) + ".jpg"
+                paraDict["Filename"] = "screen_" + str(sorted_idx)+  "_" + str(long_idx) + ".jpg"
                 long_idx += 1
-                jsonImageTime["ImageTimeStamps"].append(matchDict)
-                matchDict["Mark Sentence"] = text
+                jsonImageTime["ImageTimeStamps"].append(paraDict)
+                paraDict["Mark Sentence"] = text
+                para.append(paraDict)
+                matchDict = {"LONG": para}
         newFinal = calcualteDuration(jsonImageTime, redditFolder)
         json.dump(newFinal, output, indent=4)
-
-

@@ -146,7 +146,6 @@ def generateScreensSSML(rootDir):
         json.dump(blocks, f)
     for block_idx, block in enumerate(blocks):
         if re.search(regex_user, block[4]):
-            # if idx == 86:
             if idx == 0:
                 top_cutoff = prev_y * scale  + 20
                 bottom_cuttof = int(block[1])* scale
@@ -169,50 +168,46 @@ def generateScreensSSML(rootDir):
                         roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
                         if ids == block_idx - 1:
                             cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" +  str(0) + ".jpg", roi)
-                            final.append([blocks[ids][0], "LONG COMMENT\n"])
-                            final.append([blocks[ids][0], blocks[ids][4]])
                         else:
-                            title_long.append([blocks[ids][0], "LONG COMMENT\n"])
-                            title_long.append([blocks[ids][0], blocks[ids][4]])
                             cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(screen_name_idx + 1) + ".jpg", roi)
-                    final.extend(title_long)
+                        # title_long.append((blocks[ids][0], "LONG COMMENT\n"))
+                        title_long.append((blocks[ids][0], blocks[ids][4]))
+                    final.append(title_long)
                 else:
-                    final.append([block[0], block[4]])
+                    comment_long = []
+                    comment_long.append((block[0], block[4]))
                     track_idx = 0
                     for screen_name_idx, ids in enumerate(range(prev_block_id + 1,block_idx - 1)):
                         if screen_name_idx == 0:
                             top_cutoff = int(blocks[ids - 1][1])* scale
-                            a = [blocks[ids - 1][0], "LONG COMMENT\n"]
-                            b = [blocks[ids - 1][0], blocks[ids][4]]
+                            b = (blocks[ids - 1][0], blocks[ids][4])
                         else:
 
                             top_cutoff = int(blocks[ids][1])* scale
-                            a = [blocks[ids][0], "LONG COMMENT\n"]
-                            b = [blocks[ids][0], blocks[ids][4]]
+                            b = (blocks[ids][0], blocks[ids][4])
                         if not re.search(regex_, b[1]):
-                            print(b)
-                            final.append(a)
-                            final.append(b)
+                            comment_long.append(b)
                             bottom_cuttof = int(blocks[ids][3])* scale
                             roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
                             cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(track_idx) + ".jpg", roi)
                             track_idx += 1
+                    final.append(comment_long)
             else:
                 cv2.imwrite(screens_path + "/screen_" + str(idx) + ".jpg", roi)
                 for sentence_id in range(prev_block_id, block_idx):
                     if (divide not in blocks[sentence_id][4]):
-                        final.append([blocks[sentence_id][0], blocks[sentence_id][4]])
+                        final.append((blocks[sentence_id][0], blocks[sentence_id][4]))
             prev_block_id = block_idx
             idx += 1
-    columns = set([int(x[0]) for x in final if re.search(regex_user, x[1])])
+    columns = set()
+    columns = set([int(x[0]) for x in final if not isinstance(x, list) and re.search(regex_user, x[1])])
     columns = sorted(columns)
     with open(rootDir + "/ssml/edited/ssml_processed.xml", "w") as f:
         f.write("<speak>")
         f.write("<break time=\"1s\"/>\n")
         story_idx = 0
         for line in final:
-            x = re.search(regex_user, line[1])
-            if x:
+            if not isinstance(line, list) and re.search(regex_user, line[1]):
                 if line[0] == columns[0]:
                     f.write("<break time=\"0.3s\"/>\n")
                     f.write("<mark name=\"STORY" + str(story_idx) + "\"/>\n")
@@ -224,8 +219,19 @@ def generateScreensSSML(rootDir):
                 f.write("<break time=\"0.1s\"/>\n")
                 f.write("\n")
             else:
-                if "LONG COMMENT" in line[1]:
-                    f.write("<mark name=\"LONG COMMENT\"/>\n")
+                if isinstance(line, list):
+                    paras = len(line)
+                    new_paras = []
+                    for para in line:
+                        text = cleanTTS(para[1])
+                        text = redditAcronyms(text)
+                        text = cleanAbreviations(text)
+                        if text != "":
+                            new_paras.append(text)
+                    f.write("<mark name=\"LONG COMMENT\" value=" + "\"" + str(len(new_paras)) + "\"" + "/>\n")
+                    for new_text in new_paras:
+                        f.write("<mark name=\"PARA\"/>\n")
+                        f.write(new_text)
                 else:
                     text = cleanTTS(line[1])
                     text = redditAcronyms(text)
