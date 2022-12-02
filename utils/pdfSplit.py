@@ -170,7 +170,6 @@ def generateScreensSSML(rootDir):
                             cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" +  str(0) + ".jpg", roi)
                         else:
                             cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(screen_name_idx + 1) + ".jpg", roi)
-                        # title_long.append((blocks[ids][0], "LONG COMMENT\n"))
                         title_long.append((blocks[ids][0], blocks[ids][4]))
                     final.append(title_long)
                 else:
@@ -205,6 +204,7 @@ def generateScreensSSML(rootDir):
     with open(rootDir + "/ssml/edited/ssml_processed.xml", "w") as f:
         f.write("<speak>")
         f.write("<break time=\"1s\"/>\n")
+        f.write("<mark name=\"TITLE\"/>\n")
         story_idx = 0
         for line in final:
             if not isinstance(line, list) and re.search(regex_user, line[1]):
@@ -228,10 +228,11 @@ def generateScreensSSML(rootDir):
                         text = cleanAbreviations(text)
                         if text != "":
                             new_paras.append(text)
-                    f.write("<mark name=\"LONG COMMENT\" value=" + "\"" + str(len(new_paras)) + "\"" + "/>\n")
+                    f.write("<mark name=\"LONG COMMENT START" + str(len(new_paras)) + "\"" + "/>\n")
                     for new_text in new_paras:
                         f.write("<mark name=\"PARA\"/>\n")
                         f.write(new_text)
+                    f.write("<mark name=\"LONG COMMENT END" + str(len(new_paras)) + "\"" + "/>\n")
                 else:
                     text = cleanTTS(line[1])
                     text = redditAcronyms(text)
