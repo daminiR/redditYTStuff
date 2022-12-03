@@ -155,7 +155,6 @@ def generateScreensSSML(rootDir):
     final = []
     blocks = clean(blocks)
     for block_idx, block in enumerate(blocks):
-        print(block)
         if re.search(regex_user, block[4]):
             if idx == 0:
                 top_cutoff = prev_y * scale  + 20
@@ -204,9 +203,15 @@ def generateScreensSSML(rootDir):
                     final.append(comment_long)
             else:
                 cv2.imwrite(screens_path + "/screen_" + str(idx) + ".jpg", roi)
+                full_text = []
                 for sentence_id in range(prev_block_id, block_idx):
                     if (divide not in blocks[sentence_id][4]):
-                        final.append((blocks[sentence_id][0], blocks[sentence_id][4]))
+                        full_text.append((blocks[sentence_id][0], blocks[sentence_id][4]))
+                if prev_block_id == 0:
+                    title = [full_text[-1]]
+                    title.extend(full_text[:-1])
+                    full_text = title
+                final.extend(full_text)
             prev_block_id = block_idx
             idx += 1
     columns = set()
@@ -243,6 +248,7 @@ def generateScreensSSML(rootDir):
                         title = [new_paras[-1]]
                         title.extend(new_paras[:-1])
                         new_paras = title
+
 
                     f.write("<mark name=\"LONG COMMENT START" + str(len(new_paras)) + "\"" + "/>\n")
                     for new_text_idx, new_text in enumerate(new_paras):
