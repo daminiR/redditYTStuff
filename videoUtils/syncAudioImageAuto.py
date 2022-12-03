@@ -4,16 +4,36 @@ import json
 from pydub import AudioSegment
 from difflib import SequenceMatcher
 
-# def calcualteDuration(jsonImageTime, redditFolder):
-    # originalVoiceOver = AudioSegment.from_mp3(redditFolder +  "/voiceOver/edited/eddited.mp3")
-    # end =  originalVoiceOver.duration_seconds * 1000
-    # newFinalJSon = {"ImageTimeStamps" : []}
-    # new =  jsonImageTime["ImageTimeStamps"]
-    # for index, matchDict in enumerate(new):
-        # if not isinstance(matchDict, list) and not isinstance(new[index + 1], list):
-        # if isinstance(matchDict, list):
+def calcualteDuration(jsonImageTime, redditFolder):
+    originalVoiceOver = AudioSegment.from_mp3(redditFolder +  "/voiceOver/edited/eddited.mp3")
+    end =  originalVoiceOver.duration_seconds * 1000
+    newFinalJSon = {"ImageTimeStamps" : []}
+    totalFiles =  len(jsonImageTime["ImageTimeStamps"])
+    new =  jsonImageTime["ImageTimeStamps"]
+    for index, matchDict in enumerate(jsonImageTime["ImageTimeStamps"]):
+        # if not isinstance(matchDict, list):
+            if index  !=  totalFiles - 1:
+                if not isinstance(new[index + 1], list):
+                    duration = jsonImageTime["ImageTimeStamps"][index + 1]["Time"] - matchDict["Time"]
+                    matchDict["Duration"] = duration
+            else:
+                duration = end - matchDict["Time"]
+                matchDict["Duration"] = duration
+            newFinalJSon["ImageTimeStamps"].append(matchDict)
+        # elif  isinstance(matchDict, list):
+            # long = []
+            # # print("matchDict:", matchDict[-2])
+            # for match_idx in range(len(matchDict) - 1):
+                # # print("here")
+                # # print(matchDict, match_idx)
+                # # if match_idx == len(matchDict):
+                    # # duration = jsonImageTime["ImageTimeStamps"][index + 1]["Time"] - jsonImageTime["ImageTimeStamps"][index][match_idx]["Time"]
+                # # else:
+                # duration = jsonImageTime["ImageTimeStamps"][index][match_idx + 1]["Time"] - jsonImageTime["ImageTimeStamps"][index][match_idx]["Time"]
+                # matchDict = jsonImageTime["ImageTimeStamps"][index][match_idx]["duration"] = duration
+                # long.append(matchDict)
             # newFinalJSon["ImageTimeStamps"].append(long)
-    # return newFinalJSon
+    return newFinalJSon
 
 def syncAudioToImagesAuto(redditFolder):
     jsonImageTime = {}
@@ -25,8 +45,6 @@ def syncAudioToImagesAuto(redditFolder):
         long_idx_start = None
         long_idx_end = None
         for idx, mark in enumerate(voiceOverMarks):
-            # if idx == 31:
-                # break
             if 'STORY' in mark['value'] or "COMMENT" == mark['value']:
                 if long_idx_start != None and long_idx_end != None:
                         long_comment = voiceOverMarks[long_idx_start:long_idx_end]
@@ -41,38 +59,50 @@ def syncAudioToImagesAuto(redditFolder):
                 long_idx_end = idx
         sorted_idx = 0
         long_idx = 0
+        last_time = 0
+        total_surplus = 0
         for idx, mark in enumerate(edited):
+            # if idx == 4:
+                # break
             if isinstance(mark, list):
+                last_time = mark[-1]['end']
                 long = []
                 new_idx = 0
                 for val_idx, val in enumerate(mark):
-                    if "PARA" in val['value']:
+                    if "PARA" == val['value']:
                         matchDict = {}
                         matchDict["Time"] = mark[val_idx]['time']
                         text = mark[val_idx + 1]['value']
                         matchDict["Filename"] = "screen_" + str(sorted_idx) + "_" + str(new_idx) + ".jpg"
                         matchDict["Mark Sentence"] = text
-                        matchDict["duration"] = mark[val_idx + 1]['end'] - mark[val_idx + 1]['start']
                         long.append(matchDict)
                         new_idx += 1
-                jsonImageTime["ImageTimeStamps"].append(long)
+                total_surplus += len(mark) + 1
+                jsonImageTime["ImageTimeStamps"].extend(long)
+                sorted_idx += 1
             else:
                 if 'STORY' in mark['value']:
                     matchDict = {}
                     matchDict["Time"] = mark['time']
                     text = mark['value']
                     matchDict["Filename"] = None
-                    matchDict["Mark Sentence"] = text
-                    matchDict["duration"] = mark['end'] - mark['start']
                     jsonImageTime["ImageTimeStamps"].append(matchDict)
+                    matchDict["Mark Sentence"] = text
                 elif "COMMENT" == mark['value']:
                     matchDict = {}
                     matchDict["Time"] = mark['time']
-                    text = voiceOverMarks[idx + 1]['value'][:25]
+                    text = voiceOverMarks[idx + total_surplus + 1]['value'][:25]
                     matchDict["Filename"] = "screen_" + str(sorted_idx) + ".jpg"
-                    matchDict["duration"] = mark['end'] - mark['start']
                     sorted_idx += 1
-                    matchDict["Mark Sentence"] = text
                     jsonImageTime["ImageTimeStamps"].append(matchDict)
-
+                    matchDict["Mark Sentence"] = text
+                elif idx == 0:
+                    matchDict = {}
+                    matchDict["Time"] = mark['time']
+                    text = "TITLE"
+                    matchDict["Filename"] = "screen_" + str(sorted_idx) + ".jpg"
+                    sorted_idx += 1
+                    jsonImageTime["ImageTimeStamps"].append(matchDict)
+                    matchDict["Mark Sentence"] = text
+        newFinal = calcualteDuration(jsonImageTime, redditFolder)
         json.dump(jsonImageTime, output, indent=4)
