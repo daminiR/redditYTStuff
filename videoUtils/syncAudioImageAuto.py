@@ -11,28 +11,14 @@ def calcualteDuration(jsonImageTime, redditFolder):
     totalFiles =  len(jsonImageTime["ImageTimeStamps"])
     new =  jsonImageTime["ImageTimeStamps"]
     for index, matchDict in enumerate(jsonImageTime["ImageTimeStamps"]):
-        # if not isinstance(matchDict, list):
             if index  !=  totalFiles - 1:
-                if not isinstance(new[index + 1], list):
+                # if not isinstance(new[index + 1], list):
                     duration = jsonImageTime["ImageTimeStamps"][index + 1]["Time"] - matchDict["Time"]
                     matchDict["Duration"] = duration
             else:
                 duration = end - matchDict["Time"]
                 matchDict["Duration"] = duration
             newFinalJSon["ImageTimeStamps"].append(matchDict)
-        # elif  isinstance(matchDict, list):
-            # long = []
-            # # print("matchDict:", matchDict[-2])
-            # for match_idx in range(len(matchDict) - 1):
-                # # print("here")
-                # # print(matchDict, match_idx)
-                # # if match_idx == len(matchDict):
-                    # # duration = jsonImageTime["ImageTimeStamps"][index + 1]["Time"] - jsonImageTime["ImageTimeStamps"][index][match_idx]["Time"]
-                # # else:
-                # duration = jsonImageTime["ImageTimeStamps"][index][match_idx + 1]["Time"] - jsonImageTime["ImageTimeStamps"][index][match_idx]["Time"]
-                # matchDict = jsonImageTime["ImageTimeStamps"][index][match_idx]["duration"] = duration
-                # long.append(matchDict)
-            # newFinalJSon["ImageTimeStamps"].append(long)
     return newFinalJSon
 
 def syncAudioToImagesAuto(redditFolder):
@@ -45,7 +31,10 @@ def syncAudioToImagesAuto(redditFolder):
         long_idx_start = None
         long_idx_end = None
         for idx, mark in enumerate(voiceOverMarks):
-            if 'STORY' in mark['value'] or "COMMENT" == mark['value']:
+            # print(mark)
+            # if idx == 3:
+                # return
+            if 'STORY' in mark['value'] or "COMMENT" == mark['value'] or "TITLE" == mark['value']:
                 if long_idx_start != None and long_idx_end != None:
                         long_comment = voiceOverMarks[long_idx_start:long_idx_end]
                         edited.append(long_comment)
@@ -57,12 +46,13 @@ def syncAudioToImagesAuto(redditFolder):
                 long_idx_start = idx
             elif 'LONG COMMENT END' in mark['value']:
                 long_idx_end = idx
+
         sorted_idx = 0
         long_idx = 0
         last_time = 0
         total_surplus = 0
         for idx, mark in enumerate(edited):
-            # if idx == 4:
+            # if idx == 1:
                 # break
             if isinstance(mark, list):
                 last_time = mark[-1]['end']
