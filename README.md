@@ -93,8 +93,10 @@ function removeGradient() {
     const top3 = document.querySelector("._1gVVmSnHZpkUgVShsn7-ua")
     top3?.remove();
 
+    const remove_by_mod = document.querySelector("._3sf33-9rVAO_v4y0pIW_CH")
+    remove_by_mod?.remove();
     const blocked = document.querySelector(".jf95ZrrjIs2i--Ud8Kvb7._1DUKbp8va6vxOv9zemBDBi")
-    blocked.remove();
+    blocked?.remove();
     const mod_comment = document.querySelector(".LWgI-A6rN9Wajn1VLxu2A._3AgEmWP1qkCB8nds7LhzEB")
     mod_comment?.parentElement.parentElement.parentElement.parentElement.remove()
     const upvotes = document.querySelector("._23h0-EcaBUorIHC-JZyh6J")

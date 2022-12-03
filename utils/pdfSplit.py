@@ -116,6 +116,17 @@ def cleanTTS(line):
         new = ""
     return new
 
+
+def clean(blocks):
+    regex_  = r'^\d+\n$'
+    regex_2  = r'^\d+ & \d+ More\n$'
+    new_blocks = []
+    for block in blocks:
+        if not re.search(regex_, block[4]) and not re.search(regex_2, block[4]):
+            new_blocks.append(block)
+    return new_blocks
+
+
 def generateScreensSSML(rootDir):
     metaDataDict = json.load(open(os.path.join(rootDir, 'metadata.json'), "r"))
     filename = metaDataDict['videoFileUsed']
@@ -142,9 +153,9 @@ def generateScreensSSML(rootDir):
     idx = 0
     prev_block_id = 0
     final = []
-    with open("./test.txt", "w") as f:
-        json.dump(blocks, f)
+    blocks = clean(blocks)
     for block_idx, block in enumerate(blocks):
+        print(block)
         if re.search(regex_user, block[4]):
             if idx == 0:
                 top_cutoff = prev_y * scale  + 20
@@ -201,6 +212,7 @@ def generateScreensSSML(rootDir):
     columns = set()
     columns = set([int(x[0]) for x in final if not isinstance(x, list) and re.search(regex_user, x[1])])
     columns = sorted(columns)
+    print(final)
     with open(rootDir + "/ssml/edited/ssml_processed.xml", "w") as f:
         f.write("<speak>")
         f.write("<break time=\"1s\"/>\n")
@@ -234,9 +246,13 @@ def generateScreensSSML(rootDir):
                         new_paras = title
 
                     f.write("<mark name=\"LONG COMMENT START" + str(len(new_paras)) + "\"" + "/>\n")
-                    for new_text in new_paras:
+                    for new_text_idx, new_text in enumerate(new_paras):
                         f.write("<mark name=\"PARA\"/>\n")
                         f.write(new_text)
+                        if line_idx == 0 and new_text_idx == 0:
+                            f.write("<break time=\"0.2s\"/>\n")
+                        else:
+                            f.write("<break time=\"0.1s\"/>\n")
                     f.write("<mark name=\"LONG COMMENT END" + str(len(new_paras)) + "\"" + "/>\n")
                 else:
                     text = cleanTTS(line[1])

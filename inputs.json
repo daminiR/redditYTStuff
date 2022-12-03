@@ -2,7 +2,23 @@
     "Inputs":
     [
         {
-    "rootFolder": "TTSData/ytData/AITA/reddit_yt_12",
+    "rootFolder": "TTSData/ytData/AITA/reddit_yt_4",
+    "subReddit" : "r/AskReddit"
+},
+        {
+    "rootFolder": "TTSData/ytData/AITA/reddit_yt_7",
+    "subReddit" : "r/AskReddit"
+},
+        {
+    "rootFolder": "TTSData/ytData/AITA/reddit_yt_11",
+    "subReddit" : "r/AskReddit"
+},
+        {
+    "rootFolder": "TTSData/ytData/AITA/reddit_yt_8",
+    "subReddit" : "r/AskReddit"
+},
+        {
+    "rootFolder": "TTSData/ytData/AITA/reddit_yt_5",
     "subReddit" : "r/AskReddit"
 }
     ]
