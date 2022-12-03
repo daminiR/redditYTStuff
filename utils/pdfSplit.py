@@ -212,7 +212,6 @@ def generateScreensSSML(rootDir):
     columns = set()
     columns = set([int(x[0]) for x in final if not isinstance(x, list) and re.search(regex_user, x[1])])
     columns = sorted(columns)
-    print(final)
     with open(rootDir + "/ssml/edited/ssml_processed.xml", "w") as f:
         f.write("<speak>")
         f.write("<break time=\"1s\"/>\n")
