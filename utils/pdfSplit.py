@@ -28,7 +28,7 @@ def cleanAbreviations(new):
 
 def redditAcronyms(line):
     new = line.replace("AITA", "Am I The Asshole")
-    new = line.replace("AMA", "Ask Me Anything")
+    new = new.replace("AMA", "Ask Me Anything")
     new = new.replace("AMAA", " Ask Me Almost Anything")
     new = new.replace("DAE", "Does Anyone Else")
     new = new.replace("ELI5", "Explain like I'm 5")
@@ -206,7 +206,7 @@ def generateScreensSSML(rootDir):
         f.write("<break time=\"1s\"/>\n")
         f.write("<mark name=\"TITLE\"/>\n")
         story_idx = 0
-        for line in final:
+        for line_idx, line in enumerate(final):
             if not isinstance(line, list) and re.search(regex_user, line[1]):
                 if line[0] == columns[0]:
                     f.write("<break time=\"0.3s\"/>\n")
@@ -228,6 +228,11 @@ def generateScreensSSML(rootDir):
                         text = cleanAbreviations(text)
                         if text != "":
                             new_paras.append(text)
+                    if line_idx == 0:
+                        title = [new_paras[-1]]
+                        title.extend(new_paras[:-1])
+                        new_paras = title
+
                     f.write("<mark name=\"LONG COMMENT START" + str(len(new_paras)) + "\"" + "/>\n")
                     for new_text in new_paras:
                         f.write("<mark name=\"PARA\"/>\n")
