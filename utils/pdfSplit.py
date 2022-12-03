@@ -250,9 +250,9 @@ def generateScreensSSML(rootDir):
                         f.write("<mark name=\"PARA\"/>\n")
                         f.write(new_text)
                         if line_idx == 0 and new_text_idx == 0:
-                            f.write("<break time=\"0.2s\"/>\n")
+                            f.write("<break time=\"0.5s\"/>\n")
                         else:
-                            f.write("<break time=\"0.1s\"/>\n")
+                            f.write("<break time=\"0.2s\"/>\n")
                     f.write("<mark name=\"LONG COMMENT END" + str(len(new_paras)) + "\"" + "/>\n")
                 else:
                     text = cleanTTS(line[1])
