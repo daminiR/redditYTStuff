@@ -4,6 +4,7 @@ import cv2
 import json
 import re
 from moviepy.editor import VideoFileClip
+from utils.checkTitles import checkTitle
 
 def convertToBox(x1, y1, x2, y2):
     return [int((x2 + x1)/2 ), int((y2 + y1)/2), int(x2 - x1), int(y2 - y1)]
@@ -154,6 +155,7 @@ def generateScreensSSML(rootDir):
     prev_block_id = 0
     final = []
     blocks = clean(blocks)
+    metadataFile = rootDir + "/metadata.json"
     for block_idx, block in enumerate(blocks):
         if re.search(regex_user, block[4]):
             if idx == 0:
@@ -238,7 +240,16 @@ def generateScreensSSML(rootDir):
                 if isinstance(line, list):
                     paras = len(line)
                     new_paras = []
-                    for para in line:
+                    for title_ids, para in enumerate(line):
+                        if title_ids == len(line) - 1 and line_idx == 0:
+                            metaDataTitle = para[1]
+                            handle = open(metadataFile, 'r')
+                            oldMetaData = json.load(handle)
+                            y = {'RedditTitle' : metaDataTitle}
+                            oldMetaData.update(y)
+                            add = open(metadataFile, 'w')
+                            json.dump(oldMetaData, add, indent=4)
+                            handle.close()
                         text = cleanTTS(para[1])
                         text = redditAcronyms(text)
                         text = cleanAbreviations(text)
@@ -246,6 +257,9 @@ def generateScreensSSML(rootDir):
                             new_paras.append(text)
                     if line_idx == 0:
                         title = [new_paras[-1]]
+                        # check if title is not done previosuly
+                        isInReddit = checkTitle(title)
+                        assert (isInReddit == False),"the title is already made into youtube video or check folder to be sure"
                         title.extend(new_paras[:-1])
                         new_paras = title
 
@@ -260,6 +274,18 @@ def generateScreensSSML(rootDir):
                             f.write("<break time=\"0.2s\"/>\n")
                     f.write("<mark name=\"LONG COMMENT END" + str(len(new_paras)) + "\"" + "/>\n")
                 else:
+                    if line_idx == 0:
+                        # check if title is not done previosuly
+                        metaDataTitle = line[1]
+                        isInReddit = checkTitle(metaDataTitle)
+                        assert (isInReddit == False),"the title is already made into youtube video or check folder to be sure"
+                        handle = open(metadataFile, 'r')
+                        oldMetaData = json.load(handle)
+                        y = {'RedditTitle' : metaDataTitle}
+                        oldMetaData.update(y)
+                        add = open(metadataFile, 'w')
+                        json.dump(oldMetaData, add, indent=4)
+                        handle.close()
                     text = cleanTTS(line[1])
                     text = redditAcronyms(text)
                     text = cleanAbreviations(text)
