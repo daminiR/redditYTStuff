@@ -7,32 +7,32 @@ def audioEdits(redditFolder):
     originalVoiceOver = AudioSegment.from_mp3(redditFolder +  "/voiceOver/original/original.mp3")
     commentEffect = AudioSegment.from_mp3("assets/comments/notification-sound-7062.mp3")
     storyEffect = AudioSegment.from_mp3("assets/story/whoosh-6316.mp3")
-    print("audio delay:", commentEffect.duration_seconds)
-    print("story delay:", storyEffect.duration_seconds)
     last = 0
     end =  originalVoiceOver.duration_seconds * 1000
     edditedVoiceOver = originalVoiceOver[0:400]
     metadataFile = redditFolder + "/metadata.json"
     first_sentence = 0
-    metaDataDict = {}
     edditedMarks = []
     sumDelay = 0
     with open(redditFolder + "/marks/edited/marks_processed.json", "r") as f, open(redditFolder + "/marks/edited/" + outMarksFile, 'w+') as marksOutput:
         voiceOverMarks = json.load(f)
         for mark in voiceOverMarks:
-            print("delayed by", sumDelay)
             if 'sentence' in mark['type'] and first_sentence==0:
-                metaDataDict['RedditTitle'] = mark['value']
-                handle = open(metadataFile, 'w')
+                # y = {'RedditTitle' : mark['value']}
+                y1 = {'highlights' : []}
+                handle = open(metadataFile, 'r')
+                oldMetaData = json.load(handle)
+                # oldMetaData.update(y)
+                oldMetaData.update(y1)
                 first_sentence=1
-                json.dump(metaDataDict, handle)
+                add = open(metadataFile, 'w')
+                json.dump(oldMetaData, add, indent=4)
                 handle.close()
                 newMark = mark
                 newMark["time"]  += sumDelay
 
             elif 'STORY' in mark['value']:
                 reddit_slice = originalVoiceOver[last: mark['time']]
-                # insert sound effect
                 bit = reddit_slice + storyEffect
                 edditedVoiceOver= edditedVoiceOver + bit
                 last = mark['time']
@@ -42,7 +42,7 @@ def audioEdits(redditFolder):
 
                 sumDelay += storyEffect.duration_seconds * 1000
 
-            elif 'COMMENT' in mark['value']:
+            elif 'COMMENT' == mark['value']:
                 reddit_slice = originalVoiceOver[last: mark['time']]
                 # insert sound effect
                 bit = reddit_slice + commentEffect
