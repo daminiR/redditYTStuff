@@ -264,6 +264,7 @@ def generateScreensSSML(rootDir):
                         new_paras = title
 
 
+
                     f.write("<mark name=\"LONG COMMENT START" + str(len(new_paras)) + "\"" + "/>\n")
                     for new_text_idx, new_text in enumerate(new_paras):
                         f.write("<mark name=\"PARA\"/>\n")
