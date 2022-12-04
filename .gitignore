@@ -1,4 +1,6 @@
-temp/
-TTSData/*
+temp/**
+TTSData/**
+test-dependencies/**
+awsLambda/**
 lambda_function/**
 lambda_solution/**

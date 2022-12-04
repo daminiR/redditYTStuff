@@ -1,22 +1,15 @@
 import os
 from xml.dom import minidom
 import sys
+import os, random
+import json
 
 if __name__ == "__main__":
     rootDir = sys.argv[1]
-    root = minidom.Document()
-    xml = root.createElement('speak')
-    root.appendChild(xml)
-    awsChild = root.createElement('amazon')
-    awsChild.setAttribute('name', "news")
-
-    breakChild = root.createElement('break')
-    breakChild.setAttribute('time', "1s")
-    awsChild.appendChild(breakChild)
-    awsChild.appendChild(breakChild)
-    xml.appendChild(awsChild)
-    xml_str = root.toprettyxml(indent="\t")
-    with open(os.path.join(rootDir, 'ssml/original/ssml.xml'), "w") as f:
-        f.write(xml_str)
+    videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollection/"
+    filename = random.choice([f for f in os.listdir(videoCollection) if not f.startswith('.')])
+    y = {'videoFileUsed': filename}
+    with open(os.path.join(rootDir, 'metadata.json'), "w") as f:
+        json.dump(y, f)
     f.close()
 
