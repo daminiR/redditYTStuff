@@ -40,6 +40,7 @@ def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
     # return the resized image
     return resized
 
+
 def createThumbnail(rootDir):
     background = Image.open("./assets/thumbnail/saveBackground.jpg").resize((1280, 720))
     redditIcon = Image.open("./assets/thumbnail/thumbnail_background.png")
@@ -67,9 +68,9 @@ def createThumbnail(rootDir):
 
     # more than 18
     words = title_text.split(" ")
-    if len(words) < 20:
+    if len(words) < 25:
         width_text = 15
-    elif len(words) >= 20 and len(words) < 30:
+    elif len(words) >= 25 and len(words) < 30:
         width_text = 21
     elif len(words) >= 30 and len(words) < 50:
         width_text = 28
