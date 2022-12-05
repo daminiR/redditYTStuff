@@ -30,6 +30,7 @@ def syncAudioToImagesAuto(redditFolder):
         long_comment = []
         long_idx_start = None
         long_idx_end = None
+        edited_map = {}
         for idx, mark in enumerate(voiceOverMarks):
             # print(mark)
             # if idx == 3:
@@ -41,7 +42,12 @@ def syncAudioToImagesAuto(redditFolder):
                         long_idx_start = None
                         long_idx_end = None
                         long_comment = []
-                edited.append(mark)
+                if "COMMENT" == mark['value']:
+                    edited.append(mark)
+                    print(voiceOverMarks[idx + 1])
+                    edited.append(voiceOverMarks[idx + 1])
+                else:
+                    edited.append(mark)
             elif 'LONG COMMENT START' in mark['value']:
                 long_idx_start = idx
             elif 'LONG COMMENT END' in mark['value']:
@@ -58,6 +64,7 @@ def syncAudioToImagesAuto(redditFolder):
                 last_time = mark[-1]['end']
                 long = []
                 new_idx = 0
+                print(len(mark))
                 for val_idx, val in enumerate(mark):
                     if "PARA" == val['value']:
                         matchDict = {}
@@ -81,7 +88,7 @@ def syncAudioToImagesAuto(redditFolder):
                 elif "COMMENT" == mark['value']:
                     matchDict = {}
                     matchDict["Time"] = mark['time']
-                    text = voiceOverMarks[idx + total_surplus + 1]['value'][:25]
+                    text = edited[idx + 1]['value'][:25]
                     matchDict["Filename"] = "screen_" + str(sorted_idx) + ".jpg"
                     sorted_idx += 1
                     jsonImageTime["ImageTimeStamps"].append(matchDict)

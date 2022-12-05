@@ -6,8 +6,9 @@ do
     rootFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"$var")
     redditFolder=$rootFolder
     cd $redditFolder
-    #cd pdf
-    #mv * reddit.pdf
+    cd pdf
+    mv * reddit.pdf
+    cd ../
     #rm reddit.pdf
 
     #rm reddit.png

@@ -86,6 +86,10 @@ function removeGradient() {
     for (let item of items_archive) {
          item.remove();
     }
+    const comment_deleted_by_user = document.querySelectorAll("._3sf33-9rVAO_v4y0pIW_CH");
+    for (let item of comment_deleted_by_user) {
+         item.remove();
+    }
     const top1 = document.querySelector("._2vkeRJojnV7cb9pMlPHy7d ")
     top1?.remove();
     const top2 = document.querySelector("._2L5G9B5yaoqW3IegiYN-FL")
