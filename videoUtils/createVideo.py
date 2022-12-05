@@ -68,13 +68,13 @@ def createVideo(redditFolder):
         titleclip = titleVideo.subclip(0, untilTitle)
         loopedVideo = backgroundVideo.loop(duration=cliped_duration + pause)
         finalBackround = concatenate_videoclips([titleclip, loopedVideo])
-        final = CompositeVideoClip([finalBackround, *comments])
-        # final = CompositeVideoClip([*comments])
+        # final = CompositeVideoClip([finalBackround, *comments])
+        final = CompositeVideoClip([*comments])
         # all audio
         ######################################
         subscribe_total = CompositeAudioClip([sub_clip.audio.volumex(0.1).set_start(pause), subscribe_auido.set_start(pause)])
         finalAudio = concatenate_audioclips([new_audioclip,  subscribe_total])
         final.audio = finalAudio
         ######################################
-        # final = final.resize(0.4)
+        final = final.resize(0.4)
         final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_video.mp4")

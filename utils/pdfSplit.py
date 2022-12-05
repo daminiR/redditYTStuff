@@ -258,8 +258,8 @@ def generateScreensSSML(rootDir):
                     if line_idx == 0:
                         title = [new_paras[-1]]
                         # check if title is not done previosuly
-                        isInReddit = checkTitle(title)
-                        assert (isInReddit == False),"the title is already made into youtube video or check folder to be sure"
+                        # isInReddit = checkTitle(title)
+                        # assert (isInReddit == False),"the title is already made into youtube video or check folder to be sure"
                         title.extend(new_paras[:-1])
                         new_paras = title
 
@@ -278,8 +278,8 @@ def generateScreensSSML(rootDir):
                     if line_idx == 0:
                         # check if title is not done previosuly
                         metaDataTitle = line[1]
-                        isInReddit = checkTitle(metaDataTitle)
-                        assert (isInReddit == False),"the title is already made into youtube video or check folder to be sure"
+                        # isInReddit = checkTitle(metaDataTitle)
+                        # assert (isInReddit == False),"the title is already made into youtube video or check folder to be sure"
                         handle = open(metadataFile, 'r')
                         oldMetaData = json.load(handle)
                         y = {'RedditTitle' : metaDataTitle}

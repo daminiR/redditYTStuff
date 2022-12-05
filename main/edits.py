@@ -12,7 +12,7 @@ if __name__ == "__main__":
     # converToJSON(rootDir)
     # print("edit audio for effects")
     # audioEdits(rootDir)
-    # print("getting img task Ids")
+    print("getting img task Ids")
     syncAudioToImagesAuto(rootDir)
 
 
