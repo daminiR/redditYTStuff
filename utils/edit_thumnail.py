@@ -68,26 +68,28 @@ def createThumbnail(rootDir):
 
     # more than 18
     words = title_text.split(" ")
-    if len(words) < 25:
-        width_text = 15
+    if len(words) < 15:
+        width_text = 17
+    elif len(words) >= 15 and len(words) < 25:
+        width_text = 20
     elif len(words) >= 25 and len(words) < 30:
-        width_text = 21
+        width_text = 26
     elif len(words) >= 30 and len(words) < 50:
         width_text = 28
     else:
         width_text = 30
-
     lines = textwrap.wrap(title_text, width=width_text)
-    fontSize =  int(bh / (len(lines) + 4))
+    fontSize =  int((bh / (len(lines) + 2) )- 10)
     w, h = background.size
     w = w / 2 + 20
-    y_text = 90
-    font_path = '/Users/daminirijhwani/Library/Fonts/C1C06396-FFAC-4A4F-B2ED-4ECD3798A4E6.localized/Cabin-Bold.otf'
+    y_text = 80
+    # font_path = '/Users/daminirijhwani/Library/Fonts/C1C06396-FFAC-4A4F-B2ED-4ECD3798A4E6.localized/Cabin-Bold.otf'
+    font_path = '/System/Library/Fonts/Supplemental/Comic Sans MS Bold.ttf'
     font = ImageFont.truetype(font_path, fontSize, encoding='unic')
     highlight_fill  = (249,97,103)
     highlight_stroke = (104,55,57)
     normal_fill = FOREGROUND
-    normal_stroke  = (168, 127, 3)
+    normal_stroke  = (123, 63, 0)
 
     for line in lines:
         width, height = font.getsize(line)
@@ -95,10 +97,10 @@ def createThumbnail(rootDir):
         for word in line.split(" "):
             width_word, _ = font.getsize(word)
             if word in word_highlights:
-                draw.text((coord_width , y_text),word,  font=font, fill=highlight_fill, stroke_width=4, stroke_fill=highlight_stroke)
+                draw.text((coord_width , y_text),word,  font=font, fill=highlight_fill, stroke_width=13, stroke_fill=highlight_stroke)
             else:
-                draw.text((coord_width , y_text),word,  font=font, fill=normal_fill, stroke_width=3, stroke_fill=normal_stroke)
+                draw.text((coord_width , y_text),word,  font=font, fill=normal_fill, stroke_width=12, stroke_fill=normal_stroke)
             coord_width = coord_width + width_word + 30
-        y_text += height
+        y_text += height - 9
     background.save(rootDir + "/youtubeVideo/thumbnail.jpg")
 

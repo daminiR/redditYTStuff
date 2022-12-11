@@ -2,9 +2,13 @@ import json
 import re
 import os
 
-def converToJSON(redditFolder):
-    outFile = 'marks_processed.json'
-    inputFile = redditFolder + "/marks/original/marks.json"
+def converToJSON(redditFolder, videoType='long'):
+    if videoType == "long":
+        outFile = 'marks_processed.json'
+        inputFile = redditFolder + "/marks/original/marks.json"
+    else:
+        outFile = 'marks_processed_shorts.json'
+        inputFile = redditFolder + "/marks/original/marks_shorts.json"
     with open(inputFile, 'r') as input, open(redditFolder + '/marks/edited/' + outFile, 'w+') as output:
         output.write("[\n")
         lines = input.readlines()

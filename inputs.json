@@ -2,27 +2,7 @@
     "Inputs":
     [
         {
-    "rootFolder": "TTSData/ytData/TwoSentenceHorror/reddit_yt_2",
-    "subReddit" : "r/AskReddit"
-},
-        {
-    "rootFolder": "TTSData/ytData/TwoSentenceHorror/reddit_yt_4",
-    "subReddit" : "r/AskReddit"
-},
-        {
-    "rootFolder": "TTSData/ytData/TwoSentenceHorror/reddit_yt_6",
-    "subReddit" : "r/AskReddit"
-},
-        {
-    "rootFolder": "TTSData/ytData/TwoSentenceHorror/reddit_yt_7",
-    "subReddit" : "r/AskReddit"
-},
-        {
-    "rootFolder": "TTSData/ytData/TwoSentenceHorror/reddit_yt_8",
-    "subReddit" : "r/AskReddit"
-},
-        {
-    "rootFolder": "TTSData/ytData/TwoSentenceHorror/reddit_yt_9",
+    "rootFolder": "TTSData/ytData/AskReddit/reddit_yt_50",
     "subReddit" : "r/AskReddit"
 }
     ]
