@@ -1,0 +1,18 @@
+{
+    "Inputs":
+    [
+        {
+    "rootFolder": "TTSData/ytData/AskReddit/reddit_yt_45",
+    "subReddit" : "r/AskReddit"
+},
+        {
+    "rootFolder": "TTSData/ytData/AskReddit/reddit_yt_46",
+    "subReddit" : "r/AskReddit"
+},
+        {
+    "rootFolder": "TTSData/ytData/AskReddit/reddit_yt_47",
+    "subReddit" : "r/AskReddit"
+}
+    ]
+}
+

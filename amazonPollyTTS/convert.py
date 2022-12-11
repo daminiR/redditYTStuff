@@ -7,17 +7,23 @@ import sys
 import subprocess
 from tempfile import gettempdir
 
-def TTS(redditFolder):
+def TTS(redditFolder, videType='long'):
     session = Session(profile_name="default")
     polly = session.client("polly")
     dirRedditXML= redditFolder + "/ssml/edited"
-    redditFile = 'ssml_processed.xml'
+    if videType =='long':
+        redditFile = 'ssml_processed.xml'
+    else:
+        redditFile = 'ssml_processed_shorts.xml'
     with open(dirRedditXML + '/' + redditFile, 'r') as f:
         redditText = f.read()
         # first synthesis speech
         try:
             # Request speech synthesis
-            mp3Log = 'mp3_log.json'
+            if videType =='long':
+                mp3Log = 'mp3_log.json'
+            else:
+                mp3Log = 'mp3_log_shorts.json'
             response = polly.start_speech_synthesis_task(
                 Text=redditText,
                 OutputFormat="mp3",
@@ -35,7 +41,10 @@ def TTS(redditFolder):
 
         try:
             # Request speech metadata
-            mp3Log = 'marks_log.json'
+            if videType =='long':
+                mp3Log = 'marks_log.json'
+            else:
+                mp3Log = 'marks_log_shorts.json'
             response = polly.start_speech_synthesis_task(
                 Text=redditText,
                 OutputFormat="json",

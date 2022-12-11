@@ -1,4 +1,9 @@
 function removeGradient() {
+    isShort=true
+    if(isShort === true){
+        const address = document.querySelector("._1OVBBWLtHoSPfGCRaPzpTf._3nSp9cdBpqL13CqjdMr2L_._2udhMC-jldHp_EpAuBeSR1.PaJBYLqPf_Gie2aZntVQ7._2OVNlZuUd8L9v0yVECZ2iA");
+        address.style.marginRight = 0
+    }
     const items = document.querySelectorAll(".TmlaIdEplCzZ0F1aRGYQh");
     const items_comminute_bar = document.querySelectorAll("._3Kd8DQpBIbsr5E1JcrMFTY._1tvThPWQpORoc2taKebHxs");
     const items_archive = document.querySelectorAll("._1EjIqPTCvhReSe3IjZptiB._1DUKbp8va6vxOv9zemBDBi");
@@ -11,10 +16,13 @@ function removeGradient() {
     for (let item of items_archive) {
          item.remove();
     }
-    const comment_deleted_by_user = document.querySelectorAll(".-Xcv3XBXmgiY2X5RqaPbO._1S45SPAIb30fsXtEcKPSdt._3LqBzV8aCO9tge99jHiUGy ");
+    const comment_deleted_by_user = document.querySelectorAll(".-Xcv3XBXmgiY2X5RqaPbO._1S45SPAIb30fsXtEcKPSdt._3c9Go6433BnvYx8_7MkPnt._3LqBzV8aCO9tge99jHiUGy._2k27lgIDltx9kOzVGXt48i");
+
+    if (comment_deleted_by_user != null ){
+
     for (let item of comment_deleted_by_user) {
-         item.remove()
-    //mod_comment?.parentElement.parentElement.parentElement.parentElement.remove()
+            item.parentElement.parentElement.remove()
+    }
     }
     const top1 = document.querySelector("._2vkeRJojnV7cb9pMlPHy7d ")
     top1?.remove();
@@ -23,8 +31,13 @@ function removeGradient() {
     const top3 = document.querySelector("._1gVVmSnHZpkUgVShsn7-ua")
     top3?.remove();
 
-    //const remove_by_mod = document.querySelector("._3sf33-9rVAO_v4y0pIW_CH")
+     //this class is wrong id , this remove first comment -> change this to creect one
+    //const remove_by_mod = document.querySelector("._3yx4Dn0W3Yunucf5sVJeFU")
     //remove_by_mod?.remove();
+    var deleted_mod = document.querySelectorAll("div[data-testid='post-comment-header-deleted']");
+    for (let item of deleted_mod) {
+         item.parentElement.parentElement.remove()
+    }
     const blocked = document.querySelector(".jf95ZrrjIs2i--Ud8Kvb7._1DUKbp8va6vxOv9zemBDBi")
     blocked?.remove();
     const mod_comment = document.querySelector(".LWgI-A6rN9Wajn1VLxu2A._3AgEmWP1qkCB8nds7LhzEB")

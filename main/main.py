@@ -4,7 +4,11 @@ from utils.pdfSplit import generateScreensSSML
 
 if __name__ == "__main__":
     rootDir = sys.argv[1]
+    videoType = sys.argv[2]
     print("convert to speach")
-    TTS(rootDir)
+    if videoType == 'short':
+        TTS(rootDir, "short")
+    elif videoType == 'long':
+        TTS(rootDir, "long")
 
 

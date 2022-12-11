@@ -34,8 +34,8 @@ def pdfMergeSInglePage_old(rootDir):
     with open(out_path, 'wb') as f:
         writer.write(f)
 
-def pdfMergeSInglePage(rootDir):
-    file_path = rootDir + "/pdf/reddit.pdf"
+def pdfMergeSInglePage(rootDir, filename):
+    file_path = rootDir + "/pdf/" + filename
     pdf1File = open(file_path, 'rb')
     pdf1Reader = PdfFileReader(pdf1File)
     pages = []
@@ -55,6 +55,6 @@ def pdfMergeSInglePage(rootDir):
         # break
     writer = PdfFileWriter()
     writer.addPage(merged_page)
-    out_path = rootDir + "/pdf/reddit_single_page.pdf"
+    out_path = rootDir + "/pdf/" + filename.split(".pdf")[0] +  "_single_page.pdf"
     with open(out_path, 'wb') as f:
         writer.write(f)

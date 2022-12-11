@@ -7,7 +7,7 @@ import json
 if __name__ == "__main__":
     rootDir = sys.argv[1]
     videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollection/"
-    filename = random.choice([f for f in os.listdir(videoCollection) if not f.startswith('.')])
+    filename = random.choice([f for f in os.listdir(videoCollection) if not f.startswith('.') and f.endswith('.mov')])
     y = {'videoFileUsed': filename}
     with open(os.path.join(rootDir, 'metadata.json'), "w") as f:
         json.dump(y, f)
