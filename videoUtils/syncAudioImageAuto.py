@@ -51,37 +51,32 @@ def syncAudioToImagesAutoShorts(redditFolder, videoType='long'):
         voiceOverMarks = json.load(input)
         edited = []
         long_comment = []
-        long_idx_start = None
-        long_idx_end = None
-        for idx, mark in enumerate(voiceOverMarks):
-            # print(mark)
-            # if idx == 3:
-                # return
-            if 'STORY' in mark['value'] or "COMMENT" == mark['value'] or "TITLE" == mark['value']:
-                if long_idx_start != None and long_idx_end != None:
-                    long_comment = voiceOverMarks[long_idx_start:long_idx_end]
-                    edited.append(long_comment)
-                    long_idx_start = None
-                    long_idx_end = None
-                    long_comment = []
-                if "COMMENT" == mark['value']:
-                    edited.append(mark)
-                    edited.append(voiceOverMarks[idx + 1])
-                else:
-                    edited.append(mark)
-            elif 'LONG COMMENT START' in mark['value']:
+        long_idx_start = False
+        long_idx_end = False
+        idx = 0
+        while idx < len(voiceOverMarks):
+            mark = voiceOverMarks[idx]
+            if  "LONG COMMENT START" in mark['value']:
                 long_idx_start = idx
-            elif 'LONG COMMENT END' in mark['value']:
+            if  "LONG COMMENT END" in mark['value']:
                 long_idx_end = idx
+                print(long_idx_start, long_idx_end)
+                long_comment = voiceOverMarks[long_idx_start:long_idx_end]
+                edited.append(long_comment)
+                long_comment = []
+                long_idx_start = False
+                long_idx_end = False
+            if "COMMENT" == mark['value']:
+                edited.append(mark)
+                edited.append(voiceOverMarks[idx + 1])
+            elif "sentence" == mark['type'] or "TITLE" in mark['value'] or "STORY" in mark['value']:
+                if long_idx_start == False and long_idx_end == False:
+                    edited.append(mark)
+            idx += 1
         sorted_idx = 0
-        long_idx = 0
-        last_time = 0
         total_surplus = 0
         for idx, mark in enumerate(edited):
-            # if idx == 1:
-                # break
             if isinstance(mark, list):
-                last_time = mark[-1]['end']
                 long = []
                 new_idx = 0
                 for val_idx, val in enumerate(mark):
@@ -113,8 +108,8 @@ def syncAudioToImagesAutoShorts(redditFolder, videoType='long'):
                     jsonImageTime["ImageTimeStamps"].append(matchDict)
                     matchDict["Mark Sentence"] = text
                 # elif idx == 0 and not isinstance(mark, list):
-                # elif idx == 0 and not isinstance(edited[idx + 1], list):
-                elif idx == 0:
+                elif idx == 0 and not isinstance(edited[idx + 1], list):
+                # elif idx == 0:
                     print(mark)
                     matchDict = {}
                     matchDict["Time"] = mark['time']
@@ -147,30 +142,29 @@ def syncAudioToImagesAuto(redditFolder, videoType='long'):
             mark = voiceOverMarks[idx]
             if  "LONG COMMENT START" in mark['value']:
                 long_idx_start = idx
-
             if  "LONG COMMENT END" in mark['value']:
                 long_idx_end = idx
-                long_comment = voiceOverMarks[long_idx_start:long_idx_end]
                 print(long_idx_start, long_idx_end)
+                long_comment = voiceOverMarks[long_idx_start:long_idx_end]
                 edited.append(long_comment)
                 long_comment = []
+                long_idx_start = False
+                long_idx_end = False
             if "COMMENT" == mark['value']:
                 edited.append(mark)
                 edited.append(voiceOverMarks[idx + 1])
             elif "sentence" == mark['type'] or "TITLE" in mark['value'] or "STORY" in mark['value']:
-                edited.append(mark)
+                if long_idx_start == False and long_idx_end == False:
+                    edited.append(mark)
             idx += 1
         sorted_idx = 0
         total_surplus = 0
         for idx, mark in enumerate(edited):
-            # if idx == 1:
-                # break
             if isinstance(mark, list):
                 long = []
                 new_idx = 0
+                print(mark)
                 for val_idx, val in enumerate(mark):
-                    if 'Oh man' in val['value']:
-                        print(val['value'])
                     if "PARA" == val['value']:
                         matchDict = {}
                         matchDict["Time"] = mark[val_idx]['time']
@@ -191,8 +185,6 @@ def syncAudioToImagesAuto(redditFolder, videoType='long'):
                     jsonImageTime["ImageTimeStamps"].append(matchDict)
                     matchDict["Mark Sentence"] = text
                 elif "COMMENT" == mark['value']:
-                    if 'Oh man' in mark['value']:
-                        print(mark['value'])
                     matchDict = {}
                     matchDict["Time"] = mark['time']
                     text = edited[idx + 1]['value'][:25]

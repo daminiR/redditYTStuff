@@ -10,7 +10,7 @@ import os, random
 import json
 
 def createVideo(redditFolder):
-    desired_length = 1200 # 20 sh min
+    desired_length = 780 # 13 ish min
     # choose random video from collection
     metaDataDict = json.load(open(os.path.join(redditFolder, 'metadata.json'), "r"))
     filename = metaDataDict['videoFileUsed']
@@ -21,11 +21,10 @@ def createVideo(redditFolder):
     titleVideo = VideoFileClip(redditFolder + "/assets/titleVideo/title_video.mp4").resize(backgroundVideoSize)
     originalVoiceOver = AudioFileClip(redditFolder +  "/voiceOver/edited/eddited.mp3")
     subscribe_auido = AudioFileClip("assets/subscibeAudio/speech_20221107043941369.mp3")
-    subs_dur= subscribe_auido.duration
     new_audioclip = originalVoiceOver
-    tts_audio_length = new_audioclip.duration
     sub_clip = VideoFileClip("assets/subscribeAnimation/reddit_subscribe2.mp4")
     comments = []
+    actual_length = False
     with open(redditFolder + "/sync/screenshotTimestamps.json") as f:
         timestamps = json.load(f)["ImageTimeStamps"]
         untilTitle = int(timestamps[1]["Time"] / 1000)
@@ -41,7 +40,7 @@ def createVideo(redditFolder):
                     break
                 start = timestamp["Time"] / 1000
                 duration = timestamp["Duration"] / 1000
-                story_number = timestamp["Mark Sentence"].split("STORY")[1]
+                story_number = str(int(timestamp["Mark Sentence"].split("STORY")[1]) + 1)
                 txt_clip = TextClip("STORY" +  " " + story_number, fontsize=75, font="Amiri-bold", color='white', bg_color='gray', stroke_color='black',stroke_width=2.5).set_start(start).set_duration(duration).set_pos("center")
                 comments.append(txt_clip)
             else:
@@ -56,7 +55,10 @@ def createVideo(redditFolder):
             check_idx += 1
 
         pause = 2
-        new_audioclip = new_audioclip.subclip(0, actual_length)
+        if actual_length == False:
+            new_audioclip = new_audioclip
+        else:
+            new_audioclip = new_audioclip.subclip(0, actual_length)
         cliped_duration = new_audioclip.duration
         last_comment = comments[-1].set_duration(comments[-1].duration + 1.5)
         comments = comments[:-1]
