@@ -1,6 +1,9 @@
 # Reddit
 
 
+## update to shorts first you need to sort by top and only have depth 1 for top comment. This is more intuitive.
+## add this to the end of the url WHEN DOING SHORTS
+?sort=top&depth=1
 ## Directory Structure
 
 ## Metadata format

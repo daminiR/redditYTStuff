@@ -1,9 +1,12 @@
-function removeGradient() {
-    isShort=true
+function removeGradient(isShort) {
     if(isShort === true){
         const address = document.querySelector("._1OVBBWLtHoSPfGCRaPzpTf._3nSp9cdBpqL13CqjdMr2L_._2udhMC-jldHp_EpAuBeSR1.PaJBYLqPf_Gie2aZntVQ7._2OVNlZuUd8L9v0yVECZ2iA");
         address.style.marginRight = 0
     }
+    //const address3 = document.querySelectorAll("._3mIYu0jAt23sIWGr4pFcI")
+    //for (let item of address3) {
+         //item.style.opacity = 1
+    //}
     const items = document.querySelectorAll(".TmlaIdEplCzZ0F1aRGYQh");
     const items_comminute_bar = document.querySelectorAll("._3Kd8DQpBIbsr5E1JcrMFTY._1tvThPWQpORoc2taKebHxs");
     const items_archive = document.querySelectorAll("._1EjIqPTCvhReSe3IjZptiB._1DUKbp8va6vxOv9zemBDBi");
@@ -30,6 +33,10 @@ function removeGradient() {
     top2?.remove();
     const top3 = document.querySelector("._1gVVmSnHZpkUgVShsn7-ua")
     top3?.remove();
+    //const nsfw = document.querySelectorAll("._3xX726aBn29LDbsDtzr_6E._1Ap4F5maDtT1E1YuCiaO0r.D3IL3FD0RFy_mkKLPwL4")
+    //for (let item of nsfw) {
+         //item.remove()
+    //}
 
      //this class is wrong id , this remove first comment -> change this to creect one
     //const remove_by_mod = document.querySelector("._3yx4Dn0W3Yunucf5sVJeFU")
@@ -91,3 +98,4 @@ function removeGradient() {
     var header = document.getElementsByTagName('header')[0];
     header?.remove();
 }
+

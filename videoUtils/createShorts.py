@@ -10,10 +10,13 @@ import os, random
 import json
 from moviepy.video.fx.all import crop
 
-def createShorts(redditFolder):
-    desired_length = 58 # 20 sh min
+def createShorts(redditFolder, speed):
+    desired_length = 3000 # 20 sh min
+    desired_duration = int(speed * 55)
     # choose random video from collection
-    videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollectionShorts/SnapSave.io-Minecraft Gameplay - Free To Use Gameplay.mov"
+    videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollectionShorts/"
+    filename = random.choice([f for f in os.listdir(videoCollection) if not f.startswith('.') and f.endswith('.mov')])
+    videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollectionShorts/" + filename
     videoPath=videoCollection
     backgroundVideo = VideoFileClip(videoPath)
     backgroundVideoSize = backgroundVideo.size
@@ -24,21 +27,20 @@ def createShorts(redditFolder):
         timestamps = json.load(f)["ImageTimeStamps"]
         check_idx = 0
         for timestamp in timestamps:
-                if timestamp["Time"] / 1000 > desired_length:
-                    actual_length = timestamp["Time"] / 1000
-                    break
                 start = timestamp["Time"] / 1000
                 duration = timestamp["Duration"] / 1000
-                print(timestamp["Filename"])
-                comment = ImageClip(redditFolder + "/screenshots_shorts/" + timestamp["Filename"]).set_start(start).set_duration(duration).set_pos(("center","center"))
-                if comment.size[1] > backgroundVideoSize[1]:
-                    resizeComment = comment.resize((int(backgroundVideoSize[0] * 0.8), int(backgroundVideoSize[1])*0.95))
-                else:
-                    resizeComment = comment.resize(width=int(backgroundVideoSize[0] * 0.9))
-                comments.append([resizeComment, start + duration])
-                check_idx += 1
+                # check duration and only grab ones below 40 second to have short form
+                if duration < 40:
+                    comment = ImageClip(redditFolder + "/screenshots_shorts/" + timestamp["Filename"]).set_start(start).set_duration(duration).set_pos(("center","center"))
+                    if comment.size[1] > backgroundVideoSize[1]:
+                        resizeComment = comment.resize((int(backgroundVideoSize[0] * 0.8), int(backgroundVideoSize[1])*0.95))
+                    else:
+                        resizeComment = comment.resize(width=int(backgroundVideoSize[0] * 0.9))
+                    comments.append([resizeComment, start + duration])
+                    check_idx += 1
         pause = 2
-        while actual_length > 58:
+        actual_length = new_audioclip.duration
+        while actual_length > desired_duration:
             comments = comments[:-1]
             actual_length = comments[-1][1]
         new_audioclip = new_audioclip.subclip(0, actual_length + 0.5)
@@ -52,5 +54,5 @@ def createShorts(redditFolder):
         final.audio = new_audioclip
         ######################################
         # final = final.resize(0.3)
-        # final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_video.mp4",codec='hevc_videotoolbox', fps=24)
+        final = final.fx(vfx.speedx, speed)
         final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_shorts.mp4")

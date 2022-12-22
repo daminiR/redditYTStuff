@@ -7,7 +7,7 @@ do
     redditFolder=$rootFolder
     mkdir $redditFolder
     cd $redditFolder
-    mkdir logs marks ssml voiceOver screenShotIds screenshots sync youtubeVideo assets pdf
+    mkdir logs marks ssml voiceOver screenShotIds screenshots screenshots_shorts sync youtubeVideo assets pdf
     cd logs
     mkdir marks voiceOver
     cd ../marks
@@ -18,7 +18,6 @@ do
     mkdir edited original
     cd ../
     touch metadata.json
-    touch inputs.json
     cd assets/
     mkdir titleVideo backgroundVideo thumbnail_input_image
     cd ../
