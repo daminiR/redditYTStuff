@@ -10,9 +10,10 @@ import os, random
 import json
 from moviepy.video.fx.all import crop
 
-def createShorts(redditFolder, speed):
+def createShorts(redditFolder):
     desired_length = 3000 # 20 sh min
-    desired_duration = int(speed * 55)
+    speed = 1.5
+    desired_duration = speed * 55
     # choose random video from collection
     videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollectionShorts/"
     filename = random.choice([f for f in os.listdir(videoCollection) if not f.startswith('.') and f.endswith('.mov')])
@@ -52,7 +53,10 @@ def createShorts(redditFolder, speed):
         # all audio
         ######################################
         final.audio = new_audioclip
+        # final.set_audio(new_audioclip)
         ######################################
         # final = final.resize(0.3)
-        final = final.fx(vfx.speedx, speed)
-        final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_shorts.mp4")
+        # final = final.fx(vfx.speedx, speed)
+        # string1 = "[0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a]"
+        # final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_shorts.mp4", ffmpeg_params = ["-filter_complex", str(string1), "-map", "[v]", "-map", "[a]"])
+        final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_shorts_inter.mp4")
