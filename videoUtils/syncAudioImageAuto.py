@@ -20,8 +20,12 @@ def checkStructure(timestamps, redditFolder):
             comment = redditFolder + "/screenshots/" + timestamp["Filename"]
         check_idx += 1
 
-def calcualteDuration(jsonImageTime, redditFolder):
-    originalVoiceOver = AudioSegment.from_mp3(redditFolder +  "/voiceOver/edited/eddited.mp3")
+def calcualteDuration(jsonImageTime, redditFolder, videoType):
+    if videoType == 'short':
+        edited_filname = "/voiceOver/edited/eddited_shorts.mp3"
+    else:
+        edited_filname = "/voiceOver/edited/eddited.mp3"
+    originalVoiceOver = AudioSegment.from_mp3(redditFolder + edited_filname)
     end =  originalVoiceOver.duration_seconds * 1000
     newFinalJSon = {"ImageTimeStamps" : []}
     totalFiles =  len(jsonImageTime["ImageTimeStamps"])
@@ -118,7 +122,7 @@ def syncAudioToImagesAutoShorts(redditFolder, videoType='long'):
                     sorted_idx += 1
                     jsonImageTime["ImageTimeStamps"].append(matchDict)
                     matchDict["Mark Sentence"] = text
-        newFinal = calcualteDuration(jsonImageTime, redditFolder)
+        newFinal = calcualteDuration(jsonImageTime, redditFolder, videoType)
         checkStructure(newFinal, redditFolder)
         json.dump(newFinal, output, indent=4)
 
@@ -200,6 +204,6 @@ def syncAudioToImagesAuto(redditFolder, videoType='long'):
                     sorted_idx += 1
                     jsonImageTime["ImageTimeStamps"].append(matchDict)
                     matchDict["Mark Sentence"] = text
-        newFinal = calcualteDuration(jsonImageTime, redditFolder)
+        newFinal = calcualteDuration(jsonImageTime, redditFolder, videoType)
         checkStructure(newFinal, redditFolder)
         json.dump(newFinal, output, indent=4)

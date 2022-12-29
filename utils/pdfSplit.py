@@ -180,9 +180,6 @@ def generateScreensShorts(rootDir,filename_pdf):
                     bottom_cuttof = int(block[1])* scale
                     start_x =int(blocks[prev_block_id][0])* scale - start_margin_x - 20
 
-                    # top_cutoff = int(blocks[prev_block_id][1]) * scale
-                    # bottom_cuttof = int(blocks[prev_block_id][3]) * scale
-                    # start_x = int(blocks[prev_block_id][0]) * scale
             else:
                 top_cutoff = prev_y * scale
                 bottom_cuttof = int(blocks[block_idx - 1][3])* scale
@@ -193,43 +190,44 @@ def generateScreensShorts(rootDir,filename_pdf):
             prev_y = curr_y
             roi_height =  bottom_cuttof - top_cutoff
             if roi_height > int(H / 2):
-                title_long = []
-                if idx == 0:
-                    for screen_name_idx, ids in enumerate(range(prev_block_id,block_idx)):
-                        top_cutoff = int(blocks[ids][1])* scale
-                        bottom_cuttof = int(blocks[ids][3])* scale
-                        roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
-                        if ids == block_idx - 1:
-                            cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" +  str(0) + ".jpg", roi)
-                        else:
-                            cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(screen_name_idx + 1) + ".jpg", roi)
-                        title_long.append((blocks[ids][0], blocks[ids][4]))
-                    final.append(title_long)
-                else:
-                    comment_long = []
-                    comment_long.append((block[0], block[4]))
-                    track_idx = 0
-                    for screen_name_idx, ids in enumerate(range(prev_block_id + 1,block_idx - 1)):
-                        if screen_name_idx == 0:
-                            top_cutoff = int(blocks[ids - 1][1])* scale
-                            b = (blocks[ids - 1][0], blocks[ids][4])
-                        else:
+                if any(ext in rootDir for ext in longTitles):
+                    title_long = []
+                    if idx == 0:
+                        for screen_name_idx, ids in enumerate(range(prev_block_id,block_idx)):
                             top_cutoff = int(blocks[ids][1])* scale
-                            b = (blocks[ids][0], blocks[ids][4])
-                        if not re.search(regex_, b[1]):
-                            try:
-                                comment_long.append(b)
-                                bottom_cuttof = int(blocks[ids][3])* scale
-                                roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
-                                cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(track_idx) + ".jpg", roi)
-                                track_idx += 1
-                            except:
-                                pass
-                    final.append(comment_long)
-                prev_block_id = block_idx
-                idx += 1
-                # else:
-                    # pass
+                            bottom_cuttof = int(blocks[ids][3])* scale
+                            roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
+                            if ids == block_idx - 1:
+                                cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" +  str(0) + ".jpg", roi)
+                            else:
+                                cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(screen_name_idx + 1) + ".jpg", roi)
+                            title_long.append((blocks[ids][0], blocks[ids][4]))
+                        final.append(title_long)
+                    else:
+                        comment_long = []
+                        comment_long.append((block[0], block[4]))
+                        track_idx = 0
+                        for screen_name_idx, ids in enumerate(range(prev_block_id + 1,block_idx - 1)):
+                            if screen_name_idx == 0:
+                                top_cutoff = int(blocks[ids - 1][1])* scale
+                                b = (blocks[ids - 1][0], blocks[ids][4])
+                            else:
+                                top_cutoff = int(blocks[ids][1])* scale
+                                b = (blocks[ids][0], blocks[ids][4])
+                            if not re.search(regex_, b[1]):
+                                try:
+                                    comment_long.append(b)
+                                    bottom_cuttof = int(blocks[ids][3])* scale
+                                    roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
+                                    cv2.imwrite(screens_path + "/screen_" + str(idx) + "_" + str(track_idx) + ".jpg", roi)
+                                    track_idx += 1
+                                except:
+                                    pass
+                        final.append(comment_long)
+                    prev_block_id = block_idx
+                    idx += 1
+                else:
+                    pass
             else:
                 try:
                     cv2.imwrite(screens_path + "/screen_" + str(idx) + ".jpg", roi)
@@ -326,7 +324,7 @@ def generateScreensSSML(rootDir,filename_type):
     regex_  = r'\d+\n'
     prev_y = 0
     start_margin_x = 6
-    constant_x_end = 878
+    constant_x_end = 1042
     idx = 0
     prev_block_id = 0
     final = []
@@ -353,8 +351,8 @@ def generateScreensSSML(rootDir,filename_type):
             roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
             prev_y = curr_y
             roi_height =  bottom_cuttof - top_cutoff
-            if roi_height > H -100:
-                if any(ext in rootDir for ext in longTitles):
+            if roi_height > H / 2:
+                # if any(ext in rootDir for ext in longTitles):
                     title_long = []
                     if idx == 0:
                         for screen_name_idx, ids in enumerate(range(prev_block_id,block_idx)):
@@ -390,8 +388,8 @@ def generateScreensSSML(rootDir,filename_type):
                         final.append(comment_long)
                     prev_block_id = block_idx
                     idx += 1
-                else:
-                    pass
+                # else:
+                    # pass
             else:
                 try:
                     cv2.imwrite(screens_path + "/screen_" + str(idx) + ".jpg", roi)
@@ -485,6 +483,7 @@ def generateScreensSSML(rootDir,filename_type):
                         f.write(text)
                     except:
                         pass
+        f.write("\n<break time=\"1s\"/>\n")
         f.write("</speak>")
     f.close()
 

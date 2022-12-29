@@ -55,20 +55,20 @@ def audioEdits(redditFolder, videoType='long'):
 
             elif 'COMMENT' == mark['value']:
                 reddit_slice = originalVoiceOver[last: mark['time']]
-                # if videoType =='long':
-                    # insert sound effect
-                bit = reddit_slice + commentEffect
-                edditedVoiceOver= edditedVoiceOver + bit
-                last = mark['time']
-                newMark = mark
-                newMark["time"]  += sumDelay
-                sumDelay += commentEffect.duration_seconds * 1000
-                # else:
-                    # bit = reddit_slice
-                    # edditedVoiceOver= edditedVoiceOver + bit
-                    # last = mark['time']
-                    # newMark = mark
-                    # newMark["time"]  += sumDelay
+                if videoType =='long':
+                        # insert sound effect
+                    bit = reddit_slice + commentEffect
+                    edditedVoiceOver= edditedVoiceOver + bit
+                    last = mark['time']
+                    newMark = mark
+                    newMark["time"]  += sumDelay
+                    sumDelay += commentEffect.duration_seconds * 1000
+                else:
+                    bit = reddit_slice
+                    edditedVoiceOver= edditedVoiceOver + bit
+                    last = mark['time']
+                    newMark = mark
+                    newMark["time"]  += sumDelay
             else:
                 newMark = mark
                 newMark["time"]  += sumDelay

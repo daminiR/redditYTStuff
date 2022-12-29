@@ -1,8 +1,8 @@
-function removeGradient(isShort) {
-    if(isShort === true){
-        const address = document.querySelector("._1OVBBWLtHoSPfGCRaPzpTf._3nSp9cdBpqL13CqjdMr2L_._2udhMC-jldHp_EpAuBeSR1.PaJBYLqPf_Gie2aZntVQ7._2OVNlZuUd8L9v0yVECZ2iA");
-        address.style.marginRight = 0
-    }
+function removeGradient() {
+    //if(isShort === true){
+    const address = document.querySelector("._1OVBBWLtHoSPfGCRaPzpTf._3nSp9cdBpqL13CqjdMr2L_._2udhMC-jldHp_EpAuBeSR1.PaJBYLqPf_Gie2aZntVQ7._2OVNlZuUd8L9v0yVECZ2iA");
+    address.style.marginRight = 0
+    //}
     //const address3 = document.querySelectorAll("._3mIYu0jAt23sIWGr4pFcI")
     //for (let item of address3) {
          //item.style.opacity = 1
@@ -98,4 +98,4 @@ function removeGradient(isShort) {
     var header = document.getElementsByTagName('header')[0];
     header?.remove();
 }
-
+removeGradient()

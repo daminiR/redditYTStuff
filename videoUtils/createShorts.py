@@ -12,8 +12,8 @@ from moviepy.video.fx.all import crop
 
 def createShorts(redditFolder):
     desired_length = 3000 # 20 sh min
-    speed = 1.5
-    desired_duration = speed * 55
+    speed = 1.3
+    desired_duration = speed * 20
     # choose random video from collection
     videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollectionShorts/"
     filename = random.choice([f for f in os.listdir(videoCollection) if not f.startswith('.') and f.endswith('.mov')])
@@ -31,7 +31,7 @@ def createShorts(redditFolder):
                 start = timestamp["Time"] / 1000
                 duration = timestamp["Duration"] / 1000
                 # check duration and only grab ones below 40 second to have short form
-                if duration < 40:
+                if duration < 20:
                     comment = ImageClip(redditFolder + "/screenshots_shorts/" + timestamp["Filename"]).set_start(start).set_duration(duration).set_pos(("center","center"))
                     if comment.size[1] > backgroundVideoSize[1]:
                         resizeComment = comment.resize((int(backgroundVideoSize[0] * 0.8), int(backgroundVideoSize[1])*0.95))

@@ -1,11 +1,11 @@
 #!/bin/bash
 echo "Enter the video type: "
 read videoType
-#if [ "$videoType" = "short" ]; then
-    #echo "Enter speed of short: "
-    #read shortSpeed
-#fi
-shortSpeed=1.5
+if [ "$videoType" = "long" ]; then
+    echo "Enter desired of length of video(min): "
+    read desired_length
+fi
+shortSpeed=1.3
 length_inputs=$(jq '.Inputs| length' inputs.json)
 rootFolderString=( $(jq .Inputs[].rootFolder inputs.json) )
 
@@ -17,10 +17,9 @@ do
         echo "in shorts"
         python3 ./main/moviepy_processing.py $redditFolder $videoType $shortSpeed
         ffmpeg -i $redditFolder/youtubeVideo/yt_shorts_inter.mp4 \
-            -filter_complex "[0:v]setpts=0.667*PTS[v];[0:a]atempo=$shortSpeed[a]" \
+            -filter_complex "[0:v]setpts=0.769*PTS[v];[0:a]atempo=$shortSpeed[a]" \
             -map "[v]" -map "[a]" $redditFolder/youtubeVideo/yt_shorts.mp4
     else
-        python3 ./main/moviepy_processing.py $redditFolder $videoType
+        python3 ./main/moviepy_processing.py $redditFolder $videoType $desired_length
     fi
-    python3 ./main/moviepy_processing.py $redditFolder $videoType
 done
