@@ -89,8 +89,8 @@ def createThumbnail(rootDir, text_width, x_offset):
         coord_width = 30
         for word in words:
             print(word)
-            width_word, _ = font.getsize(word)
             capital_word = word.upper()
+            width_word, _ = font.getsize(capital_word)
             if word in word_highlights:
                 draw.text((coord_width , y_text),capital_word,  font=font, fill=highlight_fill, stroke_fill=stroke_fill, stroke_width=9)
             else:

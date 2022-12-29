@@ -2,9 +2,9 @@
 
 length_inputs=$(jq '.Inputs| length' inputs.json)
 rootFolderString=( $(jq .Inputs[].rootFolder inputs.json) )
-echo "Enter the text width: "
+echo "Enter the text width(typically 15): "
 read text_width
-echo "Enter the text width: "
+echo "Enter the offset width(typically 55): "
 read x_offset
 
 for var_idx in  $(seq $length_inputs);
