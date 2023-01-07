@@ -42,14 +42,14 @@ def createTiktoks(redditFolder):
                     .set_start(start - offset).set_duration(duration).set_pos(("center","center"))
                 else:
                     comment = ImageClip(redditFolder + "/screenshots_tiktok/" + timestamp["Filename"])\
-                    .set_start(start - offset + title[0].duration).set_duration(duration).set_pos(("center","center"))
+                    .set_start(start - offset + title[0].duration + 1).set_duration(duration).set_pos(("center","center"))
                 if comment.size[1] > backgroundVideoSize[1]:
                     resizeComment = comment.resize((int(backgroundVideoSize[0] * 0.8), int(backgroundVideoSize[1])*0.95))
                 else:
                     resizeComment = comment.resize(width=int(backgroundVideoSize[0] * 0.9))
                 if timestamp["Mark Sentence"] == "TITLE":
-                    resizeComment.set_duration(duration)
-                    title = [resizeComment, start, + duration]
+                    resizeComment.set_duration(duration + 1)
+                    title = [resizeComment, start, start + duration + 1]
                 else:
                     comments.append([resizeComment, start + duration])
                     all_comments.append([resizeComment, start + duration])
@@ -64,16 +64,18 @@ def createTiktoks(redditFolder):
                     comments = [title]
                     offset =  end_tiktok
         for idx, tiktok in enumerate(tiktoks):
-            titleAudioClip = new_audioclip.subclip(title[1],  title[2])
-            tiktokAudioClip = new_audioclip.subclip(tiktok[1],  tiktok[2])
-            tiktokVideoClip = tiktok[0]
-            finalAudio = concatenate_audioclips([titleAudioClip, tiktokAudioClip])
-            loopedVideo = backgroundVideo.loop(duration=finalAudio.duration)
-            tiktokVideoClip = [x[0].set_pos("center", "center")  for x in tiktokVideoClip]
-            tiktokVideoClip.append(title[0])
-            final2 = CompositeVideoClip([loopedVideo, *tiktokVideoClip])
-            final2.audio = finalAudio
-            final2.write_videofile(redditFolder + "/youtubeVideo/" + "yt_tiktok_inter_" + str(idx + 1) + ".mp4", fps= 24)
+            if idx == 1:
+                titleAudioClip = new_audioclip.subclip(title[1],  title[2])
+                tiktokAudioClip = new_audioclip.subclip(tiktok[1],  tiktok[2])
+                tiktokVideoClip = tiktok[0]
+                finalAudio = concatenate_audioclips([titleAudioClip, tiktokAudioClip])
+                loopedVideo = backgroundVideo.loop(duration=finalAudio.duration)
+                tiktokVideoClip = [x[0].set_pos("center", "center")  for x in tiktokVideoClip]
+                tiktokVideoClip.append(title[0])
+                final2 = CompositeVideoClip([loopedVideo, *tiktokVideoClip])
+                final2.audio = finalAudio
+                final2.write_videofile(redditFolder + "/youtubeVideo/" + "yt_tiktok_inter_" + str(idx + 1) + ".mp4", fps= 24)
+                # titleAudioClip.write_audiofile(redditFolder + "/youtubeVideo/" + "yt_tiktok_audio_" + str(idx + 1) + ".mp3")
 
 
 
