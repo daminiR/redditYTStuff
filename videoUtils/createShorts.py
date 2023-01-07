@@ -11,9 +11,8 @@ import json
 from moviepy.video.fx.all import crop
 
 def createShorts(redditFolder):
-    desired_length = 3000 # 20 sh min
-    speed = 1.3
-    desired_duration = speed * 20
+    speed = 1
+    desired_duration = speed * 40
     # choose random video from collection
     videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollectionShorts/"
     filename = random.choice([f for f in os.listdir(videoCollection) if not f.startswith('.') and f.endswith('.mov')])
@@ -22,6 +21,7 @@ def createShorts(redditFolder):
     backgroundVideo = VideoFileClip(videoPath)
     backgroundVideoSize = backgroundVideo.size
     originalVoiceOver = AudioFileClip(redditFolder +  "/voiceOver/edited/eddited_shorts.mp3")
+    backgroundMusic = AudioFileClip("./assets/backgroundMusic/it-is-happy-main-9622.mp3")
     new_audioclip = originalVoiceOver
     comments = []
     with open(redditFolder + "/sync/screenshotTimestamps_shorts.json") as f:
@@ -45,6 +45,8 @@ def createShorts(redditFolder):
             comments = comments[:-1]
             actual_length = comments[-1][1]
         new_audioclip = new_audioclip.subclip(0, actual_length + 0.5)
+        new_backgroundAudio = backgroundMusic.set_duration(new_audioclip.duration)
+        total_audio = CompositeAudioClip([new_backgroundAudio.volumex(0.02).set_start(0), new_audioclip.volumex(1.3).set_start(0)])
         cliped_duration = new_audioclip.duration
         loopedVideo = backgroundVideo.loop(duration=cliped_duration + pause)
         only_comments = [x[0]  for x in comments]
@@ -52,7 +54,8 @@ def createShorts(redditFolder):
         # final = CompositeVideoClip([*comments])
         # all audio
         ######################################
-        final.audio = new_audioclip
+        # final.audio = new_audioclip
+        final.audio = total_audio
         # final.set_audio(new_audioclip)
         ######################################
         # final = final.resize(0.3)

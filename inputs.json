@@ -2,7 +2,7 @@
     "Inputs":
     [
         {
-    "rootFolder": "TTSData/ytData/TwoSentenceHorror/reddit_yt_5",
+    "rootFolder": "TTSData/tiktok/AskReddit/reddit_yt_1",
     "subReddit" : "r/AskReddit"
 }
     ]

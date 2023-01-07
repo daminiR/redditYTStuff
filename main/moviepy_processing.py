@@ -1,6 +1,7 @@
 import sys
 from videoUtils.createVideo import createVideo
 from videoUtils.createShorts import createShorts
+from videoUtils.createTiktoks import createTiktoks
 from utils.edit_thumnail import createThumbnail
 
 if __name__ == "__main__":
@@ -10,6 +11,9 @@ if __name__ == "__main__":
     if videoType == 'short':
             print("create short audio")
             createShorts(rootDir)
+    if videoType == 'tiktok':
+            print("create tiktok audio")
+            createTiktoks(rootDir)
     elif videoType == 'long':
         if len(sys.argv) == 4:
             print("create long audio")

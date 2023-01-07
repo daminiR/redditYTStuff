@@ -10,5 +10,7 @@ if __name__ == "__main__":
         TTS(rootDir, "short")
     elif videoType == 'long':
         TTS(rootDir, "long")
+    elif videoType == 'tiktok':
+        TTS(rootDir, "tiktok")
 
 

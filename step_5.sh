@@ -19,7 +19,9 @@ do
         ffmpeg -i $redditFolder/youtubeVideo/yt_shorts_inter.mp4 \
             -filter_complex "[0:v]setpts=0.769*PTS[v];[0:a]atempo=$shortSpeed[a]" \
             -map "[v]" -map "[a]" $redditFolder/youtubeVideo/yt_shorts.mp4
-    else
+    elif [ "$videoType" = "long" ]; then
         python3 ./main/moviepy_processing.py $redditFolder $videoType $desired_length
+    elif [ "$videoType" = "tiktok" ]; then
+        python3 ./main/moviepy_processing.py $redditFolder $videoType
     fi
 done

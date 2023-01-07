@@ -23,8 +23,10 @@ def checkStructure(timestamps, redditFolder):
 def calcualteDuration(jsonImageTime, redditFolder, videoType):
     if videoType == 'short':
         edited_filname = "/voiceOver/edited/eddited_shorts.mp3"
-    else:
+    elif videoType == 'long':
         edited_filname = "/voiceOver/edited/eddited.mp3"
+    elif videoType == 'tiktok':
+        edited_filname = "/voiceOver/edited/eddited_tiktok.mp3"
     originalVoiceOver = AudioSegment.from_mp3(redditFolder + edited_filname)
     end =  originalVoiceOver.duration_seconds * 1000
     newFinalJSon = {"ImageTimeStamps" : []}
@@ -48,9 +50,12 @@ def syncAudioToImagesAutoShorts(redditFolder, videoType='long'):
     if videoType =="long":
         marks_bits = "marks_edited_with_bits.json"
         outTimeStamps = "screenshotTimestamps.json"
-    else:
+    elif videoType =="short":
         marks_bits = "marks_edited_with_bits_shorts.json"
         outTimeStamps = "screenshotTimestamps_shorts.json"
+    elif videoType =="tiktok":
+        marks_bits = "marks_edited_with_bits_tiktok.json"
+        outTimeStamps = "screenshotTimestamps_tiktok.json"
     with open(redditFolder + "/marks/edited/" + marks_bits) as input, open(redditFolder + "/sync/" + outTimeStamps, "w+", encoding='utf8') as output:
         voiceOverMarks = json.load(input)
         edited = []
@@ -114,7 +119,7 @@ def syncAudioToImagesAutoShorts(redditFolder, videoType='long'):
                 # elif idx == 0 and not isinstance(mark, list):
                 elif idx == 0 and not isinstance(edited[idx + 1], list):
                 # elif idx == 0:
-                    print(mark)
+                    # print(mark)
                     matchDict = {}
                     matchDict["Time"] = mark['time']
                     text = "TITLE"
@@ -126,15 +131,11 @@ def syncAudioToImagesAutoShorts(redditFolder, videoType='long'):
         checkStructure(newFinal, redditFolder)
         json.dump(newFinal, output, indent=4)
 
-def syncAudioToImagesAuto(redditFolder, videoType='long'):
+def syncAudioToImagesAuto(redditFolder):
     jsonImageTime = {}
     jsonImageTime["ImageTimeStamps"] = []
-    if videoType =="long":
-        marks_bits = "marks_edited_with_bits.json"
-        outTimeStamps = "screenshotTimestamps.json"
-    else:
-        marks_bits = "marks_edited_with_bits_shorts.json"
-        outTimeStamps = "screenshotTimestamps_shorts.json"
+    marks_bits = "marks_edited_with_bits.json"
+    outTimeStamps = "screenshotTimestamps.json"
     with open(redditFolder + "/marks/edited/" + marks_bits) as input, open(redditFolder + "/sync/" + outTimeStamps, "w+", encoding='utf8') as output:
         voiceOverMarks = json.load(input)
         edited = []
@@ -148,7 +149,6 @@ def syncAudioToImagesAuto(redditFolder, videoType='long'):
                 long_idx_start = idx
             if  "LONG COMMENT END" in mark['value']:
                 long_idx_end = idx
-                print(long_idx_start, long_idx_end)
                 long_comment = voiceOverMarks[long_idx_start:long_idx_end]
                 edited.append(long_comment)
                 long_comment = []
@@ -167,7 +167,6 @@ def syncAudioToImagesAuto(redditFolder, videoType='long'):
             if isinstance(mark, list):
                 long = []
                 new_idx = 0
-                print(mark)
                 for val_idx, val in enumerate(mark):
                     if "PARA" == val['value']:
                         matchDict = {}

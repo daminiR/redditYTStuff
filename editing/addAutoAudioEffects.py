@@ -7,11 +7,16 @@ def audioEdits(redditFolder, videoType='long'):
         outMarksFile = 'marks_edited_with_bits.json'
         originalVoiceOver = "original.mp3"
         processed_marks="marks_processed.json"
-    else:
+    elif videoType == "short":
         outFile = 'eddited_shorts.mp3'
         outMarksFile = 'marks_edited_with_bits_shorts.json'
         originalVoiceOver = "original_shorts.mp3"
         processed_marks="marks_processed_shorts.json"
+    elif videoType == "tiktok":
+        outFile = 'eddited_tiktok.mp3'
+        outMarksFile = 'marks_edited_with_bits_tiktok.json'
+        originalVoiceOver = "original_tiktok.mp3"
+        processed_marks="marks_processed_tiktok.json"
 
     originalVoiceOver = AudioSegment.from_mp3(redditFolder +  "/voiceOver/original/" + originalVoiceOver)
     commentEffect = AudioSegment.from_mp3("assets/comments/notification-sound-7062.mp3")
@@ -26,9 +31,7 @@ def audioEdits(redditFolder, videoType='long'):
     sumDelay = 0
     with open(redditFolder + "/marks/edited/" + processed_marks, "r") as f, open(redditFolder + "/marks/edited/" + outMarksFile, 'w+') as marksOutput:
         voiceOverMarks = json.load(f)
-        for mark in voiceOverMarks:
-            # if 'Oh man' in mark['value']:
-                # print(mark)
+        for idx, mark in enumerate(voiceOverMarks):
             if 'sentence' in mark['type'] and first_sentence==0:
                 # y = {'RedditTitle' : mark['value']}
                 if videoType == 'long':
@@ -43,7 +46,6 @@ def audioEdits(redditFolder, videoType='long'):
                     handle.close()
                 newMark = mark
                 newMark["time"]  += sumDelay
-
             elif 'STORY' in mark['value']:
                 reddit_slice = originalVoiceOver[last: mark['time']]
                 bit = reddit_slice + storyEffect
@@ -52,8 +54,10 @@ def audioEdits(redditFolder, videoType='long'):
                 newMark = mark
                 newMark["time"]  += sumDelay
                 sumDelay += storyEffect.duration_seconds * 1000
-
-            elif 'COMMENT' == mark['value']:
+            elif 'COMMENT' in mark['value'] and 'END' not in mark['value'] and \
+                'STORY' not in voiceOverMarks[idx - 1]['value'] \
+                and first_sentence == 1:
+                # and 'TITLE' not in voiceOverMarks[idx - 1]['value']:
                 reddit_slice = originalVoiceOver[last: mark['time']]
                 if videoType =='long':
                         # insert sound effect

@@ -23,6 +23,7 @@ def createVideo(redditFolder, desired_length):
     backgroundVideoSize = backgroundVideo.size
     titleVideo = VideoFileClip(redditFolder + "/assets/titleVideo/title_video.mp4").resize(backgroundVideoSize)
     originalVoiceOver = AudioFileClip(redditFolder +  "/voiceOver/edited/eddited.mp3")
+    backgroundMusic = AudioFileClip("./assets/backgroundMusicLong/space-atmospheric-background-124841.mp3")
     subscribe_auido = AudioFileClip("assets/subscibeAudio/speech_20221107043941369.mp3")
     new_audioclip = originalVoiceOver.set_end(originalVoiceOver.duration - 0.30)
     sub_clip = VideoFileClip("assets/subscribeAnimation/reddit_subscribe2.mp4")
@@ -48,7 +49,7 @@ def createVideo(redditFolder, desired_length):
                 start = timestamp["Time"] / 1000 + offset_video
                 duration = timestamp["Duration"] / 1000
                 story_number = str(int(timestamp["Mark Sentence"].split("STORY")[1]) + 1)
-                txt_clip = TextClip("STORY" +  " " + story_number, fontsize=75, font="Amiri-bold", color='white', bg_color='gray', stroke_color='black',stroke_width=2.5).set_start(start).set_duration(duration).set_pos("center")
+                txt_clip = TextClip("Thread" +  " " + story_number, fontsize=75, font="Amiri-bold", color='white', bg_color='gray', stroke_color='black',stroke_width=2.5).set_start(start).set_duration(duration).set_pos("center")
                 comments.append(txt_clip)
                 txt_clip.close()
             else:
@@ -84,14 +85,14 @@ def createVideo(redditFolder, desired_length):
         ######################################
         final_sub_clip = sub_clip.set_start(cliped_duration + pause).set_pos(("center", "center")).resize(backgroundVideoSize).set_duration(sub_clip.duration)
         comments.append(final_sub_clip)
-        loopedVideo = backgroundVideo.loop(duration=cliped_duration + pause - twoSentenceHorrorStartClip.duration)
-        # loopedVideo = backgroundVideo.loop(duration=30 + pause)
         if "TwoSentenceHorror" in redditFolder:
+            loopedVideo = backgroundVideo.loop(duration=cliped_duration + pause - twoSentenceHorrorStartClip.duration)
             start_title = twoSentenceHorrorStartClip.duration
             titleclip = titleVideo.subclip(0, untilTitle).set_start(start_title)
             finalBackround = concatenate_videoclips([twoSentenceHorrorStartClip, titleclip, loopedVideo], method='chain')
             # twoSentenceHorrorStartClip.close()
         else:
+            loopedVideo = backgroundVideo.loop(duration=cliped_duration + pause)
             titleclip = titleVideo.subclip(0, untilTitle)
             finalBackround = concatenate_videoclips([titleclip, loopedVideo], method='chain' )
         final = CompositeVideoClip([finalBackround, *comments])
@@ -99,6 +100,9 @@ def createVideo(redditFolder, desired_length):
         # final = CompositeVideoClip([*comments])
         # all audio
         ######################################
+        ## ad background music to speaking audio
+        new_audioclip = CompositeAudioClip([backgroundMusic.volumex(0.03).set_duration(new_audioclip.duration).set_start(0), new_audioclip.set_start(0)])
+        # new_audioclip =
         subscribe_total = CompositeAudioClip([sub_clip.audio.volumex(0.1).set_start(pause), subscribe_auido.set_start(pause)])
         if "TwoSentenceHorror" in redditFolder:
             finalAudio = concatenate_audioclips([twoSentenceHorrorStartClip.audio, new_audioclip, subscribe_total])
@@ -106,7 +110,7 @@ def createVideo(redditFolder, desired_length):
             finalAudio = concatenate_audioclips([new_audioclip, subscribe_total])
         final.audio = finalAudio
         ######################################
-        # final = final.resize(0.5)
+        # final = final.resize(0.01)
         # final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_video.mp4",codec='hevc_videotoolbox', fps=24)
         # close all clips before wiritng
         #######################################

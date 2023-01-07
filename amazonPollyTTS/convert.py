@@ -13,8 +13,10 @@ def TTS(redditFolder, videType='long'):
     dirRedditXML= redditFolder + "/ssml/edited"
     if videType =='long':
         redditFile = 'ssml_processed.xml'
-    else:
+    elif videType ==" short":
         redditFile = 'ssml_processed_shorts.xml'
+    elif videType =="tiktok":
+        redditFile = 'ssml_processed_tiktok.xml'
     with open(dirRedditXML + '/' + redditFile, 'r') as f:
         redditText = f.read()
         # first synthesis speech
@@ -22,8 +24,10 @@ def TTS(redditFolder, videType='long'):
             # Request speech synthesis
             if videType =='long':
                 mp3Log = 'mp3_log.json'
-            else:
+            elif videType =='short':
                 mp3Log = 'mp3_log_shorts.json'
+            elif videType =='tiktok':
+                mp3Log = 'mp3_log_tiktok.json'
             response = polly.start_speech_synthesis_task(
                 Text=redditText,
                 OutputFormat="mp3",
@@ -43,8 +47,10 @@ def TTS(redditFolder, videType='long'):
             # Request speech metadata
             if videType =='long':
                 mp3Log = 'marks_log.json'
-            else:
+            elif videType =='short':
                 mp3Log = 'marks_log_shorts.json'
+            elif videType =='tiktok':
+                mp3Log = 'marks_log_tiktok.json'
             response = polly.start_speech_synthesis_task(
                 Text=redditText,
                 OutputFormat="json",
