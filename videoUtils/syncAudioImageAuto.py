@@ -131,7 +131,7 @@ def syncAudioToImagesAutoShorts(redditFolder, videoType='long'):
         checkStructure(newFinal, redditFolder)
         json.dump(newFinal, output, indent=4)
 
-def syncAudioToImagesAuto(redditFolder):
+def syncAudioToImagesAuto(redditFolder, videoType):
     jsonImageTime = {}
     jsonImageTime["ImageTimeStamps"] = []
     marks_bits = "marks_edited_with_bits.json"

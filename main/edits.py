@@ -33,7 +33,7 @@ if __name__ == "__main__":
         print("edit audio for effects")
         audioEdits(rootDir, videoType)
         print("getting img task Ids")
-        syncAudioToImagesAuto(rootDir)
+        syncAudioToImagesAuto(rootDir, videoType)
 
 
 
