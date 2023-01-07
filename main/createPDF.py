@@ -9,6 +9,8 @@ if __name__ == "__main__":
         pdfMergeSInglePage(rootdir, "reddit_shorts.pdf")
     elif videoType == 'long':
         pdfMergeSInglePage(rootdir, "reddit.pdf")
+    elif videoType == 'tiktok':
+        pdfMergeSInglePage(rootdir, "reddit_tiktok.pdf")
 
 
 

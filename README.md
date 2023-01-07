@@ -4,6 +4,8 @@
 ## update to shorts first you need to sort by top and only have depth 1 for top comment. This is more intuitive.
 ## add this to the end of the url WHEN DOING SHORTS
 ?sort=top&depth=1
+add limit=100
+to limit to 100 comment or how many would approx 10-15 minutes no more than that to save aws polly cost
 ## Directory Structure
 
 

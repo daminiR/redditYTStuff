@@ -7,40 +7,42 @@ from moviepy.editor import VideoFileClip
 from utils.checkTitles import checkTitle
 from utils.textCleanup import *
 from utils.yt_prafnity_Check import *
-# from alt_profanity_check import predict, predict_prob
-
+import random
 longTitles = ["AITA", "TwoSentenceHorror", "TIFU", "relationship_advice"]
 shortTitles = ["AskReddit"]
 
-def generateScreensSSML(rootDir,filename_type):
+def generateScreensTikTok(rootDir,filename_pdf):
     metaDataDict = json.load(open(os.path.join(rootDir, 'metadata.json'), "r"))
     filename = metaDataDict['videoFileUsed']
-    videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollection/"
-    videoPath=os.path.join(videoCollection, filename)
+    videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollectionShorts/"
+    anyVideo = random.choice(os.listdir(videoCollection))
+    videoPath=os.path.join(videoCollection, anyVideo)
     backgroundVideo = VideoFileClip(videoPath)
     backgroundVideoSize = backgroundVideo.size
     H = backgroundVideoSize[1]
+    videoPath=os.path.join(videoCollection, anyVideo)
     scale = 2
-    file_path = rootDir + "/pdf/" + filename_type
-    reddit_image = rootDir + "/pdf/reddit.png"
-    screens_path = rootDir + "/screenshots"
+    file_path = rootDir + "/pdf/" + filename_pdf
+    reddit_image = rootDir + "/pdf/reddit_tiktok.png"
+    screens_path = rootDir + "/screenshots_tiktok"
     im = cv2.imread(reddit_image)
     doc = fitz.open(file_path)
     page = doc.load_page(0)
     tp = page.get_textpage()
-    blocks = tp.extractBLOCKS()
-    divide = "Share\nReport"
-    regex_user= r'\d{1,3} (min.|day|days|mo.|yr.|hr.) ago(.*)$'
     regex_  = r'\d+\n'
+    blocks = tp.extractBLOCKS()
+    divide = "Share"
+    regex_user= r'\d{1,3} (min.|day|days|mo.|yr.|hr.) ago(.*)$'
     prev_y = 0
     start_margin_x = 6
-    constant_x_end = 1042
+    constant_x_end = 878
     idx = 0
     idx_screen = 0
     prev_block_id = 0
     final = []
     blocks = clean(blocks)
     metadataFile = rootDir + "/metadata.json"
+    idx_screen = 0
     for block_idx, block in enumerate(blocks):
         if re.search(regex_user, block[4]):
             if idx == 0:
@@ -49,6 +51,7 @@ def generateScreensSSML(rootDir,filename_type):
                     bottom_cuttof = int(blocks[prev_block_id][3]) * scale
                     start_x = int(blocks[prev_block_id][0]) * scale
                 if any(ext in rootDir for ext in longTitles):
+                # old code that probabaly works with list long para
                     top_cutoff = prev_y * scale + 120
                     bottom_cuttof = int(block[1])* scale
                     start_x =int(blocks[prev_block_id][0])* scale - start_margin_x - 20
@@ -109,7 +112,6 @@ def generateScreensSSML(rootDir,filename_type):
                                         track_idx += 1
                                     except:
                                         pass
-                        # if all paras not profane then add ssml
                         if not anyProfane:
                             final.append(comment_long)
                             anyProfane = False
@@ -117,6 +119,8 @@ def generateScreensSSML(rootDir,filename_type):
                     idx += 1
                     if not anyProfane:
                         idx_screen += 1
+                # else:
+                    # pass
             else:
                 try:
                     full_text = []
@@ -125,7 +129,6 @@ def generateScreensSSML(rootDir,filename_type):
                         if (divide not in blocks[sentence_id][4]):
                             isProfane = checkProfane(blocks[sentence_id][4]) or checkYoutubeProfanity(blocks[sentence_id][4])
                             if isProfane:
-                                # print(blocks[sentence_id][4])
                                 anyProfane = True
                             if not anyProfane:
                                 full_text.append((blocks[sentence_id][0], blocks[sentence_id][4]))
@@ -145,7 +148,7 @@ def generateScreensSSML(rootDir,filename_type):
     columns = set()
     columns = set([int(x[0]) for x in final if not isinstance(x, list) and re.search(regex_user, x[1])])
     columns = sorted(columns)
-    with open(rootDir + "/ssml/edited/ssml_processed.xml", "w") as f:
+    with open(rootDir + "/ssml/edited/ssml_processed_tiktok.xml", "w") as f:
         f.write("<speak>")
         f.write("<break time=\"1s\"/>\n")
         f.write("<mark name=\"TITLE\"/>\n")
@@ -154,21 +157,17 @@ def generateScreensSSML(rootDir,filename_type):
             if not isinstance(line, list) and re.search(regex_user, line[1]):
                 if line[0] == columns[0]:
                     f.write("<break time=\"0.1s\"/>\n")
-                    f.write("<mark name=\"STORY" + str(story_idx) + "\"/>\n")
+                    f.write("<mark name=\"THREAD" + str(story_idx) + "\"/>\n")
                     f.write("<break time=\"0.1s\"/>\n")
                     story_idx += 1
                 f.write("\n")
-                f.write("<break time=\"0.02s\"/>\n")
+                f.write("<break time=\"0.05s\"/>\n")
                 f.write("<mark name=\"COMMENT\"/>\n")
-                f.write("<break time=\"0.02s\"/>\n")
                 f.write("\n")
             else:
                 if isinstance(line, list):
-                    paras = len(line)
                     new_paras = []
                     for title_ids, para in enumerate(line):
-                        if "resentment" in para:
-                            print(para)
                         if title_ids == len(line) - 1 and line_idx == 0:
                             metaDataTitle = para[1]
                             handle = open(metadataFile, 'r')
@@ -182,14 +181,13 @@ def generateScreensSSML(rootDir,filename_type):
                         text = cleanTTS(text)
                         text = redditAcronyms(text)
                         text = cleanAbreviations(text)
-                        if text != "" and text != "\n":
+                        if text != "":
                             new_paras.append(text)
                     if line_idx == 0:
                         title = [new_paras[-1]]
                         title.extend(new_paras[:-1])
                         new_paras = title
                     f.write("<mark name=\"LONG COMMENT START" + str(len(new_paras)) + "\"" + "/>\n")
-                    # print("new paras list", new_paras)
                     for new_text_idx, new_text in enumerate(new_paras):
                         f.write("\n<mark name=\"PARA\"/>\n")
                         f.write(new_text)
@@ -199,18 +197,6 @@ def generateScreensSSML(rootDir,filename_type):
                             # f.write("\n<break time=\"0.2s\"/>\n")
                     f.write("\n<mark name=\"LONG COMMENT END" + str(len(new_paras)) + "\"" + "/>\n")
                 else:
-                    if line_idx == 0:
-                        # check if title is not done previosuly
-                        metaDataTitle = line[1]
-                        # isInReddit = checkTitle(metaDataTitle)
-                        # assert (isInReddit == False),"the title is already made into youtube video or check folder to be sure"
-                        handle = open(metadataFile, 'r')
-                        oldMetaData = json.load(handle)
-                        y = {'RedditTitle' : metaDataTitle}
-                        oldMetaData.update(y)
-                        add = open(metadataFile, 'w')
-                        json.dump(oldMetaData, add, indent=4)
-                        handle.close()
                     text = remove_emojis(line[1])
                     text = cleanTTS(text)
                     text = redditAcronyms(text)
@@ -219,7 +205,4 @@ def generateScreensSSML(rootDir,filename_type):
                         f.write(text)
                     except:
                         pass
-        f.write("\n<break time=\"2s\"/>\n")
         f.write("</speak>")
-    f.close()
-

@@ -11,9 +11,12 @@ def getAWSTTSFiles(redditFolder, videoType):
     if videoType == "long":
         mp3LogFile = 'mp3_log.json'
         maskLogFile = 'marks_log.json'
-    else:
+    if videoType == "short":
         mp3LogFile = 'mp3_log_shorts.json'
         maskLogFile = 'marks_log_shorts.json'
+    if videoType == "tiktok":
+        mp3LogFile = 'mp3_log_tiktok.json'
+        maskLogFile = 'marks_log_tiktok.json'
     mp3Log = open(redditFolder + '/logs/voiceOver/' + mp3LogFile, 'r')
     maskLog = open(redditFolder + '/logs/marks/' + maskLogFile, 'r')
     mp3Dict = json.load(mp3Log)
@@ -25,9 +28,12 @@ def getAWSTTSFiles(redditFolder, videoType):
         if videoType == "long":
             download_original = "original.mp3"
             download_marks ="marks.json"
-        else:
+        if videoType == "short":
             download_original = "original_shorts.mp3"
             download_marks ="marks_shorts.json"
+        if videoType == "tiktok":
+            download_original = "original_tiktok.mp3"
+            download_marks ="marks_tiktok.json"
         s3.download_file('reddityoutube2',  TaskId_mp3 + '.mp3', redditFolder + '/' + 'voiceOver/original/' + download_original)
         s3.download_file('reddityoutube2',  TaskId_mask + '.marks', redditFolder + '/' + 'marks/original/' + download_marks)
 
