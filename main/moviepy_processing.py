@@ -12,10 +12,16 @@ if __name__ == "__main__":
             print("create short audio")
             createShorts(rootDir)
     if videoType == 'tiktok':
+            videoLength = int(sys.argv[3])
             print("create tiktok audio")
-            createTiktoks(rootDir)
+            if videoLength < 60:
+                videoName = "shorts"
+            else:
+                videoName = "tiktok"
+            createTiktoks(rootDir, videoLength, videoName)
     elif videoType == 'long':
         if len(sys.argv) == 4:
             print("create long audio")
             desired_length = int(sys.argv[3])
+            print(desired_length)
             createVideo(rootDir, desired_length)

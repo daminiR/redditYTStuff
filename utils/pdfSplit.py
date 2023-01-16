@@ -62,21 +62,24 @@ def generateScreensSSML(rootDir,filename_type):
             prev_y = curr_y
             roi_height =  bottom_cuttof - top_cutoff
             anyProfane = False
-            if roi_height > H / 2:
+            if roi_height > int(2 * H / 3):
                 # if any(ext in rootDir for ext in longTitles):
                     title_long = []
                     if idx == 0:
-                        for screen_name_idx, ids in enumerate(range(prev_block_id,block_idx)):
-                            top_cutoff = int(blocks[ids][1])* scale
-                            bottom_cuttof = int(blocks[ids][3])* scale
-                            roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
-                            if ids == block_idx - 1:
-                                cv2.imwrite(screens_path + "/screen_" + str(idx_screen) + "_" +  str(0) + ".jpg", roi)
-                            else:
-                                cv2.imwrite(screens_path + "/screen_" + str(idx_screen) + "_" + str(screen_name_idx + 1) + ".jpg", roi)
-                            title_long.append((blocks[ids][0], blocks[ids][4]))
-                        final.append(title_long)
-                        idx_screen += 1
+                        try:
+                            for screen_name_idx, ids in enumerate(range(prev_block_id,block_idx)):
+                                top_cutoff = int(blocks[ids][1])* scale
+                                bottom_cuttof = int(blocks[ids][3])* scale
+                                roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
+                                if ids == block_idx - 1:
+                                    cv2.imwrite(screens_path + "/screen_" + str(idx_screen) + "_" +  str(0) + ".jpg", roi)
+                                else:
+                                    cv2.imwrite(screens_path + "/screen_" + str(idx_screen) + "_" + str(screen_name_idx + 1) + ".jpg", roi)
+                                title_long.append((blocks[ids][0], blocks[ids][4]))
+                            final.append(title_long)
+                        except:
+                            continue
+                        # idx_screen += 1
                     else:
                         comment_long = []
                         comment_long.append((block[0], block[4]))
@@ -153,14 +156,14 @@ def generateScreensSSML(rootDir,filename_type):
         for line_idx, line in enumerate(final):
             if not isinstance(line, list) and re.search(regex_user, line[1]):
                 if line[0] == columns[0]:
-                    f.write("<break time=\"0.1s\"/>\n")
+                    f.write("<break time=\"0.05s\"/>\n")
                     f.write("<mark name=\"STORY" + str(story_idx) + "\"/>\n")
-                    f.write("<break time=\"0.1s\"/>\n")
+                    f.write("<break time=\"0.05s\"/>\n")
                     story_idx += 1
                 f.write("\n")
-                f.write("<break time=\"0.02s\"/>\n")
+                f.write("<break time=\"0.01s\"/>\n")
                 f.write("<mark name=\"COMMENT\"/>\n")
-                f.write("<break time=\"0.02s\"/>\n")
+                f.write("<break time=\"0.01s\"/>\n")
                 f.write("\n")
             else:
                 if isinstance(line, list):
@@ -194,7 +197,7 @@ def generateScreensSSML(rootDir,filename_type):
                         f.write("\n<mark name=\"PARA\"/>\n")
                         f.write(new_text)
                         if line_idx == 0 and new_text_idx == 0:
-                            f.write("\n<break time=\"0.5s\"/>\n")
+                            f.write("\n<break time=\"0.2s\"/>\n")
                         # else:
                             # f.write("\n<break time=\"0.2s\"/>\n")
                     f.write("\n<mark name=\"LONG COMMENT END" + str(len(new_paras)) + "\"" + "/>\n")

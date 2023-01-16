@@ -2,6 +2,7 @@ import sys
 from utils.pdfSplit import generateScreensSSML
 from utils.pdfSplit_shorts import generateScreensShorts
 from utils.pdfSplit_TikTok import generateScreensTikTok
+from utils.pdfSplit_combined import generateScreensCombined
 
 if __name__ == "__main__":
     rootdir = sys.argv[1]
@@ -15,3 +16,6 @@ if __name__ == "__main__":
     elif videoType == 'tiktok':
         print("geenrate ssml and screenshots for long ...")
         generateScreensTikTok(rootdir, "reddit_tiktok_single_page.pdf")
+    elif videoType == 'combined':
+        print("geenrate ssml and screenshots for long ...")
+        generateScreensSSML(rootdir, "reddit_single_page.pdf")
