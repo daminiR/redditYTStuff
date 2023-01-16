@@ -20,7 +20,7 @@ do
     elif [ "$videoType" == "tiktok" ]; then
         echo "tiktok video type"
         convert  -flatten -quality 50 -density 144  $redditFolder"/pdf/reddit_tiktok_single_page.pdf" $redditFolder"/pdf/reddit_tiktok.png"
-        rm -r $redditFolder/screenshots/*
+        rm -r $redditFolder/screenshots_tiktok/*
     fi
     python3 ./main/createScreens.py $redditFolder $videoType
 done

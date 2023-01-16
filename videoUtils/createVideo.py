@@ -23,7 +23,7 @@ def createVideo(redditFolder, desired_length):
     backgroundVideoSize = backgroundVideo.size
     titleVideo = VideoFileClip(redditFolder + "/assets/titleVideo/title_video.mp4").resize(backgroundVideoSize)
     originalVoiceOver = AudioFileClip(redditFolder +  "/voiceOver/edited/eddited.mp3")
-    backgroundMusic = AudioFileClip("./assets/backgroundMusicLong/space-atmospheric-background-124841.mp3")
+    # backgroundMusic = AudioFileClip("./assets/backgroundMusicLong/space-atmospheric-background-124841.mp3")
     subscribe_auido = AudioFileClip("assets/subscibeAudio/speech_20221107043941369.mp3")
     new_audioclip = originalVoiceOver.set_end(originalVoiceOver.duration - 0.30)
     sub_clip = VideoFileClip("assets/subscribeAnimation/reddit_subscribe2.mp4")
@@ -33,6 +33,7 @@ def createVideo(redditFolder, desired_length):
         offset_video = twoSentenceHorrorStartClip.duration
     comments = []
     actual_length = False
+    chapters = []
     with open(redditFolder + "/sync/screenshotTimestamps.json") as f:
         timestamps = json.load(f)["ImageTimeStamps"]
         untilTitle = int(timestamps[1]["Time"] / 1000)
@@ -40,16 +41,23 @@ def createVideo(redditFolder, desired_length):
             # slow down title video to fit the length
             titleVideo = titleVideo.fx(speedx, 0.5)
         check_idx = 0
-        for timestamp in timestamps:
+        for timestamp in timestamps[:-1]:
             if "STORY" in timestamp["Mark Sentence"]:
                 ## dont start new story if more than 20 minutes
                 if timestamp["Time"] / 1000 > desired_length:
                     actual_length = timestamp["Time"] / 1000
                     break
+                chapters.append((timestamp["Mark Sentence"], timestamp["Time"]))
                 start = timestamp["Time"] / 1000 + offset_video
                 duration = timestamp["Duration"] / 1000
                 story_number = str(int(timestamp["Mark Sentence"].split("STORY")[1]) + 1)
-                txt_clip = TextClip("Thread" +  " " + story_number, fontsize=75, font="Amiri-bold", color='white', bg_color='gray', stroke_color='black',stroke_width=2.5).set_start(start).set_duration(duration).set_pos("center")
+                color="#FC4600"
+                txt_clip = TextClip("Thread" + " " + story_number, fontsize=300,\
+                                    font="Party-Confetti-Regular",
+                                    color=color, \
+                                    # bg_color='gray', \
+                                    stroke_color='black', stroke_width=13)\
+                .set_start(start).set_duration(duration).set_pos("center")
                 comments.append(txt_clip)
                 txt_clip.close()
             else:
@@ -101,7 +109,7 @@ def createVideo(redditFolder, desired_length):
         # all audio
         ######################################
         ## ad background music to speaking audio
-        new_audioclip = CompositeAudioClip([backgroundMusic.volumex(0.03).set_duration(new_audioclip.duration).set_start(0), new_audioclip.set_start(0)])
+        # new_audioclip = CompositeAudioClip([backgroundMusic.volumex(0.03).set_duration(new_audioclip.duration).set_start(0), new_audioclip.set_start(0)])
         # new_audioclip =
         subscribe_total = CompositeAudioClip([sub_clip.audio.volumex(0.1).set_start(pause), subscribe_auido.set_start(pause)])
         if "TwoSentenceHorror" in redditFolder:
@@ -121,3 +129,5 @@ def createVideo(redditFolder, desired_length):
         # sub_clip.close()
         #######################################
         final.write_videofile(redditFolder + "/youtubeVideo/" + "yt_video.mp4", threads=16, preset='ultrafast')
+
+

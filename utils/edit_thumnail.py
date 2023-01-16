@@ -41,6 +41,22 @@ def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
     # return the resized image
     return resized
 
+def border (im):
+    borderSize = 25
+    color = (255, 255, 255)
+    alpha = im.getchannel('A')
+    # Create red image the same size and copy alpha channel across
+    background = Image.new('RGBA', im.size, color=color)
+    background.putalpha(alpha)
+    # Make the background bigger
+    background=background.resize((background.size[0]+borderSize, background.size[1]+borderSize))
+    # Merge the targeted image (foreground) with the background
+    foreground = im
+    background.paste(foreground, (int(borderSize/2), int(borderSize/2)), foreground.convert("RGBA"))
+    imageWithBorder = background
+    # imageWithBorder.show()
+    return imageWithBorder
+
 def createThumbnail(rootDir, text_width, x_offset):
     background = Image.open("./assets/thumbnail/saveBackground.jpg").resize((1280, 720))
     redditIcon = Image.open("./assets/thumbnail/thumbnail_background.png")
@@ -49,12 +65,14 @@ def createThumbnail(rootDir, text_width, x_offset):
     input = cv2.imread(input_path)
     img = remove(input)
     output_img = Image.fromarray(img)
+    # output_img = border(output_img)
     output_img.getbbox()  # (64, 89, 278, 267)
     cropped_pil_img = output_img.crop(output_img.getbbox())
     img_modified = np.asarray(cropped_pil_img)
     final = image_resize(img_modified, height=bh)
     final = cv2.cvtColor(final, cv2.COLOR_BGR2RGB)
     im_pil = Image.fromarray(final)
+    # add border?
     cx = int(bw * 3 / 4)
     pos_x = cx - im_pil.size[0] / 2
     background.paste(im_pil, (int(pos_x), 0))

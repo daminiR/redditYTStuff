@@ -134,6 +134,7 @@ def cleanTTS(line):
     regex_hidden_user = r'· \d{1,3} (min.|day|days|mo.|yr.|hr.) ago(.*)$'
     regex_comments=r'^\d{1,5}.\dk$'
     regex_more=r'\d{1, 4} More$'
+    regex_more2=r'\d+ more replies'
     plus=r'\+\d+\n$'
     new = line.replace("\"", "")
     new = new.replace("&", "&amp;")
@@ -151,6 +152,8 @@ def cleanTTS(line):
     if deleted_found:
         new = re.sub(regex_user,  "", new)
     if re.search(regex_comments,new):
+        new = ""
+    if re.search(regex_more2,new):
         new = ""
     if re.search(regex_more,new):
         new = ""

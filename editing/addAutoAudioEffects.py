@@ -15,11 +15,11 @@ def audioEdits(redditFolder, videoType='long'):
     elif videoType == "tiktok":
         outFile = 'eddited_tiktok.mp3'
         outMarksFile = 'marks_edited_with_bits_tiktok.json'
-        originalVoiceOver = "original_tiktok.mp3"
-        processed_marks="marks_processed_tiktok.json"
+        originalVoiceOver = "original.mp3"
+        processed_marks="marks_processed.json"
 
     originalVoiceOver = AudioSegment.from_mp3(redditFolder +  "/voiceOver/original/" + originalVoiceOver)
-    commentEffect = AudioSegment.from_mp3("assets/comments/notification-sound-7062.mp3")
+    commentEffect = AudioSegment.from_mp3("assets/comments/comment_3.mp3")
     storyEffect = AudioSegment.from_mp3("assets/story/whoosh-6316.mp3")
     last = 0
     end =  originalVoiceOver.duration_seconds * 1000
@@ -57,10 +57,8 @@ def audioEdits(redditFolder, videoType='long'):
             elif 'COMMENT' in mark['value'] and 'END' not in mark['value'] and \
                 'STORY' not in voiceOverMarks[idx - 1]['value'] \
                 and first_sentence == 1:
-                # and 'TITLE' not in voiceOverMarks[idx - 1]['value']:
                 reddit_slice = originalVoiceOver[last: mark['time']]
                 if videoType =='long':
-                        # insert sound effect
                     bit = reddit_slice + commentEffect
                     edditedVoiceOver= edditedVoiceOver + bit
                     last = mark['time']

@@ -47,10 +47,7 @@ def calcualteDuration(jsonImageTime, redditFolder, videoType):
 def syncAudioToImagesAutoShorts(redditFolder, videoType='long'):
     jsonImageTime = {}
     jsonImageTime["ImageTimeStamps"] = []
-    if videoType =="long":
-        marks_bits = "marks_edited_with_bits.json"
-        outTimeStamps = "screenshotTimestamps.json"
-    elif videoType =="short":
+    if videoType =="short":
         marks_bits = "marks_edited_with_bits_shorts.json"
         outTimeStamps = "screenshotTimestamps_shorts.json"
     elif videoType =="tiktok":
@@ -163,6 +160,7 @@ def syncAudioToImagesAuto(redditFolder, videoType):
             idx += 1
         sorted_idx = 0
         total_surplus = 0
+        chapters = []
         for idx, mark in enumerate(edited):
             if isinstance(mark, list):
                 long = []
@@ -187,6 +185,8 @@ def syncAudioToImagesAuto(redditFolder, videoType):
                     matchDict["Filename"] = None
                     jsonImageTime["ImageTimeStamps"].append(matchDict)
                     matchDict["Mark Sentence"] = text
+                    text_chapter = "Thread " + text.split("Y")[1]
+                    chapters.append((mark["time"], text_chapter))
                 elif "COMMENT" == mark['value']:
                     matchDict = {}
                     matchDict["Time"] = mark['time']
@@ -206,3 +206,16 @@ def syncAudioToImagesAuto(redditFolder, videoType):
         newFinal = calcualteDuration(jsonImageTime, redditFolder, videoType)
         checkStructure(newFinal, redditFolder)
         json.dump(newFinal, output, indent=4)
+        with open(redditFolder + "/chapters.txt", 'w') as f:
+            f.write("00:00 Intro")
+            f.write("\n")
+            for chapter in chapters:
+                iinSec = chapter[0] / 1000
+                min = int(iinSec / (60))
+                sec = int(iinSec % (60))
+                if sec < 10:
+                    sec = "0" + str(sec)
+                f.write(str(min) + ":" + str(sec))
+                f.write(" ")
+                f.write(chapter[1])
+                f.write("\n")

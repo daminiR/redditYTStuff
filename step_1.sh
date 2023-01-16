@@ -1,19 +1,20 @@
 #!/bin/bash
 
 rootFolderString=$(jq .Inputs[].rootFolder inputs.json)
-echo "Enter the video (youtube or tiktok): "
-read videoType
+#echo "Enter the video (youtube or tiktok): "
+#read videoType
 for var in $rootFolderString
 do
     rootFolder=$(sed -e 's/^"//' -e 's/"$//' <<<"$var")
     redditFolder=$rootFolder
     mkdir $redditFolder
     cd $redditFolder
-    if [ "$videoType" == "youtube" ]; then
-        mkdir logs marks ssml voiceOver screenShotIds screenshots screenshots_shorts sync youtubeVideo assets pdf
-    elif [ "$videoType" == "tiktok" ]; then
-        mkdir logs marks ssml voiceOver screenShotIds screenshots_tiktok sync youtubeVideo assets pdf
-    fi
+    mkdir logs marks ssml voiceOver screenShotIds screenshots screenshots_shorts screenshots_tiktok sync youtubeVideo assets pdf
+    #if [ "$videoType" == "youtube" ]; then
+        #mkdir logs marks ssml voiceOver screenShotIds screenshots screenshots_shorts sync youtubeVideo assets pdf
+    #elif [ "$videoType" == "tiktok" ]; then
+        #mkdir logs marks ssml voiceOver screenShotIds screenshots_tiktok sync youtubeVideo assets pdf
+    #fi
     cd logs
     mkdir marks voiceOver
     cd ../marks

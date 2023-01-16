@@ -22,6 +22,8 @@ do
     elif [ "$videoType" = "long" ]; then
         python3 ./main/moviepy_processing.py $redditFolder $videoType $desired_length
     elif [ "$videoType" = "tiktok" ]; then
-        python3 ./main/moviepy_processing.py $redditFolder $videoType
+        echo "Enter desired of length of each tiktok/shorts video(seconds): "
+        read length_video
+        python3 ./main/moviepy_processing.py $redditFolder $videoType $length_video
     fi
 done

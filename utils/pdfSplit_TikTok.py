@@ -13,7 +13,6 @@ shortTitles = ["AskReddit"]
 
 def generateScreensTikTok(rootDir,filename_pdf):
     metaDataDict = json.load(open(os.path.join(rootDir, 'metadata.json'), "r"))
-    filename = metaDataDict['videoFileUsed']
     videoCollection = "/Users/daminirijhwani/redditYTStuff/assets/backgroundVideosCollectionShorts/"
     anyVideo = random.choice(os.listdir(videoCollection))
     videoPath=os.path.join(videoCollection, anyVideo)
@@ -32,7 +31,12 @@ def generateScreensTikTok(rootDir,filename_pdf):
     regex_  = r'\d+\n'
     blocks = tp.extractBLOCKS()
     divide = "Share"
+    # string2 = "beepbophopscotch ·\
+    # # 3 days ago"
+    # string2 = "beepbophopscotch ·\n3 days ago\n"
     regex_user= r'\d{1,3} (min.|day|days|mo.|yr.|hr.) ago(.*)$'
+    # print(re.search(regex_user, string2))
+    # return
     prev_y = 0
     start_margin_x = 6
     constant_x_end = 878
@@ -65,7 +69,7 @@ def generateScreensTikTok(rootDir,filename_pdf):
             prev_y = curr_y
             roi_height =  bottom_cuttof - top_cutoff
             anyProfane = False
-            if roi_height > H / 2:
+            if roi_height > H:
                 # if any(ext in rootDir for ext in longTitles):
                     title_long = []
                     if idx == 0:
@@ -105,6 +109,8 @@ def generateScreensTikTok(rootDir,filename_pdf):
                             if not re.search(regex_, b[1]):
                                 if not anyProfane:
                                     try:
+                                        if "beepbophopscotch" in b[1]:
+                                            print(b)
                                         comment_long.append(b)
                                         bottom_cuttof = int(blocks[ids][3])* scale
                                         roi=im[top_cutoff:bottom_cuttof,start_x: stop_x]
