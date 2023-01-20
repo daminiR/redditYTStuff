@@ -47,7 +47,10 @@ def calcualteDuration(jsonImageTime, redditFolder, videoType):
 def syncAudioToImagesAutoShorts(redditFolder, videoType='long'):
     jsonImageTime = {}
     jsonImageTime["ImageTimeStamps"] = []
-    if videoType =="short":
+    if videoType =="long":
+        marks_bits = "marks_edited_with_bits.json"
+        outTimeStamps = "screenshotTimestamps.json"
+    elif videoType =="short":
         marks_bits = "marks_edited_with_bits_shorts.json"
         outTimeStamps = "screenshotTimestamps_shorts.json"
     elif videoType =="tiktok":
@@ -99,12 +102,13 @@ def syncAudioToImagesAutoShorts(redditFolder, videoType='long'):
                 sorted_idx += 1
             else:
                 if 'STORY' in mark['value']:
-                    matchDict = {}
-                    matchDict["Time"] = mark['time']
-                    text = mark['value']
-                    matchDict["Filename"] = None
-                    jsonImageTime["ImageTimeStamps"].append(matchDict)
-                    matchDict["Mark Sentence"] = text
+                    pass
+                    # matchDict = {}
+                    # matchDict["Time"] = mark['time']
+                    # text = mark['value']
+                    # matchDict["Filename"] = None
+                    # jsonImageTime["ImageTimeStamps"].append(matchDict)
+                    # matchDict["Mark Sentence"] = text
                 elif "COMMENT" == mark['value']:
                     matchDict = {}
                     matchDict["Time"] = mark['time']

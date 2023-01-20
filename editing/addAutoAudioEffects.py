@@ -15,8 +15,8 @@ def audioEdits(redditFolder, videoType='long'):
     elif videoType == "tiktok":
         outFile = 'eddited_tiktok.mp3'
         outMarksFile = 'marks_edited_with_bits_tiktok.json'
-        originalVoiceOver = "original.mp3"
-        processed_marks="marks_processed.json"
+        originalVoiceOver = "original_tiktok.mp3"
+        processed_marks="marks_processed_tiktok.json"
 
     originalVoiceOver = AudioSegment.from_mp3(redditFolder +  "/voiceOver/original/" + originalVoiceOver)
     commentEffect = AudioSegment.from_mp3("assets/comments/comment_3.mp3")
