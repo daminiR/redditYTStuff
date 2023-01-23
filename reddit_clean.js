@@ -2,11 +2,10 @@ function removeGradient() {
     //if(isShort === true){
     const address = document.querySelector("._1OVBBWLtHoSPfGCRaPzpTf._3nSp9cdBpqL13CqjdMr2L_._2udhMC-jldHp_EpAuBeSR1.PaJBYLqPf_Gie2aZntVQ7._2OVNlZuUd8L9v0yVECZ2iA");
     address.style.marginRight = 0
-    //}
-    //const address3 = document.querySelectorAll("._3mIYu0jAt23sIWGr4pFcI")
-    //for (let item of address3) {
-         //item.style.opacity = 1
-    //}
+    const eddted_ago = document.querySelectorAll("._2ETuFsVzMBxiHia6HfJCTQ._18WUrfxbke5CjwIjhXu6C-");
+    for (let item of eddted_ago) {
+        item.innerText = ""
+    }
     const items = document.querySelectorAll(".TmlaIdEplCzZ0F1aRGYQh");
     const items_comminute_bar = document.querySelectorAll("._3Kd8DQpBIbsr5E1JcrMFTY._1tvThPWQpORoc2taKebHxs");
     const items_archive = document.querySelectorAll("._1EjIqPTCvhReSe3IjZptiB._1DUKbp8va6vxOv9zemBDBi");

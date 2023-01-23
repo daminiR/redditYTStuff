@@ -130,9 +130,9 @@ def generateScreensSSML(rootDir,filename_type):
                             if isProfane:
                                 # print(blocks[sentence_id][4])
                                 anyProfane = True
-                            if not anyProfane:
+                            if not anyProfane or idx == 0:
                                 full_text.append((blocks[sentence_id][0], blocks[sentence_id][4]))
-                    if not anyProfane:
+                    if not anyProfane or idx == 0:
                         cv2.imwrite(screens_path + "/screen_" + str(idx_screen) + ".jpg", roi)
                         idx_screen += 1
                         if prev_block_id == 0:
