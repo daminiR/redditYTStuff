@@ -26,14 +26,14 @@ if __name__ == "__main__":
         print("getting img task Ids")
         syncAudioToImagesAutoShorts(rootDir, videoType)
     elif videoType == 'long':
-        print("get amazon polly files")
-        getAWSTTSFiles(rootDir, videoType)
-        print("convert masks to proper json")
-        converToJSON(rootDir,videoType)
+        # print("get amazon polly files")
+        # getAWSTTSFiles(rootDir, videoType)
+        # print("convert masks to proper json")
+        # converToJSON(rootDir,videoType)
         print("edit audio for effects")
         audioEdits(rootDir, videoType)
-        print("getting img task Ids")
-        syncAudioToImagesAuto(rootDir, videoType)
+        # print("getting img task Ids")
+        # syncAudioToImagesAuto(rootDir, videoType)
 
 
 
