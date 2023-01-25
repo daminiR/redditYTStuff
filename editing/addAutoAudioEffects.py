@@ -1,6 +1,26 @@
 from pydub import AudioSegment
 import json
 
+def addDuration(edditedMarks):
+    prev_idx_comment = 0
+    for idx, mark in enumerate(edditedMarks):
+        if "COMMENT" in mark['value']:
+            if prev_idx_comment != 0:
+                # last_idx_slice = idx - prev_idx_comment
+                current_marks = edditedMarks[prev_idx_comment + 1:idx]
+                total_text = [mark["value"] for mark in edditedMarks[prev_idx_comment + 1:idx] if "STORY" not in mark['value']]
+                total_length = len(total_text)
+                total_text = "".join(total_text)
+                for c_mark in current_marks:
+                    c_mark["duration"] = mark['time'] - c_mark['time']
+                    c_mark["total_text"] =  total_text
+                    c_mark["total_length"] =  total_length
+                edditedMarks[prev_idx_comment + 1:idx] = current_marks
+            prev_idx_comment = idx
+    return edditedMarks
+
+
+
 def audioEdits(redditFolder, videoType='long'):
     if videoType == "long":
         outFile = 'eddited.mp3'
@@ -33,12 +53,10 @@ def audioEdits(redditFolder, videoType='long'):
         voiceOverMarks = json.load(f)
         for idx, mark in enumerate(voiceOverMarks):
             if 'sentence' in mark['type'] and first_sentence==0:
-                # y = {'RedditTitle' : mark['value']}
                 if videoType == 'long':
                     y1 = {'highlights' : []}
                     handle = open(metadataFile, 'r')
                     oldMetaData = json.load(handle)
-                    # oldMetaData.update(y)
                     oldMetaData.update(y1)
                     first_sentence=1
                     add = open(metadataFile, 'w')
@@ -53,6 +71,7 @@ def audioEdits(redditFolder, videoType='long'):
                 last = mark['time']
                 newMark = mark
                 newMark["time"]  += sumDelay
+                newMark["duration"]  = storyEffect.duration_seconds * 1000
                 sumDelay += storyEffect.duration_seconds * 1000
             elif 'COMMENT' in mark['value'] and 'END' not in mark['value'] and \
                 'STORY' not in voiceOverMarks[idx - 1]['value'] \
@@ -75,7 +94,8 @@ def audioEdits(redditFolder, videoType='long'):
                 newMark = mark
                 newMark["time"]  += sumDelay
             edditedMarks.append(newMark)
-        json.dump(edditedMarks, marksOutput, indent=4)
+        trial = addDuration(edditedMarks)
+        json.dump(trial, marksOutput, indent=4)
 
         edditedVoiceOver = edditedVoiceOver + originalVoiceOver[last : end]
         edditedVoiceOver.export(redditFolder + '/' + 'voiceOver/' + 'edited/' + outFile, format="mp3")

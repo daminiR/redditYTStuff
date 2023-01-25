@@ -1,5 +1,7 @@
 import sys
 from videoUtils.createVideo import createVideo
+from videoUtils.createVideo2 import createVideo2
+from videoUtils.createVideoAnim import createVideoAnim
 from videoUtils.createShorts import createShorts
 from videoUtils.createTiktoks import createTiktoks
 from utils.edit_thumnail import createThumbnail
@@ -25,3 +27,10 @@ if __name__ == "__main__":
             desired_length = int(sys.argv[3])
             print(desired_length)
             createVideo(rootDir, desired_length)
+    elif videoType == 'format':
+        if len(sys.argv) == 4:
+            print("create long audio")
+            desired_length = int(sys.argv[3])
+            print(desired_length)
+            createVideo2(rootDir, desired_length)
+            # createVideoAnim(rootDir, desired_length)
