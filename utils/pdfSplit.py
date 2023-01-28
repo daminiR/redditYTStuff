@@ -41,7 +41,12 @@ def generateScreensSSML(rootDir,filename_type):
     final = []
     blocks = clean(blocks)
     metadataFile = rootDir + "/metadata.json"
+    child_column_x = 369
+    parent_column_x = 350
+    n_child_comment = 0
     for block_idx, block in enumerate(blocks):
+        # if idx == 10:
+            # break
         if re.search(regex_user, block[4]):
             if idx == 0:
                 if any(ext in rootDir for ext in shortTitles):
@@ -63,6 +68,8 @@ def generateScreensSSML(rootDir,filename_type):
             roi_height =  bottom_cuttof - top_cutoff
             anyProfane = False
             if roi_height > int(2 * H / 3):
+                if blocks[prev_block_id][0] == child_column_x and n_child_comment == 0 or \
+                int(blocks[prev_block_id][0]) == parent_column_x:
                 # if any(ext in rootDir for ext in longTitles):
                     title_long = []
                     if idx == 0:
@@ -116,38 +123,50 @@ def generateScreensSSML(rootDir,filename_type):
                         if not anyProfane:
                             final.append(comment_long)
                             anyProfane = False
-                    prev_block_id = block_idx
+                        if blocks[prev_block_id][0] == parent_column_x:
+                            n_child_comment = 0
+                        if blocks[prev_block_id][0] == child_column_x and n_child_comment == 0:
+                            n_child_comment = 1
                     idx += 1
                     if not anyProfane:
                         idx_screen += 1
+                prev_block_id = block_idx
             else:
                 try:
-                    full_text = []
-                    anyProfane = False
-                    for sentence_id in range(prev_block_id, block_idx):
-                        if (divide not in blocks[sentence_id][4]):
-                            isProfane = checkProfane(blocks[sentence_id][4]) or checkYoutubeProfanity(blocks[sentence_id][4])
-                            if isProfane:
-                                # print(blocks[sentence_id][4])
-                                anyProfane = True
-                            if not anyProfane or idx == 0:
-                                full_text.append((blocks[sentence_id][0], blocks[sentence_id][4]))
-                    if not anyProfane or idx == 0:
-                        cv2.imwrite(screens_path + "/screen_" + str(idx_screen) + ".jpg", roi)
-                        idx_screen += 1
-                        if prev_block_id == 0:
-                            title = [full_text[-1]]
-                            title.extend(full_text[:-1])
-                            full_text = title
-                        final.extend(full_text)
+                    if blocks[prev_block_id][0] == child_column_x and n_child_comment == 0 or \
+                    int(blocks[prev_block_id][0]) == parent_column_x:
+                        full_text = []
                         anyProfane = False
+                        for sentence_id in range(prev_block_id, block_idx):
+                            if (divide not in blocks[sentence_id][4]):
+                                isProfane = checkProfane(blocks[sentence_id][4]) or checkYoutubeProfanity(blocks[sentence_id][4])
+                                # isProfane = checkYoutubeProfanity(blocks[sentence_id][4])
+                                if isProfane:
+                                    # print(blocks[sentence_id][4])
+                                    anyProfane = True
+                                if not anyProfane or idx == 0:
+                                    full_text.append((blocks[sentence_id][0], blocks[sentence_id][4]))
+                        if not anyProfane or idx == 0:
+                            cv2.imwrite(screens_path + "/screen_" + str(idx_screen) + ".jpg", roi)
+                            idx_screen += 1
+                            if prev_block_id == 0:
+                                title = [full_text[-1]]
+                                title.extend(full_text[:-1])
+                                full_text = title
+                            final.extend(full_text)
+                            anyProfane = False
+                        if blocks[prev_block_id][0] == parent_column_x:
+                            n_child_comment = 0
+                        if blocks[prev_block_id][0] == child_column_x and n_child_comment == 0:
+                            n_child_comment = 1
+                        idx += 1
                     prev_block_id = block_idx
-                    idx += 1
                 except:
                     pass
     columns = set()
     columns = set([int(x[0]) for x in final if not isinstance(x, list) and re.search(regex_user, x[1])])
     columns = sorted(columns)
+    print(columns)
     with open(rootDir + "/ssml/edited/ssml_processed.xml", "w") as f:
         f.write("<speak>")
         f.write("<break time=\"1s\"/>\n")
